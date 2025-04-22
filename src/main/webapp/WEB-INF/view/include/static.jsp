@@ -3,10 +3,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <style>
-  body {
-    background-color: #efebe9;
-    font-family: 'Noto Sans KR', sans-serif;
-  }
+  /*body {*/
+  /*  background-color: #efebe9;*/
+  /*  font-family: 'Noto Sans KR', sans-serif;*/
+  /*}*/
   nav {
     background-color: #6d4c41;
   }
@@ -30,4 +30,17 @@
     height: 200px;
     object-fit: cover;
   }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1; /* 남은 공간을 main이 차지하게 */
+  }
+
 </style>

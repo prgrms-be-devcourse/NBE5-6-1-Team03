@@ -6,9 +6,11 @@
     <title>Grepp</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
 </head>
+
 <body>
 <%@include file="/WEB-INF/view/include/header.jsp" %>
 <main>
+
     <!-- 메인 배너 -->
     <div class="banner" id="home">
         Cafe Grid & Circle에 오신 걸 환영합니다!
@@ -67,6 +69,7 @@
         <iframe src="https://maps.google.com/maps?q=서울&t=&z=13&ie=UTF8&iwloc=&output=embed"
                 width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
     </div>
+
 </main>
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
 
