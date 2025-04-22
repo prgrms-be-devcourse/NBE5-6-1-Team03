@@ -3,4 +3,74 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
   version="6.0">
+
+
+  <!-- ============================== -->
+  <!-- 필터 영역: 인코딩 필터 설정     -->
+  <!-- ============================== -->
+  <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- ============================== -->
+  <!-- 리스너 영역: 루트 컨텍스트 설정 -->
+  <!-- ============================== -->
+
+  <!-- 루트 ApplicationContext 설정 파일 위치 -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/spring/*-context.xml</param-value>
+  </context-param>
+
+  <!-- 루트 ApplicationContext를 초기화하는 ContextLoaderListener 등록 -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <!-- ============================== -->
+  <!-- 서블릿 영역: Spring MVC 구성   -->
+  <!-- ============================== -->
+
+  <!-- DispatcherServlet 등록: Spring MVC의 중앙 컨트롤러 역할 -->
+  <servlet>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+
+    <!-- DispatcherServlet 전용 설정 파일 (현재는 빈 설정 파일로 구성됨) -->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/spring/empty.xml</param-value>
+    </init-param>
+
+    <!-- 웹 애플리케이션 시작 시 서블릿 즉시 로드 -->
+    <load-on-startup>1</load-on-startup>
+
+    <!-- 파일 업로드 요청 처리 설정 -->
+    <multipart-config>
+      <max-file-size>10485760</max-file-size>        <!-- 개별 파일 최대 크기: 10MB -->
+      <max-request-size>41943040</max-request-size>  <!-- 전체 요청 최대 크기: 40MB -->
+    </multipart-config>
+  </servlet>
+
+  <!-- DispatcherServlet이 모든 요청(URL: "/")을 처리하도록 설정 -->
+  <servlet-mapping>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+
 </web-app>
