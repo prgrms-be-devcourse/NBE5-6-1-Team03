@@ -5,5 +5,15 @@
 
 <mapper namespace="com.grepp.gridncircle.app.model.menu.MenuDAO">
 
+  <select id="selectMenuList" resultType="com.grepp.gridncircle.app.model.menu.dto.MenuDTO">
+    SELECT
+    id,
+    name,
+    amount,
+    info,
+    created_at,
+    price
+    FROM menu
+  </select>
 
 </mapper>
