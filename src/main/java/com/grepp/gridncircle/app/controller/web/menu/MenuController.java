@@ -21,6 +21,11 @@ public class MenuController {
     }
 
 
+    @GetMapping("/detail")
+    public String menuDetail() {
+        return "menu/menudetail";
+    }
+
 
 
 

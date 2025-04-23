@@ -2,8 +2,9 @@
 <%@include file="/WEB-INF/view/include/page.jsp" %>
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>커피 메뉴</title>
+    <title>메뉴 목록</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
 </head>
 
@@ -11,11 +12,31 @@
 <body>
 <main>
     <%@include file="/WEB-INF/view/include/header.jsp" %>
-    <h2>메뉴 상세 정보</h2>
-    <p><strong>이름:</strong> ${menu.name}</p>
-    <p><strong>가격:</strong> ${menu.price}원</p>
-    <p><strong>설명:</strong> ${menu.description}</p>
-    <p><strong>원산지:</strong> ${menu.origin}</p>
+    <h2>커피 메뉴</h2>
+    <table border="1">
+
+        <tr>
+            <th>이름</th>
+            <th>가격</th>
+            <th>수량</th>
+            <th>설명</th>
+
+        </tr>
+
+        <c:forEach var="menu" items="${menus}">
+            <tr>
+                <td>${menu.name}</td>
+                <td>${menu.price}원</td>
+                <td>${menu.amount}원</td>
+                <td>${menu.info}원</td>
+
+
+            </tr>
+
+        </c:forEach>
+
+
+    </table>
 
 </main>
 
