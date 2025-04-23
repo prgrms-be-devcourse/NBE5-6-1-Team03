@@ -57,6 +57,9 @@
     <a href="/menu">
         <button type="button">임시, 메뉴페이지 가기</button>
     </a>
+    <a href="/menu">
+        <button type="button">임시, 메뉴페이지 가기</button>
+    </a>
 
 
 
