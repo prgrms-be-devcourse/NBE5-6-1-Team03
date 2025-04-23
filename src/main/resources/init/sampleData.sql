@@ -3,7 +3,7 @@ INSERT INTO `member` (`id`, `password`, `role`, `tel`, `email`, `name`, `address
 VALUES ('user-001', 'pass123!', 'ROLE_USER', '010-1234-5678', 'user1@example.com', '홍길동', '서울시 강남구');
 
 INSERT INTO `member` (`id`, `password`, `role`, `tel`, `email`, `name`, `address`)
-VALUES ('super','1234', 'ROLE_ADMIN', '010-0000-0000', 'super@super.com', 'admin', 'admin_address')
+VALUES ('super','1234', 'ROLE_ADMIN', '010-0000-0000', 'super@super.com', 'admin', 'admin_address');
 
 -- 원두 메뉴
 INSERT INTO `menu` (`name`, `amount`, `info`, `price`)
