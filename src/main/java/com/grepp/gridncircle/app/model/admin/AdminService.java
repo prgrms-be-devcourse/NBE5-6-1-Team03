@@ -1,7 +1,7 @@
 package com.grepp.gridncircle.app.model.admin;
 
 import com.grepp.gridncircle.app.model.order.OrderService;
-import com.grepp.gridncircle.app.model.order.dto.Order;
+import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ public class AdminService {
 
     private final OrderService orderService;
 
-    public Order findById(int id) {
+    public OrderDto findById(int id) {
         return null;
     }
 }
