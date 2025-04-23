@@ -35,5 +35,10 @@
     </div>
 </main>
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
+
+<script>
+
+
+</script>
 </body>
 </html>
