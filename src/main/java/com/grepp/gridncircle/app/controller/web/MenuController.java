@@ -1,7 +1,6 @@
 package com.grepp.gridncircle.app.controller.web;
 
-import com.grepp.gridncircle.app.model.menu.MenuDTO;
-import com.grepp.gridncircle.app.model.menu.MenuService;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,7 @@ public class MenuController {
     public String searchmenu() {
 //        List<MenuDTO>  menuList = menuService.getMenuList();
 //        model.addAttribute("menuList", menuList);
-        return "menu";  // menu.jsp로 리턴
+        return "menu/menu";  // menu.jsp로 리턴
     }
 
 
