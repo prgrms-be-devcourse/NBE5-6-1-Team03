@@ -13,7 +13,7 @@
 
     <div class="button-box">
         <a class="btn" href="/">메인으로 돌아가기</a>
-        <a class="btn" href="/order/check">주문 확인하기</a>
+        <a class="btn" href="/order/detail">주문 확인하기</a>
     </div>
 </main>
 <%@ include file="/WEB-INF/view/include/footer.jsp" %>
