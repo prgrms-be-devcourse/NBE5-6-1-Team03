@@ -5,6 +5,8 @@ import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
 import com.grepp.gridncircle.infra.util.file.FileDto;
 import com.grepp.gridncircle.infra.util.file.FileUtil;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +40,19 @@ public class MenuService {
             List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
             menuRepository.insert(menuDTO);
 
-        } catch (IOException e) {
+            if (fileDtos.isEmpty()) return;
+            for (FileDto fileDto : fileDtos) {
+                MenuImageDTO menuImageDTO = MenuImageDTO.builder()
+                    .originalName(fileDto.originalName())
+                    .renameName(fileDto.renameName())
+                    .savePath(fileDto.savePath())
+                    .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                    .menuId(menuDTO.getId())
+                    .build();
+                menuDAO.insertImage(menuImageDTO);
+            }
+        } catch (IOException e) { // 파일 이름이 너무 길 경우 오류 발생 가능
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

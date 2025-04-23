@@ -55,7 +55,7 @@ public class AdminController {
     }
 
     @GetMapping("menu/new")
-    public String menuAdd() {
+    public String menuAdd(MenuRegistForm form) {
         return "admin/menu/menu-new";
     }
 
@@ -65,7 +65,7 @@ public class AdminController {
         BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
-            return "menu/new";
+            return "admin/menu/menu-new";
         }
         menuService.registMenu(form.getThumbnail(), form.toDto());
         return "redirect:/admin/menu";
