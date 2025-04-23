@@ -4,10 +4,12 @@ import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
 import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
 import com.grepp.gridncircle.infra.util.file.FileDto;
 import com.grepp.gridncircle.infra.util.file.FileUtil;
+import jakarta.validation.constraints.NotNull;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
@@ -42,13 +44,7 @@ public class MenuService {
 
             if (fileDtos.isEmpty()) return;
             for (FileDto fileDto : fileDtos) {
-                MenuImageDTO menuImageDTO = MenuImageDTO.builder()
-                    .originalName(fileDto.originalName())
-                    .renameName(fileDto.renameName())
-                    .savePath(fileDto.savePath())
-                    .createdAt(Timestamp.valueOf(LocalDateTime.now()))
-                    .menuId(menuDTO.getId())
-                    .build();
+                MenuImageDTO menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
                 menuDAO.insertImage(menuImageDTO);
             }
         } catch (IOException e) { // 파일 이름이 너무 길 경우 오류 발생 가능
@@ -56,5 +52,32 @@ public class MenuService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Transactional
+    public void updateMenu(@NotNull List<MultipartFile> thumbnail, MenuDTO menuDTO) {
+        try {
+            List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
+            menuDAO.update(menuDTO);
+
+            if (fileDtos.isEmpty()) return;
+            for (FileDto fileDto : fileDtos) {
+                MenuImageDTO menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
+                menuDAO.updateImage(menuImageDTO);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    private MenuImageDTO fileToImageDTO(FileDto fileDto, int id) {
+        return MenuImageDTO.builder()
+            .originalName(fileDto.originalName())
+            .renameName(fileDto.renameName())
+            .savePath(fileDto.savePath())
+            .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+            .menuId(id)
+            .build();
     }
 }

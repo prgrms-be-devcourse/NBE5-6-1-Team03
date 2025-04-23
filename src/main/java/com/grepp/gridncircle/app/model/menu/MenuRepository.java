@@ -38,4 +38,8 @@ public interface MenuRepository {
     @Insert("insert into menu_img (created_at, original_name, rename_name, save_path, menu_id)"
         + " VALUES (#{createdAt}, #{originalName}, #{renameName}, #{savePath}, #{menuId})")
     void insertImage(MenuImageDTO menuImageDTO);
+
+    @Update("update menu_img set original_name = #{originalName}, rename_name = #{renameName}, "
+        + "save_path = #{savePath} where menu_id = #{menuId}")
+    void updateImage(MenuImageDTO menuImageDTO);
 }
