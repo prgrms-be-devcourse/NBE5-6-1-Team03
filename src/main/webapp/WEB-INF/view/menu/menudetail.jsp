@@ -16,6 +16,7 @@
     <table border="1">
 
         <tr>
+            <th>사진</th>
             <th>이름</th>
             <th>가격</th>
             <th>수량</th>
@@ -25,6 +26,7 @@
 
         <c:forEach var="menu" items="${menus}">
             <tr>
+                <td><img src="${menu.savePath}" width="100px"></td>
                 <td>${menu.name}</td>
                 <td>${menu.price}원</td>
                 <td>${menu.amount}원</td>
@@ -37,6 +39,16 @@
 
 
     </table>
+    
+    <a href="/menu/detail">
+        <button type="button">임시, 상세페이지 가기</button>
+    </a>
+    <a href="/">
+        <button type="button">임시, 홈으로 가기</button>
+    </a>
+    <a href="/menu">
+        <button type="button">임시, 메뉴페이지 가기</button>
+    </a>
 
 </main>
 
