@@ -17,7 +17,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @GetMapping("dashboard")
+    @GetMapping
     public String dashboard() {
         return "admin/dashboard";
     }
