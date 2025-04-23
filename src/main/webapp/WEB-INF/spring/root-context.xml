@@ -9,24 +9,24 @@
   http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
-<!--  <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">-->
-<!--    <property name="dataSource" ref="dataSource"/>-->
+  <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+    <property name="dataSource" ref="dataSource"/>
 
-<!--    <property name="mapperLocations" value="classpath*:mybatis/mappers/**/*.xml" />-->
+    <property name="mapperLocations" value="classpath*:mybatis/mappers/**/*.xml" />
 
-<!--    <property name="typeAliasesPackage" value="com.grepp.spring.app.model" />-->
-<!--    <property name="configuration">-->
-<!--      <bean class="org.apache.ibatis.session.Configuration">-->
-<!--        <property name="mapUnderscoreToCamelCase" value="true"/>-->
-<!--      </bean>-->
-<!--    </property>-->
-<!--  </bean>-->
+    <property name="typeAliasesPackage" value="com.grepp.spring.app.model" />
+    <property name="configuration">
+      <bean class="org.apache.ibatis.session.Configuration">
+        <property name="mapUnderscoreToCamelCase" value="true"/>
+      </bean>
+    </property>
+  </bean>
 
-<!--  <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">-->
-<!--    <constructor-arg index="0" ref="sqlSessionFactory" />-->
-<!--  </bean>-->
+  <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+    <constructor-arg index="0" ref="sqlSessionFactory" />
+  </bean>
 
-  <mybatis:scan base-package="com.grepp.spring.app.model" annotation="org.apache.ibatis.annotations.Mapper"/>
+  <mybatis:scan base-package="com.grepp.gridncircle.app.model" annotation="org.apache.ibatis.annotations.Mapper"/>
   <context:component-scan base-package="com.grepp.gridncircle"/>
 
 </beans>

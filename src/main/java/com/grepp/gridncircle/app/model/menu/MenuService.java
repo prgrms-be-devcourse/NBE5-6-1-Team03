@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class MenuService {
 
-    @Autowired
     private MenuDAO menuDAO;
     private FileUtil fileUtil;
 
