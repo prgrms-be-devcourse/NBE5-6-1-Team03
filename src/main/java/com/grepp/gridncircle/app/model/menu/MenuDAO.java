@@ -1,11 +1,12 @@
 package com.grepp.gridncircle.app.model.menu;
 
+import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface MenuRepository {
+public interface MenuDAO {
 
-    Optional<Menu> selectById(int id);
+    Optional<MenuDTO> selectById(int id);
 
 }
