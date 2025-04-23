@@ -6,7 +6,7 @@
     <title>Cafe Grid & Circle</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
 </head>
-<link rel="stylesheet" href="../../../assets/css/footer.css">
+<link rel="stylesheet" href="../../../../assets/css/footer.css">
 <body>
 <%@include file="/WEB-INF/view/include/header-admin.jsp" %>
 
@@ -20,6 +20,8 @@
         <p>날짜 선택</p>
         <p>발송 여부 함께 표시</p>
     </div>
+
+
 
 </main>
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
