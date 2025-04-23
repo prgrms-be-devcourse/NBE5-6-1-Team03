@@ -2,10 +2,37 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.grepp.gridncircle.app.model.menu.MenuRepository">
 
-  <select id="selectById">
-    select * from menu where id = #{id}
+<mapper namespace="com.grepp.gridncircle.app.model.menu.MenuDAO">
+
+  <!-- 메뉴와 이미지 정보를 가져오는 쿼리 -->
+  <select id="getMenuWithImages" resultType="com.grepp.gridncircle.app.model.menu.MenuImgageDTO">
+    SELECT
+    m.id AS id,
+    m.name AS name,
+    m.amount AS amount,
+    m.info AS info,
+    m.created_at AS createdAt,
+    m.price AS price,
+    mi.id AS imageId,
+    mi.original_name AS originalName,
+    mi.rename_name AS renameName,
+    mi.save_path AS savePath
+    FROM
+    menu m
+    LEFT JOIN menu_img mi ON m.id = mi.menu_id
   </select>
+
+  <select id="selectMenuList" resultType="com.grepp.gridncircle.app.model.menu.MenuDAO">
+    SELECT
+    id,
+    name,
+    amount,
+    info,
+    created_at,
+    price
+    FROM menu
+  </select>
+
 
 </mapper>
