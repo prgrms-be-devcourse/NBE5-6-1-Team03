@@ -11,9 +11,4 @@ public class MainController {
     public String searchMain() {
         return "main/main";
     }
-
-    @GetMapping("login")
-    public String login() {
-        return "main/login";
-    }
 }
