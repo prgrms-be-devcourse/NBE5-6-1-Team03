@@ -1,6 +1,5 @@
 package com.grepp.gridncircle.app.model.payment;
 
-import com.grepp.gridncircle.app.model.order.OrderRepository;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
 import java.util.List;

@@ -23,7 +23,7 @@ public class PaymentController {
         @RequestParam String email,
         Model model) {
         try {
-
+            // 결제 로직 처리
             return "redirect:/payment/success";
         } catch (Exception e) {
             log.error("결제 실패", e);
@@ -43,6 +43,6 @@ public class PaymentController {
 
     @GetMapping("/order/detail")
     public String orderDetailPage() {
-        return "order/order-detail"; // 실제 JSP 경로 (/WEB-INF/view/order/order-detail.jsp)
+        return "order/order-detail";
     }
 }

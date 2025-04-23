@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface PaymentRepository {
 
-    void insertOrder(OrderDto order);  // <insert useGeneratedKeys="true" keyProperty="id" ...>
+    void insertOrder(OrderDto order);
 
-    void insertOrderedMenu(OrderedMenuDto menu);  // <insert ...>
+    void insertOrderedMenu(OrderedMenuDto menu);
 }
