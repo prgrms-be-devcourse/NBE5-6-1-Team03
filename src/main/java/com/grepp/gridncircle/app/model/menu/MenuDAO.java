@@ -12,6 +12,9 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface MenuDAO {
 
+
+    List<MenuDTO> selectMenuList();
+
     @Select("select * from menu where id = #{id}")
     Optional<MenuDTO> selectById(int id);
 
