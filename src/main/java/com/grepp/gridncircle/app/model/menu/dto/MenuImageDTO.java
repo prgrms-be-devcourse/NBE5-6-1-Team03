@@ -1,12 +1,16 @@
 package com.grepp.gridncircle.app.model.menu.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import java.sql.Timestamp;
 
 import jakarta.validation.constraints.*;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@AllArgsConstructor
 @Builder
 public class MenuImageDTO {
     @NotNull

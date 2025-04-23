@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -24,6 +25,7 @@ public interface MenuRepository {
 
     @Insert("insert into menu (name, amount, info, created_at, price) "
         + "VALUES (#{name}, #{amount}, #{info}, #{createdAt}, #{price})")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void insert(MenuDTO menuDTO);
 
     @Update("update menu set name = #{name}, amount=#{amount}, "

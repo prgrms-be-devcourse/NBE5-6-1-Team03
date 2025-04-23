@@ -18,13 +18,13 @@ public class MenuRegistForm {
     @NotBlank
     @Size(max = 100)
     private String name;
-    @NotBlank
+    @NotNull
     @Min(0)
     @Max(9999)
     private int amount;
     @Size(max = 100)
     private String info;
-    @NotBlank
+    @NotNull
     @Min(0)
     private int price;
 
