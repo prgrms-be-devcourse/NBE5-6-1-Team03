@@ -13,6 +13,9 @@
 <main>
     <!-- 등록 상품 리스트 -->
     <div class="section container" id="order-statistics">
+        <c:if test="${not empty msg}">
+            <div class="card-panel red lighten-2 text-white">존재하지 않는 상품입니다</div>
+        </c:if>
         <div class="row">
             <h4 class="brown-text text-darken-2 col s10">등록 상품</h4>
             <a href="/admin/menu/new" class="waves-effect waves-light btn col s2 green darken-4"><i class="material-icons left">add</i>신규 등록</a>
@@ -22,7 +25,7 @@
                 <div class="card">
                     <div class="card-image">
                         <img src="/assets/img/sample.jpeg">
-                        <a href="/admin/menu/1" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
+                        <a href="/admin/menu/1000" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
                     </div>
                     <div class="card-content">
                         <span class="card-title">상품명</span>

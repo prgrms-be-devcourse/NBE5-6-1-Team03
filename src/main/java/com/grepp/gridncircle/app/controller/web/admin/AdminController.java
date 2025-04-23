@@ -3,6 +3,7 @@ package com.grepp.gridncircle.app.controller.web.admin;
 import com.grepp.gridncircle.app.controller.web.menu.form.MenuRegistForm;
 import com.grepp.gridncircle.app.model.admin.AdminService;
 import com.grepp.gridncircle.app.model.menu.MenuService;
+import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Slf4j
@@ -47,13 +49,41 @@ public class AdminController {
         return "admin/menu/menu";
     }
 
+    // 상품 수정
     @GetMapping("menu/{id}")
-    public String menuDetail(@PathVariable int id, Model model) {
-//        Product product = productService.findById(id);
-//        model.addAttribute("menu", menu);
+    public String menuDetail(@PathVariable int id, Model model,
+        RedirectAttributes redirectAttributes) {
+        MenuDTO menuDTO = menuService.getMenu(id);
+        if (menuDTO == null) {
+            redirectAttributes.addFlashAttribute("msg", "존재하지 않는 메뉴입니다.");
+            return "redirect:/admin/menu";
+        }
+        MenuRegistForm form = new MenuRegistForm();
+        form.setMenuId(menuDTO.getId());
+        form.setName(menuDTO.getName());
+        form.setInfo(menuDTO.getInfo());
+        form.setPrice(menuDTO.getPrice());
+        form.setAmount(menuDTO.getAmount());
+
+        model.addAttribute("menuRegistForm", form);
         return "admin/menu/menu-detail";
     }
 
+    @PostMapping("menu/{id}")
+    public String menuUpdate(
+        @PathVariable int id,
+        @Valid MenuRegistForm form,
+        BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "admin/menu/" + id;
+        }
+        form.setMenuId(id);
+        menuService.updateMenu(form.getThumbnail(), form.toDto());
+        return "redirect:/admin/menu";
+    }
+
+    // 상품 등록
     @GetMapping("menu/new")
     public String menuAdd(MenuRegistForm form) {
         return "admin/menu/menu-new";

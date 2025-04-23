@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class MenuRegistForm {
 
+    private int menuId;
+    private int menuImageId;
     @NotNull
     private List<MultipartFile> thumbnail;
     @NotBlank
@@ -30,6 +32,7 @@ public class MenuRegistForm {
 
     public MenuDTO toDto() {
         MenuDTO menuDTO = new MenuDTO();
+        menuDTO.setId(menuId);
         menuDTO.setName(name);
         menuDTO.setAmount(amount);
         menuDTO.setInfo(info);
