@@ -1,6 +1,11 @@
--- 회원 테이블 (id는 문자열)
+-- 초기화
+DROP TABLE IF EXISTS `ordered_menu`;
+DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `menu_img`;
+DROP TABLE IF EXISTS `menu`;
 DROP TABLE IF EXISTS `member`;
 
+-- 회원 테이블 (id는 문자열)
 CREATE TABLE `member` (
                           `id` VARCHAR(36) NOT NULL,
                           `password` VARCHAR(70) NOT NULL,
@@ -14,8 +19,6 @@ CREATE TABLE `member` (
 );
 
 -- 메뉴 테이블 (id: 자동 증가, 시작값 1000)
-DROP TABLE IF EXISTS `menu`;
-
 CREATE TABLE `menu` (
                         `id` INT NOT NULL AUTO_INCREMENT,
                         `name` VARCHAR(100) NOT NULL,
@@ -27,8 +30,6 @@ CREATE TABLE `menu` (
 ) AUTO_INCREMENT = 1000;
 
 -- 메뉴 이미지 테이블 (id: 자동 증가, 시작값 100)
-DROP TABLE IF EXISTS `menu_img`;
-
 CREATE TABLE `menu_img` (
                             `id` INT NOT NULL AUTO_INCREMENT,
                             `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -41,8 +42,6 @@ CREATE TABLE `menu_img` (
 ) AUTO_INCREMENT = 100;
 
 -- 주문 테이블 (id: 자동 증가, 시작값 10000)
-DROP TABLE IF EXISTS `orders`;
-
 CREATE TABLE `orders` (
                           `id` INT NOT NULL AUTO_INCREMENT,
                           `user_id` VARCHAR(36),
@@ -56,8 +55,6 @@ CREATE TABLE `orders` (
 ) AUTO_INCREMENT = 10000;
 
 -- 주문-메뉴 연결 테이블 (복합 PK)
-DROP TABLE IF EXISTS `ordered_menu`;
-
 CREATE TABLE `ordered_menu` (
                                 `order_id` INT NOT NULL,
                                 `menu_id` INT NOT NULL,

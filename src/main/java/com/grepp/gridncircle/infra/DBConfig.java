@@ -29,7 +29,7 @@ public class DBConfig {
     private String driver;
     @Value("${spring.datasource.hikari.maximum-pool-size}")
     private int poolSize;
-    @Value("${schema.script.name:initTable.sql}") // 없을 경우 기본값 지정
+    @Value("${schema.script.name:initTable.sql}")
     private String schema;
     @Value("${data.script.name:sampleData.sql}")
     private String data;
