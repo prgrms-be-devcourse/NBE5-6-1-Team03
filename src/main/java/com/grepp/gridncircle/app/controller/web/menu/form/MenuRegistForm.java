@@ -1,0 +1,39 @@
+package com.grepp.gridncircle.app.controller.web.menu.form;
+
+import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.util.List;
+import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
+@Data
+public class MenuRegistForm {
+
+    @NotNull
+    private List<MultipartFile> thumbnail;
+    @NotBlank
+    @Size(max = 100)
+    private String name;
+    @NotBlank
+    @Min(0)
+    @Max(9999)
+    private int amount;
+    @Size(max = 100)
+    private String info;
+    @NotBlank
+    @Min(0)
+    private int price;
+
+    public MenuDTO toDto() {
+        MenuDTO menuDTO = new MenuDTO();
+        menuDTO.setName(name);
+        menuDTO.setAmount(amount);
+        menuDTO.setInfo(info);
+        menuDTO.setPrice(price);
+        return menuDTO;
+    }
+}
