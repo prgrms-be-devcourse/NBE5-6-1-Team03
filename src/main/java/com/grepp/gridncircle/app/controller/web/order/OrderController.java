@@ -11,4 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class OrderController {
 
 
+//    @GetMapping("/order/check/member")
+//    public String memberOrderCheck(Model model, @SessionAttribute("member") Member member) {
+//        List<Order> orders = orderService.findByMemberId(member.getId());
+//        model.addAttribute("orders", orders);
+//        return "order/member/order-check";
+//    }
+
+    @GetMapping("/order/check/guest")
+    public String guestOrderCheckForm() {
+        return "order/guest/order-check";
+    }
+
 }
