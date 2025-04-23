@@ -1,11 +1,11 @@
-package com.grepp.gridncircle.app.model.payment.entity;
+package com.grepp.gridncircle.app.model.order.dto;
 
 import java.time.LocalDateTime;
 import lombok.Data;
 
 // 결제 완료 후 주문 1건 저장
 @Data
-public class Order {
+public class OrderDto {
     private Integer id;
     private String userId;
     private String userName;
