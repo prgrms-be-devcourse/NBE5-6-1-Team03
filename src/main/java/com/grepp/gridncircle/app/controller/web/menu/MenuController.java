@@ -1,9 +1,13 @@
 package com.grepp.gridncircle.app.controller.web.menu;
 
 
+import com.grepp.gridncircle.app.model.menu.ImageService;
 import com.grepp.gridncircle.app.model.menu.MenuService;
 import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
 import java.util.List;
+
+import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,17 +16,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/menu")
+@RequiredArgsConstructor
 public class MenuController {
 
-    @Autowired
-    private MenuService menuService;
+
+    private final MenuService menuService;
+    private final ImageService imageService;
 
 
     @GetMapping
     public String searchmenu(Model model) {
-        List<MenuDTO> menuList = menuService.getMenuList();
+        List<MenuDTO> menuList = menuService.getMenuList(); // 메뉴 리스트 출력
+        List<MenuImageDTO> imageList = imageService.getAllImage(); // 이미지 리스트 출력
+
         model.addAttribute("menus", menuList);
-        return "menu/menu";  // menu.jsp로 리턴
+        model.addAttribute("images", imageList);
+        return "menu/menu";
     }
 
 

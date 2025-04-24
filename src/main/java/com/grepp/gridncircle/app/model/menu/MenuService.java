@@ -18,18 +18,18 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class MenuService {
 
-    private MenuDAO menuDAO;
+    private final MenuRepository menuRepository;
     private FileUtil fileUtil;
 
     public List<MenuDTO> getMenuList() {
-        return menuDAO.selectMenuList();
+        return menuRepository.selectMenuList();
     }
 
     @Transactional
     public void registMenu(List<MultipartFile> thumbnail, MenuDTO menuDTO) {
         try {
             List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
-            menuDAO.insert(menuDTO);
+            menuRepository.insert(menuDTO);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

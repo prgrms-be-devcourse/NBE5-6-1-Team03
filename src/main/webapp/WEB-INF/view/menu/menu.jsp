@@ -26,8 +26,12 @@
 
         <c:forEach var="menu" items="${menus}">
             <tr>
-<%--                <td><img src="${menu.savePath}" width="100px"></td>--%>
-                <td>사진 구현 예정...</td>
+<%--            <td><img src="${menu.savePath}" width="100px"></td>--%>
+                <c:forEach var="image" items="${images}">
+                    <c:if test="${image.menuId == menu.id}">
+                        <img src="${pageContext.request.contextPath}/upload/${image.savePath}/${image.originalName}" width="100px"/>
+                    </c:if>
+                </c:forEach>
                 <td>${menu.name}</td>
                 <td>${menu.price}원</td>
                 <td>${menu.amount}원</td>
