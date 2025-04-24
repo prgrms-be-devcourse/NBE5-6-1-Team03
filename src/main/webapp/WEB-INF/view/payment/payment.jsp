@@ -23,7 +23,7 @@
         </c:forEach>
 
         총 금액: <b>${totalPrice}</b>원<br>
-        <button type="button" onclick="confirmPayment()">결제하기</button>
+        <button type="submit">결제하기</button>
     </form>
 
 </main>
