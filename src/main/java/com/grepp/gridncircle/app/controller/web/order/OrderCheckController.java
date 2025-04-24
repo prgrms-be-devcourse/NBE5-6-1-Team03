@@ -38,6 +38,13 @@ public class OrderCheckController {
         String email = form.getEmail();
         List<OrderCheckDto> dto = orderService.selectByEmailJoinMenu(email);
 
+        if (dto == null || dto.isEmpty()) {
+            model.addAttribute("error", "해당 이메일의 주문이 없습니다.");
+            model.addAttribute("email", email); // 이메일 값 유지
+            return "order-check/guest-email";
+        }
+
+
         model.addAttribute("orders", dto);
         log.info(dto.toString());
 
@@ -46,7 +53,22 @@ public class OrderCheckController {
 
     @GetMapping("/member")
     public String showMemberOrders(Model model) {
-//        model.addAttribute("memberOrders", orderService.getMemberOrders());
+
+//        // SecurityContext에서 인증된 사용자 정보 가져오기
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        // 인증 안된 사람은 로그인 페이지로
+//        if (authentication == null || !authentication.isAuthenticated()) {
+//            return "redirect:/login";
+//        }
+//
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        String userId = userDetails.getUsername(); // 비밀번호는 로그인에서 처리해서 비교할 필요 x
+//
+//        // 주문 목록 조회
+//        List<Order> memberOrders = orderService.getMemberOrdersByUserId(userId);
+//        model.addAttribute("memberOrders", memberOrders);
+
         return "order-check/member";
     }
 
