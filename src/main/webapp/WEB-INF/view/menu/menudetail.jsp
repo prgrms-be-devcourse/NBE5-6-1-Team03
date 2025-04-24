@@ -24,13 +24,14 @@
         <c:if test="${not empty menudetail}">
             <tr>
                 <td>
-                    <c:if test="${not empty imageList}">
-                        <c:forEach var="image" items="${imageList}">
-                            <div class="card-image">
-                                <img src="${uploadPath}${image.savePath}${image.originalName}" width="100px"/>
-                            </div>
+                    <div class="card-image">
+                        <c:forEach var="image" items="${images}">
+                            <c:if test="${image.menuId == menu.id}">
+                                <img src="/upload/${image.savePath}${image.originalName}" width="200px" />
+                            </c:if>
+
                         </c:forEach>
-                    </c:if>
+                    </div>
                 </td>
 
                 <td>${menudetail.name}</td>
