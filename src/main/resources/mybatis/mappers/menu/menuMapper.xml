@@ -3,8 +3,42 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.grepp.gridncircle.app.model.menu.dto.MenuDAO">
+<mapper namespace="com.grepp.gridncircle.app.model.menu.dto.MenuRepository">
 
+<!--<resultMap id="menuWithImagesMap" type="MenuDTO">-->
+<!--  <id property="id" column="menu_id"/>-->
+<!--  <result property="name" column="name"/>-->
+<!--  <result property="amount" column="amount"/>-->
+<!--  <result property="info" column="info"/>-->
+<!--  <result property="price" column="price"/>-->
+<!--  <result property="createdAt" column="menu_created_at"/>-->
 
+<!--  <collection property="images" ofType="MenuImageDTO">-->
+<!--    <id property="id" column="image_id"/>-->
+<!--    <result property="originalName" column="original_name"/>-->
+<!--    <result property="renameName" column="rename_name"/>-->
+<!--    <result property="savePath" column="save_path"/>-->
+<!--    <result property="menuId" column="menu_id"/>-->
+<!--    <result property="createdAt" column="image_created_at"/>-->
+<!--  </collection>-->
+<!--</resultMap>-->
+
+<!--  <select id="getMenusWithImages" resultMap="menuWithImagesMap">-->
+<!--    select-->
+<!--    m.id as menu_id,-->
+<!--    m.name,-->
+<!--    m.amount,-->
+<!--    m.info,-->
+<!--    m.price,-->
+<!--    m.created_at as menu_created_at,-->
+<!--    i.id as image_id,-->
+<!--    i.original_name,-->
+<!--    i.rename_name,-->
+<!--    i.save_path,-->
+<!--    i.menu_id,-->
+<!--    i.created_at as image_created_at-->
+<!--    from menu m-->
+<!--    left join menu_image i on m.id = i.menu_id-->
+<!--  </select>-->
 
 </mapper>

@@ -13,23 +13,26 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class MenuRegistForm {
 
+    private int menuId;
+    private int menuImageId;
     @NotNull
     private List<MultipartFile> thumbnail;
     @NotBlank
     @Size(max = 100)
     private String name;
-    @NotBlank
+    @NotNull
     @Min(0)
     @Max(9999)
     private int amount;
     @Size(max = 100)
     private String info;
-    @NotBlank
+    @NotNull
     @Min(0)
     private int price;
 
     public MenuDTO toDto() {
         MenuDTO menuDTO = new MenuDTO();
+        menuDTO.setId(menuId);
         menuDTO.setName(name);
         menuDTO.setAmount(amount);
         menuDTO.setInfo(info);
