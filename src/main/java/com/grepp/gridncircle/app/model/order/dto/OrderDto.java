@@ -4,6 +4,8 @@ import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import lombok.Data;
 
 // 결제 완료 후 주문 1건 저장
@@ -17,4 +19,6 @@ public class OrderDto {
     private LocalDateTime createdAt = LocalDateTime.now();
     private OrderStatus status;
 
+
+    private List<OrderedMenuDto> orderedMenus;
 }

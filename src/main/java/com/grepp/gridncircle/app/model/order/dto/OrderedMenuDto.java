@@ -8,4 +8,5 @@ public class OrderedMenuDto {
     private int menuId;
     private int quantity = 1;
 
+
 }
