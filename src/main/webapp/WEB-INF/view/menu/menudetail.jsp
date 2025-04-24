@@ -28,7 +28,6 @@
                         <c:forEach var="image" items="${imageList}">
                             <div class="card-image">
                                 <img src="${uploadPath}${image.savePath}${image.originalName}" width="100px"/>
-                                <p>경로: ${uploadPath}${image.savePath}${image.originalName}</p>
                             </div>
                         </c:forEach>
                     </c:if>

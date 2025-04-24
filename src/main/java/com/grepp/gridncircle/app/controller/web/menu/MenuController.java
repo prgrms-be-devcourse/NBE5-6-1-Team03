@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Controller
 @RequestMapping("/menu")
@@ -27,8 +28,8 @@ public class MenuController {
     private final MenuService menuService;
     private final ImageService imageService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
+//    @Value("${upload.path}")
+//    private String uploadPath;
 
 
     @GetMapping
@@ -38,7 +39,7 @@ public class MenuController {
 
         model.addAttribute("menus", menuList);
         model.addAttribute("images", imageList);
-        model.addAttribute("uploadPath", uploadPath);
+//        model.addAttribute("uploadPath", uploadPath);
         return "menu/menu";
     }
 

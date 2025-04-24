@@ -23,11 +23,11 @@
             <div class="col s6 m3">
                 <div class="card">
                     <c:forEach var="menu" items="${menus}">
+
                     <div class="card-image">
                         <c:forEach var="image" items="${images}">
                             <c:if test="${image.menuId == menu.id}">
-                                <img src="${uploadPath}${image.savePath}${image.originalName}" width="100px"/>
-                                <p>경로: ${uploadPath}${image.savePath}${image.originalName}</p>
+                                <img src="/upload/${image.savePath}${image.originalName}" width="200px" />
                             </c:if>
 
                         </c:forEach>
