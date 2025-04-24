@@ -9,16 +9,12 @@ import lombok.Data;
 // 결제 완료 후 주문 1건 저장
 @Data
 public class OrderDto {
-    @NotNull
     private int id;
     private String userId;
     private String name;
-    @NotNull
     private String userAddress;
-    @Email
     private String userEmail;
     private LocalDateTime createdAt = LocalDateTime.now();
-    @NotNull
     private OrderStatus status;
 
 }

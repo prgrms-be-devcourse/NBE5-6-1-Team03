@@ -10,40 +10,188 @@
 <%@include file="/WEB-INF/view/include/header.jsp" %>
 <main>
     <div class="container">
-        <div class="menu-list">
-            <h2>메뉴</h2>
-            <c:forEach var="menu" items="${menuList}">
-                <div class="menu-item" data-id="${menu.id}" data-name="${menu.name}" data-price="${menu.price}">
-                    <span>${menu.name}</span>
-                    <span>${menu.price}원</span>
-                    <button onclick="addToOrder(this)">추가</button>
+        <form:form modelAttribute="orderForm" action="${context}/order" method="post" class="col s12">
+            <div class="menu-list container">
+                <h4 class="brown-text text-darken-3 center-align">메뉴</h4>
+                <div class="row">
+                    <c:forEach var="menu" items="${menus}">
+                        <div class="col s12 m6 l4">
+                            <div class="card hoverable">
+                                <div class="card-content menu-content"
+                                     id="menu-${menu.id}"
+                                     data-id="${menu.id}"
+                                     data-name="${menu.name}"
+                                     data-price="${menu.price}">
+                                    <span class="card-title">${menu.name}</span>
+                                    <p class="grey-text">가격: ${menu.price}원</p>
+                                </div>
+                                <div class="card-action center-align">
+                                    <button type="button"
+                                            class="btn brown darken-2 waves-effect waves-light"
+                                            onclick="addToOrder(this)">
+                                        추가
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
                 </div>
-            </c:forEach>
-        </div>
 
-        <div class="order-summary">
-            <h2>주문 요약</h2>
-            <table id="orderTable">
-                <thead>
-                <tr><th>메뉴</th><th>수량</th><th>가격</th><th>삭제</th></tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-
-            <div class="customer-info">
-                <h3>주문자 정보</h3>
-                <input type="email" name="email" placeholder="이메일" value="${member.email}" />
-                <input type="text" name="address" placeholder="주소" value="${member.address}" />
             </div>
 
-            <form id="orderForm" action="${pageContext.request.contextPath}/order/submit" method="post">
-                <input type="hidden" name="orderJson" id="orderJson" />
-                <button type="submit">주문하기</button>
-            </form>
-        </div>
+            <div class="order-summary container">
+                <h4 class="brown-text text-darken-3 center-align">주문 요약</h4>
+
+                <!-- 주문 테이블 카드 -->
+                <div class="card">
+                    <div class="card-content">
+                        <table class="striped centered responsive-table" id="orderTable">
+                            <thead>
+                            <tr>
+                                <th>메뉴</th>
+                                <th>수량</th>
+                                <th>가격</th>
+                                <th>조작</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="oderedMenu" items="${orderedMenus}" varStatus="status">
+                                <tr data-id="${oderedMenu.id}">
+                                    <td>
+                                            ${oderedMenu.name}
+                                        <form:input type="hidden" path="menuList[${status.index}].id" value="${oderedMenu.id}" cssClass="input-id"/>
+                                        <form:input type="hidden" path="menuList[${status.index}].name" value="${oderedMenu.name}" cssClass="input-name"/>
+                                        <form:input type="hidden" path="menuList[${status.index}].price" value="${oderedMenu.price}" cssClass="input-price"/>
+                                    </td>
+                                    <td>
+                                        <form:input type="number" path="menuList[${status.index}].quantity"
+                                                    value="${oderedMenu.quantity}" cssClass="quantity-input" readonly="true"/>
+                                    </td>
+                                    <td class="total-price">${oderedMenu.price * oderedMenu.quantity}</td>
+                                    <td>
+                                        <button type="button" class="btn-small increase">+</button>
+                                        <button type="button" class="btn-small decrease">-</button>
+                                        <button type="button" class="btn-small red remove">삭제</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 주문자 정보 입력 -->
+                <div class="card">
+                    <div class="card-content">
+                        <h5 class="brown-text text-darken-2">주문자 정보</h5>
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <form:input path="userEmail" id="userEmail" type="email" class="validate" value="${member.email}" />
+                                <label for="userEmail">이메일</label>
+                                <form:errors path="userEmail" cssClass="helper-text red-text text-darken-2" />
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <form:input path="userAddress" id="userAddress" type="text" class="validate" value="${member.address}" />
+                                <label for="userAddress">주소</label>
+                                <form:errors path="userAddress" cssClass="helper-text red-text text-darken-2" />
+                            </div>
+                        </div>
+                        <div class="row center-align">
+                            <button type="submit" class="btn-large brown darken-2 waves-effect waves-light">
+                                주문하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form:form>
     </div>
 </main>
 
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
 </body>
+
+<script>
+  function addToOrder(button) {
+    const cardContent = button.closest('.card').querySelector('.card-content');
+    const id = String(cardContent.dataset.id);
+    const name = cardContent.dataset.name;
+    const price = parseInt(cardContent.dataset.price);
+
+    const tbody = document.querySelector('#orderTable tbody');
+
+    // 이미 존재하는 항목인지 확인
+    let existingRow = tbody.querySelector(`tr[data-id="\${id}"]`);
+
+    if (existingRow) {
+      const quantityInput = existingRow.querySelector('.quantity-input');
+      const totalPriceCell = existingRow.querySelector('.total-price');
+
+      let quantity = parseInt(quantityInput.value);
+      quantityInput.value = ++quantity;
+      totalPriceCell.textContent = quantity * price;
+    } else {
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-id', id);
+
+      tr.innerHTML = `
+        <td>
+          \${name}
+          <input type="hidden" class="input-name" name="menuList[0].name" value="\${name}" />
+          <input type="hidden" class="input-id" name="menuList[0].id" value="\${id}" />
+          <input type="hidden" class="input-price" name="menuList[0].price" value="\${price}" />
+        </td>
+        <td>
+          <input type="number" class="quantity-input" name="menuList[0].quantity" value="1" min="1" readonly />
+        </td>
+        <td class="total-price">\${price}</td>
+        <td>
+          <button type="button" class="btn-small increase">+</button>
+          <button type="button" class="btn-small decrease">-</button>
+          <button type="button" class="btn-small red remove">삭제</button>
+        </td>
+      `;
+
+      // 이벤트 바인딩
+      tr.querySelector('.increase').addEventListener('click', () => {
+        const quantityInput = tr.querySelector('.quantity-input');
+        const totalPriceCell = tr.querySelector('.total-price');
+        let quantity = parseInt(quantityInput.value);
+        quantityInput.value = ++quantity;
+        totalPriceCell.textContent = quantity * price;
+      });
+
+      tr.querySelector('.decrease').addEventListener('click', () => {
+        const quantityInput = tr.querySelector('.quantity-input');
+        const totalPriceCell = tr.querySelector('.total-price');
+        let quantity = parseInt(quantityInput.value);
+        if (quantity > 1) {
+          quantityInput.value = --quantity;
+          totalPriceCell.textContent = quantity * price;
+        }
+      });
+
+      tr.querySelector('.remove').addEventListener('click', () => {
+        tr.remove();
+        updateIndexes(); // 인덱스 재정렬
+      });
+
+      tbody.appendChild(tr);
+      updateIndexes(); // 새로 추가했으니 인덱스 재정렬
+    }
+  }
+
+  function updateIndexes() {
+    const rows = document.querySelectorAll('#orderTable tbody tr');
+    rows.forEach((tr, index) => {
+      tr.querySelector('.input-id').setAttribute('name', `menuList[\${index}].id`);
+      tr.querySelector('.input-name').setAttribute('name', `menuList[\${index}].name`);
+      tr.querySelector('.input-price').setAttribute('name', `menuList[\${index}].price`);
+      tr.querySelector('.quantity-input').setAttribute('name', `menuList[\${index}].quantity`);
+    });
+  }
+</script>
+
+
+
 </html>
