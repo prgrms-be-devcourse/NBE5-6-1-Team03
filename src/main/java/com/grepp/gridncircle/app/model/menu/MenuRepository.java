@@ -17,7 +17,7 @@ public interface MenuRepository {
     List<MenuDTO> selectMenuList();
 
     @Select("select * from menu where id = #{id}")
-    Optional<MenuDTO> selectById(int id);
+    Optional<MenuDTO> selectById(int menuId);
 
     @Select("select * from menu")
     List<MenuDTO> selectAll();
