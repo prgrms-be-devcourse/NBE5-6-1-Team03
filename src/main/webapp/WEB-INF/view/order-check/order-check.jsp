@@ -12,8 +12,8 @@
     <div class="container">
         <h2>주문 확인</h2>
         <div style="text-align: center; margin-top: 30px;">
-            <button onclick="location.href='${pageContext.request.contextPath}/order/check/member'">회원 주문 확인</button>
-            <button onclick="location.href='${pageContext.request.contextPath}/order/check/guest'">비회원 주문 확인</button>
+            <button onclick="location.href='${context}/order-check/member'">회원 주문 확인</button>
+            <button onclick="location.href='${context}/order-check/guest'">비회원 주문 확인</button>
         </div>
     </div>
 </main>

@@ -12,7 +12,7 @@
     <div class="container">
         <h2>회원 주문 확인</h2>
         <div style="text-align: center; margin-top: 30px;">
-            <form action="${pageContext.request.contextPath}/order/check/member" method="post">
+            <form action="${context}/order-check/member" method="post">
                 <label for="email">이메일</label>
                 <input type="email" id="email" name="email" required />
                 <label for="password">비밀번호</label>

@@ -26,27 +26,41 @@
             </c:if>
             <c:if test="${not empty menuList}">
                 <c:set var="imageList" value="${imageMap}"/>
-                <c:forEach items="${menuList}" var="menu">
-                    <div class="col s6 m3">
-                        <div class="card">
-                            <div class="card-image">
+                <table class="highlight centered responsive-table">
+                    <thead>
+                    <tr>
+                        <th>이미지</th>
+                        <th>메뉴명</th>
+                        <th>설명</th>
+                        <th>가격</th>
+                        <th>수량</th>
+                        <th>편집</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${menuList}" var="menu">
+                        <tr>
+                            <td>
                                 <c:if test="${empty imageMap[menu.id][0]}">
-                                    <img src="/assets/img/sample.jpeg">
+                                    <img src="/assets/img/sample.jpeg" alt="샘플" style="width: 60px; height: 60px; object-fit: cover;">
                                 </c:if>
                                 <c:if test="${not empty imageMap[menu.id][0]}">
-                                    <img src="${imageMap[menu.id][0].url}">
+                                    <img src="${imageMap[menu.id][0].url}" alt="${menu.name}" style="width: 60px; height: 60px; object-fit: cover;">
                                 </c:if>
-                                <a href="/admin/menu/${menu.id}" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title">${menu.name}</span>
-                                <p>${menu.info}</p>
-                                <p>[가격] : ${menu.price}원</p>
-                                <p>[수량] : ${menu.amount}개</p>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
+                            </td>
+                            <td>${menu.name}</td>
+                            <td>${menu.info}</td>
+                            <td>${menu.price}원</td>
+                            <td>${menu.amount}개</td>
+                            <td>
+                                <a href="/admin/menu/${menu.id}" class="btn-floating waves-effect waves-light green darken-4">
+                                    <i class="material-icons">mode_edit</i>
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </c:if>
         </div>
 

@@ -8,18 +8,23 @@
                 <sec:authorize access="isAnonymous()">
                     <li><a href="${context}/">홈</a></li>
                     <li><a href="${context}/menu">메뉴</a></li>
-                    <li><a href="${context}/main#about">소개</a></li>
-                    <li><a href="${context}/main#location">오시는 길</a></li>
                     <li><a href="${context}/order">주문하기</a></li>
+                    <li><a href="${context}/order-check/guest">주문확인</a></li>
                     <li><a href="${context}/member/login">로그인</a></li>
                     <li><a href="${context}/member/signup">회원가입</a></li>
                 </sec:authorize>
-                <sec:authorize access="isAuthenticated()">
+                <sec:authorize access="hasAuthority('ROLE_USER')">
                     <li><a href="${context}/main">홈</a></li>
                     <li><a href="${context}/menu">메뉴</a></li>
-                    <li><a href="${context}/main#about">소개</a></li>
-                    <li><a href="${context}/main#location">오시는 길</a></li>
                     <li><a href="${context}/order">주문하기</a></li>
+                    <li><a href="${context}/order-check/member">주문확인</a></li>
+                    <li><a href="#" id="logout">로그아웃</a></li>
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('ROLE_ADMIN')">
+                    <li><a href="${context}/main">홈</a></li>
+                    <li><a href="${context}/menu">메뉴</a></li>
+                    <li><a href="${context}/order">주문하기</a></li>
+                    <li><a href="${context}/admin">대시보드</a></li>
                     <li><a href="#" id="logout">로그아웃</a></li>
                 </sec:authorize>
             </ul>

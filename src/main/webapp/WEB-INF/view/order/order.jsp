@@ -14,29 +14,34 @@
             <div class="menu-list container">
                 <h4 class="brown-text text-darken-3 center-align">메뉴</h4>
                 <div class="row">
-                    <c:forEach var="menu" items="${menus}">
-                        <div class="col s12 m6 l4">
-                            <div class="card hoverable">
-                                <div class="card-content menu-content"
-                                     id="menu-${menu.id}"
-                                     data-id="${menu.id}"
-                                     data-name="${menu.name}"
-                                     data-price="${menu.price}">
-                                    <span class="card-title">${menu.name}</span>
-                                    <p class="grey-text">가격: ${menu.price}원</p>
-                                </div>
-                                <div class="card-action center-align">
+                    <table class="highlight centered">
+                        <thead>
+                        <tr>
+                            <th>메뉴명</th>
+                            <th>가격</th>
+                            <th>추가</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="menu" items="${menus}">
+                            <tr id="menu-${menu.id}"
+                                data-id="${menu.id}"
+                                data-name="${menu.name}"
+                                data-price="${menu.price}">
+                                <td>${menu.name}</td>
+                                <td>${menu.price}원</td>
+                                <td>
                                     <button type="button"
                                             class="btn brown darken-2 waves-effect waves-light"
                                             onclick="addToOrder(this)">
                                         추가
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
-
             </div>
 
             <div class="order-summary container">
@@ -115,7 +120,7 @@
 
 <script>
   function addToOrder(button) {
-    const cardContent = button.closest('.card').querySelector('.card-content');
+    const cardContent = button.closest('tr');
     const id = String(cardContent.dataset.id);
     const name = cardContent.dataset.name;
     const price = parseInt(cardContent.dataset.price);

@@ -9,50 +9,49 @@
 </head>
 
 <body>
+<%@ include file="/WEB-INF/view/include/header.jsp" %>
 <main>
-    <%@ include file="/WEB-INF/view/include/header.jsp" %>
-    <h2>메뉴 상세</h2>
-
-    <table border="1">
-        <tr>
-            <th>사진</th>
-            <th>이름</th>
-            <th>가격</th>
-            <th>수량</th>
-            <th>상세</th>
-        </tr>
-        <c:if test="${not empty menudetail}">
-            <tr>
-                <td>
-                    <div class="card-image">
+    <c:choose>
+        <c:when test="${not empty menudetail}">
+            <div class="container" style="max-width: 800px;">
+                <div class="card horizontal z-depth-2" style="padding: 20px;">
+                    <!-- 이미지 영역 -->
+                    <div class="card-image" style="min-width: 300px;">
+                        <c:set var="foundImage" value="false" />
                         <c:forEach var="image" items="${imageList}">
-                            <c:if test="${image.menuId == menudetail.id}">
-                                <img src="/upload/${image.savePath}${image.originalName}" width="400px" />
+                            <c:if test="${!foundImage && image.menuId == menudetail.id}">
+                                <img src="/upload/${image.savePath}${image.originalName}" alt="${menudetail.name}" style="width: 100%; height: auto; object-fit: cover;" />
+                                <c:set var="foundImage" value="true" />
                             </c:if>
-
                         </c:forEach>
+                        <c:if test="${!foundImage}">
+                            <img src="/assets/img/sample.jpeg" alt="샘플 이미지" style="width: 100%; height: auto; object-fit: cover;" />
+                        </c:if>
                     </div>
-                </td>
 
-                <td>${menudetail.name}</td>
-                <td>${menudetail.price}원</td>
-                <td>${menudetail.amount}개</td>
-                <td>${menudetail.info}개</td>
+                    <!-- 내용 영역 -->
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <h5 class="brown-text text-darken-3">${menudetail.name}</h5>
+                            <p><strong>설명:</strong> ${menudetail.info}</p>
+                            <p><strong>가격:</strong> ${menudetail.price}원</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="${pageContext.request.contextPath}/menu" class="btn brown lighten-2">메뉴로 돌아가기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:when>
 
-            </tr>
-        </c:if>
-        <!-- menudetail이 비어있으면 처리하는 부분 -->
-        <c:if test="${empty menudetail}">
-            <tr>
-                <td colspan="5">상세 정보를 찾을 수 없습니다.</td>
-            </tr>
-        </c:if>
-
-    </table>
-
-    <a href="/menu">
-        <button type="button">메뉴 페이지로 돌아가기</button>
-    </a>
+        <c:otherwise>
+            <div class="container" style="max-width: 600px;">
+                <div class="card-panel red lighten-4 center-align">
+                    상세 정보를 찾을 수 없습니다.
+                </div>
+            </div>
+        </c:otherwise>
+    </c:choose>
 
 </main>
 
