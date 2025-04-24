@@ -19,7 +19,32 @@
         <br>
         <p>날짜 선택</p>
         <p>발송 여부 함께 표시</p>
+        <table class="highlight">
+            <thead>
+            <tr>
+                <th>주문일자</th>
+                <th>주문자명</th>
+                <th>주문상품</th>
+                <th>주문수량</th>
+                <th>주문상태</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <c:forEach items="${orderList}" var="order">
+                <tr>
+                    <td>${order.createdAt}</td>
+                    <td>${order.name}</td>
+                    <td>${order.menu.name}</td>
+                    <td>${order.menu.quantity}</td>
+                    <td>${order.status}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
+
+
 
 
 

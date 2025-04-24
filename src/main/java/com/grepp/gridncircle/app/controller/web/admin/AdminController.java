@@ -117,11 +117,18 @@ public class AdminController {
     @PostMapping("menu/new")
     public String menuRegist(
         @Valid MenuRegistForm form,
-        BindingResult bindingResult
-    ) {
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttributes) {
+
         if (bindingResult.hasErrors()) {
             return "admin/menu/menu-new";
         }
+        if (form.getThumbnail() == null || form.getThumbnail().isEmpty() ||
+            form.getThumbnail().stream().allMatch(file -> file.isEmpty())) {
+            redirectAttributes.addFlashAttribute("alertMessage", "사진을 등록해주세요.");
+            return "redirect:/admin/menu/new";
+        }
+
         menuService.registMenu(form.getThumbnail(), form.toDto());
         return "redirect:/admin/menu";
     }

@@ -13,6 +13,9 @@
 <main>
     <!-- 신규 상품 추가 -->
     <div class="section container" id="order-statistics">
+        <c:if test="${not empty alertMessage}">
+            <div class="card-panel red lighten-2 text-white">${alertMessage}</div>
+        </c:if>
 
         <h4 class="brown-text text-darken-2 col s10">상품 추가</h4>
 
