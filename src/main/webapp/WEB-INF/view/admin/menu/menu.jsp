@@ -21,63 +21,33 @@
             <a href="/admin/menu/new" class="waves-effect waves-light btn col s2 green darken-4"><i class="material-icons left">add</i>신규 등록</a>
         </div>
         <div class="row">
-            <div class="col s6 m3">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="/assets/img/sample.jpeg">
-                        <a href="/admin/menu/1005" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
+            <c:if test="${empty menuList}">
+                <h5 class="brown-text text-lighten-1 col s10">등록된 상품이 없습니다</h5>
+            </c:if>
+            <c:if test="${not empty menuList}">
+                <c:set var="imageList" value="${imageMap}"/>
+                <c:forEach items="${menuList}" var="menu">
+                    <div class="col s6 m3">
+                        <div class="card">
+                            <div class="card-image">
+                                <c:if test="${empty imageMap[menu.id][0]}">
+                                    <img src="/assets/img/sample.jpeg">
+                                </c:if>
+                                <c:if test="${not empty imageMap[menu.id][0]}">
+                                    <img src="${imageMap[menu.id][0].url}">
+                                </c:if>
+                                <a href="/admin/menu/${menu.id}" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">${menu.name}</span>
+                                <p>${menu.info}</p>
+                                <p>[가격] : ${menu.price}원</p>
+                                <p>[수량] : ${menu.amount}개</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <span class="card-title">상품명</span>
-                        <p>상품정보</p>
-                        <p>가격</p>
-                        <p>재고</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s6 m3">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="/assets/img/sample.jpeg">
-                        <a href="/admin/menu/${menu.id}" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title">상품명</span>
-                        <p>상품정보</p>
-                        <p>가격</p>
-                        <p>재고</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s6 m3">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="/assets/img/sample.jpeg">
-                        <a href="/admin/menu/${menu.id}" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title">상품명</span>
-                        <p>상품정보</p>
-                        <p>가격</p>
-                        <p>재고</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s6 m3">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="/assets/img/sample.jpeg">
-                        <a href="/admin/menu/${menu.id}" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title">상품명</span>
-                        <p>상품정보</p>
-                        <p>가격</p>
-                        <p>재고</p>
-                    </div>
-                </div>
-            </div>
-
+                </c:forEach>
+            </c:if>
         </div>
 
     </div>

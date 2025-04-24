@@ -20,7 +20,7 @@
             <form:form class="col s12" action="${context}/admin/menu/${menuRegistForm.menuId}" method="post" enctype="multipart/form-data" modelAttribute="menuRegistForm">
                 <div class="card" style="width: 25%; min-width: 200px">
                     <div class="card-image">
-                        <img src="/assets/img/sample.jpeg" style="width: 100%">
+                        <img src="${imageList[0].url}" style="width: 100%">
                     </div>
                 </div>
                 <div class="file-field input-field">

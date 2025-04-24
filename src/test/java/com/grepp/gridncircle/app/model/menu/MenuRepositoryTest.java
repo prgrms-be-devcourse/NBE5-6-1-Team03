@@ -3,7 +3,6 @@ package com.grepp.gridncircle.app.model.menu;
 import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
     "file:src/main/webapp/WEB-INF/spring/servlet-context.xml"
 })
 @Slf4j
-class MenuDAOTest {
+class MenuRepositoryTest {
 
     @Autowired
     private MenuRepository menuRepository;
@@ -29,7 +28,7 @@ class MenuDAOTest {
 
     @Test
     public void selectAll() {
-        log.info("{}", menuRepository.selectAll());
+        log.info("{}", menuRepository.selectMenuList());
     }
 
     @Test
