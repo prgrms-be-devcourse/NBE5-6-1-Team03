@@ -1,7 +1,8 @@
 package com.grepp.gridncircle.app.controller.web.payment;
 
 import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
-import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
+import com.grepp.gridncircle.app.model.order.code.OrderStatus;
+import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.payment.PaymentService;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import java.util.List;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,23 +24,42 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    @PostMapping("/payment/complete")
-    public String completePayment(@ModelAttribute PaymentForm form) {
+    @PostMapping
+    public String paymentPage(@ModelAttribute PaymentForm form, Model model) {
+        model.addAttribute("paymentForm", form);
+        return "payment/payment";
+    }
 
-        int totalPrice = form.getMenuItems().stream()
-            .mapToInt(item -> item.getPrice() * item.getQuantity())
-            .sum();
-        form.setTotalPrice(totalPrice);
+    @PostMapping("/complete")
+    public String completePayment(@RequestParam int orderId, @ModelAttribute PaymentForm form) {
+        try {
+            // 총금액을 orders 테이블에 반영
+            paymentService.applyTotalPrice(form, orderId);
 
-        paymentService.placeOrder(form);
+            // 결제 성공
+            paymentService.updateOrderStatus(orderId, OrderStatus.PAID);
 
-        return "redirect:/payment/success";
+            return "redirect:/payment/success?orderId=" + orderId;
+        } catch (Exception e) {
+            log.error("결제 실패", e);
+            return "redirect:/payment/fail";
+        }
     }
 
 
-
     @GetMapping("/success")
-    public String paymentSuccess() {
+    public String paymentSuccess(@RequestParam int orderId, Model model) {
+        OrderDto order = paymentService.getOrderById(orderId);
+        List<PaymentDto> menuItems = paymentService.getOrderedMenus(orderId);
+
+        int totalPrice = menuItems.stream()
+            .mapToInt(m -> m.getPrice() * m.getQuantity())
+            .sum();
+
+        model.addAttribute("loginUser", order);
+        model.addAttribute("menuItems", menuItems);
+        model.addAttribute("totalPrice", totalPrice);
+
         return "payment/success";
     }
 
@@ -48,18 +68,8 @@ public class PaymentController {
         return "payment/fail";
     }
 
-    @GetMapping("/payment")
-    public String paymentPage(Model model) {
-        List<OrderedMenuDto> menuItems = ;
-        model.addAttribute("menuItems", menuItems);
-
-        return "payment/payment";
-    }
-
     @GetMapping("/order-check")
     public String orderCheckPage() {
         return "order/order-check";
     }
-
-
 }
