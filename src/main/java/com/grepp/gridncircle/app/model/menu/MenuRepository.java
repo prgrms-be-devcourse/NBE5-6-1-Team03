@@ -11,9 +11,9 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 @Mapper
-public interface MenuDAO {
+public interface MenuRepository {
 
-
+    @Select("select * from menu")
     List<MenuDTO> selectMenuList();
 
     @Select("select * from menu where id = #{id}")

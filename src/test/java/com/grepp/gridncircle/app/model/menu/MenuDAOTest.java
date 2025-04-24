@@ -20,38 +20,38 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class MenuDAOTest {
 
     @Autowired
-    private MenuDAO menuDAO;
+    private MenuRepository menuRepository;
 
     @Test
     public void selectById() {
-        log.info("{}", menuDAO.selectById(1000).get());
+        log.info("{}", menuRepository.selectById(1000).get());
     }
 
     @Test
     public void selectAll() {
-        log.info("{}", menuDAO.selectAll());
+        log.info("{}", menuRepository.selectAll());
     }
 
     @Test
     public void insert() {
         MenuDTO menu = new MenuDTO(0, "좋은원두", 10, "맛있는 원두입니다",
             Timestamp.valueOf(LocalDateTime.now()), 10000);
-        menuDAO.insert(menu);
+        menuRepository.insert(menu);
     }
 
     @Test
     public void update() {
-        MenuDTO menuDTO = menuDAO.selectById(1000).get();
+        MenuDTO menuDTO = menuRepository.selectById(1000).get();
         menuDTO.setName("카누");
         menuDTO.setAmount(50);
         menuDTO.setInfo("세상에서 가장 작은 카페");
         menuDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         menuDTO.setPrice(10000);
-        log.info("{}", menuDAO.update(menuDTO));
+        log.info("{}", menuRepository.update(menuDTO));
     }
 
     @Test
     public void delete() {
-        log.info("{}", menuDAO.deleteById(1003));
+        log.info("{}", menuRepository.deleteById(1003));
     }
 }
