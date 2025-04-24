@@ -3,13 +3,24 @@
 <header class="header">
     <nav>
         <div class="nav-wrapper container">
-            <a href="#!" class="brand-logo">Cafe Grid & Circle</a>
+            <a href="${context}/main" class="brand-logo">Cafe Grid & Circle</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="${context}/main">홈</a></li>
-                <li><a href="${context}/menu">메뉴</a></li>
-                <li><a href="${context}/main#about">소개</a></li>
-                <li><a href="${context}/main#location">오시는 길</a></li>
-                <li><a href="${context}/member/login">로그인</a></li>
+                <sec:authorize access="isAnonymous()">
+                    <li><a href="${context}/main">홈</a></li>
+                    <li><a href="${context}/menu">메뉴</a></li>
+                    <li><a href="${context}/main#about">소개</a></li>
+                    <li><a href="${context}/main#location">오시는 길</a></li>
+                    <li><a href="${context}/order">주문하기</a></li>
+                    <li><a href="${context}/member/login">로그인</a></li>
+                    <li><a href="${context}/member/signup">회원가입</a></li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li><a href="${context}/main">홈</a></li>
+                    <li><a href="${context}/menu">메뉴</a></li>
+                    <li><a href="${context}/main#about">소개</a></li>
+                    <li><a href="${context}/main#location">오시는 길</a></li>
+                    <li><a href="${context}/order">주문하기</a></li>
+                </sec:authorize>
             </ul>
         </div>
     </nav>
