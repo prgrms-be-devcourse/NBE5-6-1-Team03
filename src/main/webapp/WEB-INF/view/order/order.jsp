@@ -86,6 +86,8 @@
                         <h5 class="brown-text text-darken-2">주문자 정보</h5>
                         <div class="row">
                             <div class="input-field col s12 m6">
+                                <form:hidden path="id" id="id" class="validate" value="${empty member.id ? null : member.id}" />
+
                                 <form:input path="userEmail" id="userEmail" type="email" class="validate" value="${member.email}" />
                                 <label for="userEmail">이메일</label>
                                 <form:errors path="userEmail" cssClass="helper-text red-text text-darken-2" />

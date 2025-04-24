@@ -1,5 +1,6 @@
 package com.grepp.gridncircle.app.model.payment.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data

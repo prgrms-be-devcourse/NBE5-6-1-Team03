@@ -13,6 +13,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,13 +31,23 @@ public class OrderController {
     private final MemberService memberService;
 
     @GetMapping
-    public String showOrderPage(OrderForm form, Model model) {
+    public String showOrderPage(Authentication authentication, OrderForm form, Model model) {
 
-//        String userId = authentication.getName();
+        Optional<Authentication> auth = Optional.ofNullable(authentication);
+
+        String id = null;
+
+        if (auth.isPresent()) {
+            id = auth.get().getName();
+        }
+
+        if(id != null) {
+            Optional<MemberDto> memberDto = memberService.selectById(id);
+            MemberDto member = memberDto.get();
+            model.addAttribute("member", member);
+        }
         List<MenuDTO> menus = menuService.getMenuList();
-//        Optional<MemberDto> member = memberService.selectById(userId);
 
-        log.info("Menu List: {}", menus);
         model.addAttribute("menus", menus);
         
         return "order/order";
@@ -52,6 +63,8 @@ public class OrderController {
         if (bindingResult.hasErrors()) {
             return "order/order";
         }
+
+        log.info(form.toString());
 
         OrderDto dto = form.toDto();
 
