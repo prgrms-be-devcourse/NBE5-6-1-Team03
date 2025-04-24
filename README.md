@@ -17,7 +17,7 @@
      <tr/>
 
 <tr>
-      <td align="center"><a href="https://github.com/quiteeasilydone"><img src="https://github.com/quiteeasilydone.png" width="100px;" alt="kdu"/></a></td>
+      <td align="center"><a href="https://github.com/QuiteEasilyDone"><img src="https://github.com/QuiteEasilyDone.png" width="100px;" alt="kdu"/></a></td>
       <td align="center"><a href="https://github.com/yoozafree"><img src="https://github.com/yoozafree.png" width="100px;" alt="ash"/></a></td>
       <td align="center"><a href="https://github.com/JongWook6"><img src="https://github.com/JongWook6.png" width="100px;" alt="lkh"/></a></td>
       <td align="center"><a href="https://github.com/yunseoy"><img src="https://github.com/yunseoy.png" width="100px;" alt="lcr"/></a></td>
@@ -25,7 +25,7 @@
      <tr/>
 
 <tr>
-      <td align="center"><a href="https://github.com/quiteeasilydone"><sub><b>@quiteeasilydone</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/QuiteEasilyDone"><sub><b>@QuiteEasilyDone</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/yoozafree"><sub><b>@yoozafree</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/JongWook6"><sub><b>@JongWook6</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/yunseoy"><sub><b>@yunseoy</b></sub></a><br /></td>

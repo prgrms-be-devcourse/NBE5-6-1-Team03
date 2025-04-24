@@ -35,7 +35,7 @@
             </div>
 
             <div class="input-field">
-              <i class="material-icons prefix">name</i>
+              <i class="material-icons prefix">text_fields</i>
               <form:input path="name" id="name" name="name" type="text" placeholder="이름" class="validate"/>
               <label for="name">이름</label>
               <form:errors path="name" cssClass="helper-text red-text"/>
@@ -56,7 +56,7 @@
             </div>
 
             <div class="input-field">
-              <i class="material-icons prefix">address</i>
+              <i class="material-icons prefix">business</i>
               <form:input path="address" id="address" name="address" type="text" placeholder="주소" class="validate"/>
               <label for="address">주소</label>
               <form:errors path="address" cssClass="helper-text red-text"/>

@@ -73,6 +73,8 @@ public class SecurityConfig {
                                 .requestMatchers(GET, "/member/signup").permitAll()
                                 .requestMatchers(GET, "/member/login").permitAll()
                                 .requestMatchers(POST, "/member/login", "/member/signup").permitAll()
+                                .requestMatchers(GET, "/admin/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(POST, "/admin/**").hasAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
