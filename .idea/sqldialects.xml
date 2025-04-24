@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/init/empty.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/init/initTable.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/init/sampleData.sql" dialect="MySQL" />
+    <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>
