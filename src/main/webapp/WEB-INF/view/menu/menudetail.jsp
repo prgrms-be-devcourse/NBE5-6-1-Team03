@@ -37,7 +37,8 @@
                 <td>${menudetail.name}</td>
                 <td>${menudetail.price}원</td>
                 <td>${menudetail.amount}개</td>
-                <td><button type="button">상세보기</button></td>
+                <td>${menudetail.info}개</td>
+
             </tr>
         </c:if>
         <!-- menudetail이 비어있으면 처리하는 부분 -->
