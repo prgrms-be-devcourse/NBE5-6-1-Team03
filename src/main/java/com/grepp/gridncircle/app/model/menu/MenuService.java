@@ -45,7 +45,7 @@ public class MenuService {
             if (fileDtos.isEmpty()) return;
             for (FileDto fileDto : fileDtos) {
                 MenuImageDTO menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
-                menuDAO.insertImage(menuImageDTO);
+                menuRepository.insertImage(menuImageDTO);
             }
         } catch (IOException e) { // 파일 이름이 너무 길 경우 오류 발생 가능
             e.printStackTrace();
@@ -58,17 +58,23 @@ public class MenuService {
     public void updateMenu(@NotNull List<MultipartFile> thumbnail, MenuDTO menuDTO) {
         try {
             List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
-            menuDAO.update(menuDTO);
+            menuRepository.update(menuDTO);
 
             if (fileDtos.isEmpty()) return;
             for (FileDto fileDto : fileDtos) {
                 MenuImageDTO menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
-                menuDAO.updateImage(menuImageDTO);
+                menuRepository.updateImage(menuImageDTO);
             }
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    @Transactional
+    public void deleteMenu(int id) {
+        menuRepository.deleteImageByMenuId(id);
+        menuRepository.deleteById(id);
     }
 
     private MenuImageDTO fileToImageDTO(FileDto fileDto, int id) {
