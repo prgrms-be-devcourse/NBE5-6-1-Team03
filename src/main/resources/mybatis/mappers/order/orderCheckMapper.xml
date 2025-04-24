@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grepp.spring.app.model.member.OrderCheckRepository">
+
+    <!-- 주문된 메뉴 단건 매핑 -->
+    <resultMap id="orderMap" type="com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto">
+        <id property="orderId" column="order_id"/>
+        <result property="menuId" column="menu_id"/>
+        <result property="quantity" column="quantity"/>
+    </resultMap>
+
+    <!--  회원 주문 확인  -->
+    <select id="selectOrdersByMember" resultMap="orderMap">
+        SELECT
+        o.id AS order_id,
+        o.order_date,
+        m.name AS menu_name,
+        m.price AS menu_price,
+        om.quantity
+        FROM orders o
+        JOIN ordered_menu om ON o.id = om.order_id
+        JOIN menu m ON om.menu_id = m.id
+        JOIN member mem ON o.member_id = mem.id
+        WHERE mem.user_id = #{userId}
+        AND mem.password = #{password}
+        ORDER BY o.order_date DESC
+    </select>
+
+    <!-- 비회원 주문 확인 -->
+    <select id="selectOrdersByGuest" resultMap="orderMap">
+        SELECT
+        o.id AS order_id,
+        o.order_date,
+        m.name AS menu_name,
+        m.price AS menu_price,
+        om.quantity
+        FROM orders o
+        JOIN ordered_menu om ON o.id = om.order_id
+        JOIN menu m ON om.menu_id = m.id
+        WHERE o.email = #{email}
+        AND o.password = #{password}
+        ORDER BY o.order_date DESC
+    </select>
+
+</mapper>
