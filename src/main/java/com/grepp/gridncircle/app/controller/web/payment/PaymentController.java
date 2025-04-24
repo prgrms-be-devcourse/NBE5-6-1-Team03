@@ -41,8 +41,12 @@ public class PaymentController {
         return "payment/fail";
     }
 
-    @GetMapping("/order/detail")
-    public String orderDetailPage() {
-        return "order/order-detail";
+    @GetMapping
+    public String paymentMain() { return "payment/payment"; }
+
+    @GetMapping("/order-check")
+    public String orderCheckPage() {
+        return "order/order-check";
     }
+
 }
