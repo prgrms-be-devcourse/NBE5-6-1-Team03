@@ -10,11 +10,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MenuService {
 
     private final MenuRepository menuRepository;
-    private FileUtil fileUtil;
+    private final FileUtil fileUtil;
 
     public List<MenuDTO> getMenuList() {
         return menuRepository.selectMenuList();

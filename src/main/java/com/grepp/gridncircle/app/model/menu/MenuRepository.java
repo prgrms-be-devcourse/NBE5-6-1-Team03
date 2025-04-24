@@ -14,14 +14,12 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface MenuRepository {
 
+    // Menu
     @Select("select * from menu")
     List<MenuDTO> selectMenuList();
 
     @Select("select * from menu where id = #{id}")
     Optional<MenuDTO> selectById(int menuId);
-
-    @Select("select * from menu")
-    List<MenuDTO> selectAll();
 
     @Insert("insert into menu (name, amount, info, created_at, price) "
         + "VALUES (#{name}, #{amount}, #{info}, #{createdAt}, #{price})")
@@ -35,6 +33,7 @@ public interface MenuRepository {
     @Delete("delete from menu where id = #{id}")
     boolean deleteById(int id);
 
+    // MenuImage
     @Insert("insert into menu_img (created_at, original_name, rename_name, save_path, menu_id)"
         + " VALUES (#{createdAt}, #{originalName}, #{renameName}, #{savePath}, #{menuId})")
     void insertImage(MenuImageDTO menuImageDTO);
@@ -44,5 +43,5 @@ public interface MenuRepository {
     void updateImage(MenuImageDTO menuImageDTO);
 
     @Delete("delete from menu_img where menu_id = #{id}")
-    boolean deleteImageByMenuId(int id);
+    void deleteImageByMenuId(int id);
 }

@@ -33,4 +33,8 @@ public class MenuImageDTO {
 
     @NotNull
     private int menuId;
+
+    public String getUrl() {
+        return "/download/" + savePath + renameName;
+    }
 }
