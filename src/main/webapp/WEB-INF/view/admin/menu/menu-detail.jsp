@@ -64,7 +64,10 @@
                 <button type="submit" class="waves-effect waves-light btn col s2 green darken-4"><i
                         class="material-icons left">save</i>저장
                 </button>
-                <button onclick="location.href='/admin/menu'" type="reset" class="waves-effect waves-light btn col s2 red darken-4">
+                <button type="button" onclick="deleteMenu()" class="waves-effect waves-light btn col s2 red darken-4"><i
+                        class="material-icons left" >delete</i>삭제
+                </button>
+                <button onclick="location.href='/admin/menu'" type="reset" class="waves-effect waves-light btn col s2 grey darken-2">
                     <i class="material-icons left">cancel</i>취소
                 </button>
             </form:form>
@@ -73,6 +76,31 @@
 
 </main>
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
+
+<script>
+  const csrfToken = '${_csrf.token}';
+  const csrfHeader = '${_csrf.headerName}';
+  const menuId = '${menuRegistForm.menuId}';
+
+  function deleteMenu() {
+    if (confirm('정말 삭제하시겠습니까?')) {
+      fetch('/admin/menu/' + menuId, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => {
+        if (response.ok){
+          alert('삭제되었습니다.');
+          window.location.href = '/admin/menu';
+        } else {
+          alert('삭제에 실패했습니다.');
+        }
+      })
+    }
+  }
+</script>
 
 </body>
 </html>

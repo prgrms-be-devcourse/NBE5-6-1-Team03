@@ -42,4 +42,7 @@ public interface MenuRepository {
     @Update("update menu_img set original_name = #{originalName}, rename_name = #{renameName}, "
         + "save_path = #{savePath} where menu_id = #{menuId}")
     void updateImage(MenuImageDTO menuImageDTO);
+
+    @Delete("delete from menu_img where menu_id = #{id}")
+    boolean deleteImageByMenuId(int id);
 }

@@ -25,7 +25,7 @@
                 <div class="card">
                     <div class="card-image">
                         <img src="/assets/img/sample.jpeg">
-                        <a href="/admin/menu/1000" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
+                        <a href="/admin/menu/1005" class="btn-floating halfway-fab waves-effect waves-light green darken-4"><i class="material-icons">mode_edit</i></a>
                     </div>
                     <div class="card-content">
                         <span class="card-title">상품명</span>
