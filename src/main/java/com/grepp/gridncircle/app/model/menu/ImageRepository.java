@@ -9,9 +9,12 @@ import java.util.List;
 @Mapper
 public interface ImageRepository {
 
-    @Select("SELECT * FROM menu_img WHERE menuId = #{menuId}")
+    @Select("SELECT * FROM menu_img WHERE menu_id = #{menuId}")
     List<MenuImageDTO> findByMenuId(int menuId);
 
     @Select("SELECT * FROM menu_img ")
     List<MenuImageDTO> selectAllImage();
+
+    @Select("SELECT * FROM menu_img WHERE menu_id = #{menuId}")
+    List<MenuImageDTO> selectMenuImage(int menuId);
 }
