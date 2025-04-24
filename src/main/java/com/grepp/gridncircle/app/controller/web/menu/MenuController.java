@@ -46,9 +46,9 @@ public class MenuController {
 
     @GetMapping("/detail")
     public String menuDetail(@RequestParam("id") int menuId, Model model) {
-        Optional<MenuDTO> menu = menuService.getMenuById(menuId);
+        Optional<MenuDTO> menu = menuService.getMenuById(menuId);// 메뉴 리스트 출력
         MenuDTO menudetail = menu.orElse(null);
-        // 메뉴 리스트 출력
+
         List<MenuImageDTO> imageList = imageService.getMenuImage(menuId); // 이미지 리스트 출력
         model.addAttribute("menudetail", menudetail);
         model.addAttribute("imageList", imageList);

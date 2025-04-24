@@ -25,9 +25,9 @@
             <tr>
                 <td>
                     <div class="card-image">
-                        <c:forEach var="image" items="${images}">
-                            <c:if test="${image.menuId == menu.id}">
-                                <img src="/upload/${image.savePath}${image.originalName}" width="200px" />
+                        <c:forEach var="image" items="${imageList}">
+                            <c:if test="${image.menuId == menudetail.id}">
+                                <img src="/upload/${image.savePath}${image.originalName}" width="400px" />
                             </c:if>
 
                         </c:forEach>
