@@ -15,17 +15,22 @@
             <div class="card brown lighten-5 z-depth-2">
                 <div class="card-content">
                     <span class="card-title center-align brown-text text-darken-3">로그인</span>
+                    <c:if test="${not empty param.error}">
+                        <div class="card-panel red lighten-2 text-white">아이디나 비밀번호를 확인하세요</div>
+                    </c:if>
 
-                    <!-- ✅ 로그인 form 시작 -->
-                    <form:form action="${pageContext.request.contextPath}/login" method="post">
+                    <!--  로그인 form 시작 -->
+                    <form:form modelAttribute="loginForm" action="${context}/member/login" method="post">
                         <div class="input-field">
-                            <input type="text" id="username" name="username" required />
-                            <label for="username">아이디</label>
+                            <form:input path="id" type="text" id="id" name="id" class="validate"/>
+                            <label for="id">아이디</label>
+                            <form:errors path="id" cssClass="helper-text"/>
                         </div>
 
                         <div class="input-field">
-                            <input type="password" id="password" name="password" required />
+                            <form:input path="password" type="password" id="password" name="password"/>
                             <label for="password">비밀번호</label>
+                            <form:errors path="password" cssClass="helper-text"/>
                         </div>
 
                         <div class="center-align">
@@ -34,7 +39,7 @@
                             </button>
                         </div>
                     </form:form>
-                    <!-- ✅ 로그인 form 끝 -->
+                    <!--  로그인 form 끝 -->
 
                 </div>
             </div>
