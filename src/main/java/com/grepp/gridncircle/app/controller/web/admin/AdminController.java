@@ -1,12 +1,17 @@
 package com.grepp.gridncircle.app.controller.web.admin;
 
+import com.grepp.gridncircle.app.controller.web.menu.form.MenuRegistForm;
 import com.grepp.gridncircle.app.model.admin.AdminService;
+import com.grepp.gridncircle.app.model.menu.MenuService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     private final AdminService adminService;
+    private final MenuService menuService;
 
     @GetMapping
     public String dashboard() {
@@ -51,5 +57,17 @@ public class AdminController {
     @GetMapping("menu/new")
     public String menuAdd() {
         return "admin/menu/menu-new";
+    }
+
+    @PostMapping("menu/new")
+    public String menuRegist(
+        @Valid MenuRegistForm form,
+        BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "menu/new";
+        }
+        menuService.registMenu(form.getThumbnail(), form.toDto());
+        return "redirect:/admin/menu";
     }
 }
