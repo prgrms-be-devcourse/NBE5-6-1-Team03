@@ -24,20 +24,21 @@
         <c:if test="${not empty menudetail}">
             <tr>
                 <td>
-                    <c:if test="${not empty imageList}">
+                    <div class="card-image">
                         <c:forEach var="image" items="${imageList}">
-                            <div class="card-image">
-                                <img src="${uploadPath}${image.savePath}${image.originalName}" width="100px"/>
-                                <p>경로: ${uploadPath}${image.savePath}${image.originalName}</p>
-                            </div>
+                            <c:if test="${image.menuId == menudetail.id}">
+                                <img src="/upload/${image.savePath}${image.originalName}" width="400px" />
+                            </c:if>
+
                         </c:forEach>
-                    </c:if>
+                    </div>
                 </td>
 
                 <td>${menudetail.name}</td>
                 <td>${menudetail.price}원</td>
                 <td>${menudetail.amount}개</td>
-                <td><button type="button">상세보기</button></td>
+                <td>${menudetail.info}개</td>
+
             </tr>
         </c:if>
         <!-- menudetail이 비어있으면 처리하는 부분 -->
