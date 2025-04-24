@@ -22,15 +22,6 @@
             상품명: ${item.menuName}, 수량: ${item.quantity}, 가격: ${item.price}원<br>
         </c:forEach>
 
-        <select id="selectTotalPriceByOrderId" resultType="int">
-            SELECT SUM(m.price * om.quantity)
-            FROM ordered_menu om
-            JOIN menu m ON om.menu_id = m.id
-            WHERE om.order_id = #{orderId}
-        </select>
-
-
-
         <br>
         총 금액: <b>${totalPrice}</b>원<br><br>
         <button type="submit">결제하기</button>

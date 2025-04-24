@@ -14,21 +14,22 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    // 주문 상태 변경
-    public void changeStatus(int orderId, String status) {
-        paymentRepository.updateOrderStatus(orderId, status);
-    }
 
     public void placeOrder(PaymentForm form) {
         OrderDto order = new OrderDto();
         order.setUserId(form.getUserId());
         order.setUserEmail(form.getUserEmail());
         order.setUserAddress(form.getUserAddress());
-        order.setTotalPrice(form.getTotalPrice());
 
+        // 주문 insert → order.id 자동 생성됨
         paymentRepository.insertOrder(order);
 
+        int totalPrice = 0;
+
         for (PaymentDto menu : form.getMenuItems()) {
+            int menuPrice = paymentRepository.selectPriceByMenuId(menu.getId());
+            totalPrice += menuPrice * menu.getQuantity();
+
             OrderedMenuDto orderedMenu = new OrderedMenuDto();
             orderedMenu.setOrderId(order.getId());
             orderedMenu.setMenuId(menu.getId());
@@ -37,7 +38,7 @@ public class PaymentService {
             paymentRepository.insertOrderedMenu(orderedMenu);
         }
 
-
+        paymentRepository.updateOrderTotalPrice(order);
     }
 }
 
