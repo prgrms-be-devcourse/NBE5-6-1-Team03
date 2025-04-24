@@ -1,7 +1,9 @@
 package com.grepp.gridncircle.app.model.payment;
 
+import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
+import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,15 +19,25 @@ public class PaymentService {
         paymentRepository.updateOrderStatus(orderId, status);
     }
 
-    public void placeOrder(OrderDto order, List<OrderedMenuDto> menuItems) {
-        // 주문 등록 → order.id 생성됨
+    public void placeOrder(PaymentForm form) {
+        OrderDto order = new OrderDto();
+        order.setUserId(form.getUserId());
+        order.setUserEmail(form.getUserEmail());
+        order.setUserAddress(form.getUserAddress());
+        order.setTotalPrice(form.getTotalPrice());
+
         paymentRepository.insertOrder(order);
 
-        // 각 메뉴에 orderId 설정 후 DB에 insert
-        for (OrderedMenuDto menu : menuItems) {
-            menu.setOrderId(order.getId());
-            paymentRepository.insertOrderedMenu(menu);
+        for (PaymentDto menu : form.getMenuItems()) {
+            OrderedMenuDto orderedMenu = new OrderedMenuDto();
+            orderedMenu.setOrderId(order.getId());
+            orderedMenu.setMenuId(menu.getId());
+            orderedMenu.setQuantity(menu.getQuantity());
+
+            paymentRepository.insertOrderedMenu(orderedMenu);
         }
+
+
     }
 }
 

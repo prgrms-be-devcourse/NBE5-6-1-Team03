@@ -1,11 +1,9 @@
 package com.grepp.gridncircle.app.controller.web.payment;
 
 import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
-import com.grepp.gridncircle.app.model.member.dto.MemberDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
 import com.grepp.gridncircle.app.model.payment.PaymentService;
-import jakarta.servlet.http.HttpSession;
+import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +24,15 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/payment/complete")
-    public String completePayment(@ModelAttribute PaymentDto dto) {
-        paymentService.placeOrder(dto.toOrderDto(), dto.getMenuItems());
+    public String completePayment(@ModelAttribute PaymentForm form) {
+
+        int totalPrice = form.getMenuItems().stream()
+            .mapToInt(item -> item.getPrice() * item.getQuantity())
+            .sum();
+        form.setTotalPrice(totalPrice);
+
+        paymentService.placeOrder(form);
+
         return "redirect:/payment/success";
     }
 

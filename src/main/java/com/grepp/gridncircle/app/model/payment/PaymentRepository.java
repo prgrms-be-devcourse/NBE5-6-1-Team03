@@ -9,9 +9,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface PaymentRepository {
 
-    List<OrderDto> selectAll();
+    int selectTotalPriceByOrderId(@Param("orderId") int orderId);
 
-    OrderDto selectOrderById(int id); // 관리자 상세 보기용
 
     void insertOrder(OrderDto orderDto);
 
@@ -19,5 +18,4 @@ public interface PaymentRepository {
 
     void updateOrderStatus(@Param("orderId") int orderId, @Param("status") String status);
 
-    List<OrderedMenuDto> selectOrderedMenuByOrderId(int orderId);
 }

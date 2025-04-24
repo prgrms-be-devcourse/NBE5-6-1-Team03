@@ -10,4 +10,5 @@ public class PaymentDto {
     private String name;
     private int quantity;
     private int price;
+
 }

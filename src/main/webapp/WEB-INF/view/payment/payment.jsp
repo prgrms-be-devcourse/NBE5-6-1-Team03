@@ -12,18 +12,8 @@
     <form id="payForm" action="/payment/complete" method="post">
 
         <h3>주문자 정보</h3>
-        <c:choose>
-            <c:when test="${not empty loginUser}">
-                이름: ${loginUser.userName}<br>
-                이메일: ${loginUser.email}<br>
-                주소: ${loginUser.address}<br>
-            </c:when>
-            <c:otherwise>
-                이름: <input name="userName"><br>
-                이메일: <input name="userEmail"><br>
-                주소: <input name="userAddress"><br>
-            </c:otherwise>
-        </c:choose>
+        이메일: ${paymentForm.userEmail}<br>
+        주소: ${paymentForm.userAddress}<br>
 
         <h3>주문 내역</h3>
         <c:forEach var="item" items="${menuItems}" varStatus="status">
@@ -31,6 +21,14 @@
             <input type="hidden" name="menuItems[${status.index}].quantity" value="${item.quantity}" />
             상품명: ${item.menuName}, 수량: ${item.quantity}, 가격: ${item.price}원<br>
         </c:forEach>
+
+        <select id="selectTotalPriceByOrderId" resultType="int">
+            SELECT SUM(m.price * om.quantity)
+            FROM ordered_menu om
+            JOIN menu m ON om.menu_id = m.id
+            WHERE om.order_id = #{orderId}
+        </select>
+
 
 
         <br>
