@@ -4,40 +4,56 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.grepp.gridncircle.app.model.payment.PaymentRepository">
 
-  <!-- 주문 + 메뉴 정보 -->
   <resultMap id="orderMap" type="com.grepp.gridncircle.app.model.order.dto.OrderDto">
     <id property="id" column="id"/>
     <result property="userId" column="user_id"/>
-    <result property="userName" column="user_name"/>
+    <result property="name" column="user_name"/>
     <result property="userEmail" column="user_email"/>
-    <result property="userAddress" column="user_adress"/>
+    <result property="userAddress" column="user_address"/>
     <result property="createdAt" column="created_at"/>
-    <result property="status" column="status"/>
-
-    <collection property="orderedMenuList" ofType="com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto"
-      column="id" select="selectOrderedMenuByOrderId"/>
+    <result property="status" column="status" javaType="com.grepp.gridncircle.app.model.order.code.OrderStatus"/>
   </resultMap>
 
-
-  <select id="selectAll" resultType="com.grepp.gridncircle.app.model.order.dto.OrderDto">
-    SELECT * FROM orders
+  <select id="selectOrderById" parameterType="int" resultMap="orderMap">
+    SELECT * FROM orders WHERE id = #{orderId}
   </select>
 
-  <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO orders (user_id, user_name, user_email, user_address, created_at, status)
-    VALUES (#{userId}, #{userName}, #{userEmail}, #{userAddress}, NOW(), 'ORDER_ACCEPT')
-  </insert>
+  <!-- 주문한 메뉴 정보 조회 -->
+  <select id="selectOrderedMenuByOrderId" parameterType="int" resultType="com.grepp.gridncircle.app.model.payment.dto.PaymentDto">
+    SELECT
+    m.id AS id,
+    m.name AS name,
+    m.price AS price,
+    om.quantity AS quantity
+    FROM ordered_menu om
+    JOIN menu m ON om.menu_id = m.id
+    WHERE om.order_id = #{orderId}
+  </select>
 
-  <insert id="insertOrderedMenu">
-    INSERT INTO ordered_menu (order_id, menu_id, quantity)
-    VALUES (#{orderId}, #{menuId}, #{quantity})
-  </insert>
+  <!-- 총 금액을 orders 테이블에 반영 -->
+  <update id="applyTotalPrice">
+    UPDATE orders
+    SET total_price = #{totalPrice}
+    WHERE id = #{orderId}
+  </update>
 
-
+  <!-- 주문 상태 변경 -->
   <update id="updateOrderStatus">
     UPDATE orders
     SET status = #{status}
     WHERE id = #{orderId}
   </update>
+
+  <!-- 주문 저장 -->
+  <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO orders (user_id, user_name, user_email, user_address, created_at, status)
+    VALUES (#{userId}, #{userName}, #{userEmail}, #{userAddress}, NOW(), #{status})
+  </insert>
+
+  <!-- 메뉴 저장 -->
+  <insert id="insertOrderedMenu">
+    INSERT INTO ordered_menu (order_id, menu_id, quantity)
+    VALUES (#{orderId}, #{menuId}, #{quantity})
+  </insert>
 
 </mapper>

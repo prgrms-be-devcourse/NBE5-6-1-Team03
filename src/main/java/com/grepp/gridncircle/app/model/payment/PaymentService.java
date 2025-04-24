@@ -1,31 +1,40 @@
 package com.grepp.gridncircle.app.model.payment;
 
+import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
+import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
+import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    @Transactional
-    public void processOrder(OrderDto orderDto, List<OrderedMenuDto> menuList) {
-        // orders 테이블에 주문 정보 저장
-        paymentRepository.insertOrder(orderDto);
+    // 결제 성공 시 주문 상태 업데이트
+    public void updateOrderStatus(int orderId, OrderStatus status) {
+        paymentRepository.updateOrderStatus(orderId, status);
+    }
 
-        // ordered_menu 테이블에 메뉴 리스트 저장
-        for (OrderedMenuDto item : menuList) {
-            item.setOrderId(orderDto.getId());
-            paymentRepository.insertOrderedMenu(item);
-        }
+    public void applyTotalPrice(PaymentForm form, int orderId) {
+        // 총 금액 계산
+        int totalPrice = paymentRepository.selectTotalPriceByOrderId(orderId);
 
-        log.info("결제 완료: orderId={}, 총 {}개 메뉴", orderDto.getId(), menuList.size());
+        // orders 테이블에 총 금액 반영
+        paymentRepository.applyTotalPrice(orderId, totalPrice);
+    }
+
+
+    // 주문자 정보
+    public OrderDto getOrderById(int orderId) {
+        return paymentRepository.selectOrderById(orderId);
+    }
+
+    // 주문한 메뉴 요약
+    public List<PaymentDto> getOrderedMenus(int orderId) {
+        return paymentRepository.selectOrderedMenuByOrderId(orderId);
     }
 }
