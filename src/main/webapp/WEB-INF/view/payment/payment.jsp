@@ -10,23 +10,35 @@
 
 <main class="container">
     <form id="payForm" action="/payment/complete" method="post">
-        <!-- 주문자 정보 -->
-        이름: <input name="userName"><br>
-        이메일: <input name="userEmail"><br>
-        주소: <input name="userAddress"><br>
 
-        <!-- 상품 정보 출력 -->
+        <h3>주문자 정보</h3>
+        <c:choose>
+            <c:when test="${not empty loginUser}">
+                이름: ${loginUser.userName}<br>
+                이메일: ${loginUser.email}<br>
+                주소: ${loginUser.address}<br>
+            </c:when>
+            <c:otherwise>
+                이름: <input name="userName"><br>
+                이메일: <input name="userEmail"><br>
+                주소: <input name="userAddress"><br>
+            </c:otherwise>
+        </c:choose>
+
+        <h3>주문 내역</h3>
         <c:forEach var="item" items="${menuItems}" varStatus="status">
-            <input type="hidden" name="menuItems[${status.index}].menuId" value="${item.menuId}" />
+            <input type="hidden" name="menuItems[${status.index}].id" value="${item.menuId}" />
             <input type="hidden" name="menuItems[${status.index}].quantity" value="${item.quantity}" />
-            상품명: ${item.menuName}, 수량: ${item.quantity}, 가격: ${item.price} <br>
+            상품명: ${item.menuName}, 수량: ${item.quantity}, 가격: ${item.price}원<br>
         </c:forEach>
 
-        총 금액: <b>${totalPrice}</b>원<br>
+
+        <br>
+        총 금액: <b>${totalPrice}</b>원<br><br>
         <button type="submit">결제하기</button>
     </form>
-
 </main>
+
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
 
 </body>
