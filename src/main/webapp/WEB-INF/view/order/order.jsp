@@ -31,11 +31,18 @@
                                 <td>${menu.name}</td>
                                 <td>${menu.price}원</td>
                                 <td>
-                                    <button type="button"
-                                            class="btn brown darken-2 waves-effect waves-light"
-                                            onclick="addToOrder(this)">
-                                        추가
-                                    </button>
+                                    <c:choose>
+                                        <c:when test="${menu.amount > 0}">
+                                            <button type="button"
+                                                    class="btn brown darken-2 waves-effect waves-light"
+                                                    onclick="addToOrder(this)">
+                                                추가
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            sold out
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                             </tr>
                         </c:forEach>
