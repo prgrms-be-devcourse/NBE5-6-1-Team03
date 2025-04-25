@@ -9,7 +9,7 @@
 <%@include file="/WEB-INF/view/include/header.jsp" %>
 
 <main class="container" style="max-width: 800px;">
-    <form:form modelAttribute="paymentForm" action="${pageContext.request.contextPath}/payment/complete" method="post"> // payment.jsp 없애서 수정함
+    <form:form modelAttribute="paymentForm" action="${context}/payment" method="post" class="col s12">
         <div class="card">
             <div class="card-content">
                 <h4 class="brown-text text-darken-2">주문자 정보</h4>

@@ -29,7 +29,7 @@ public class PaymentService {
 
     // 재고 부족
     @Transactional
-    public void completePayment(PaymentForm form) {
+    public void Payment(PaymentForm form) {
         List<Integer> menuIds = form.getMenuId();
         List<Integer> quantities = form.getQuantity();
 

@@ -15,7 +15,6 @@
 
     <hr />
 
-    <a href="/order">결제 다시 하기</a> |
     <a href="/">메인으로 돌아가기</a>
 </main>
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
