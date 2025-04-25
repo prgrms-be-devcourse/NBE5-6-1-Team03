@@ -1,6 +1,6 @@
 package com.grepp.gridncircle.app.model.payment;
 
-import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
+import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
@@ -13,7 +13,7 @@ public interface PaymentRepository {
 
 
     // 재고 조회
-    MenuDTO selectById(@Param("id") int id);
+    MenuDto selectById(@Param("id") int id);
 
     // 결제 후 재고 업데이트
     void updateAmount(@Param("id") int id, @Param("amount") int amount);

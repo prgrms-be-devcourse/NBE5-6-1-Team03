@@ -1,7 +1,7 @@
 package com.grepp.gridncircle.app.model.payment;
 
 import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
-import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
+import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
 import com.grepp.gridncircle.app.model.order.OrderRepository;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
@@ -48,7 +48,7 @@ public class PaymentService {
             int menuId = menuIds.get(i);
             int quantity = quantities.get(i);
 
-            MenuDTO menu = paymentRepository.selectById(menuId);
+            MenuDto menu = paymentRepository.selectById(menuId);
 
             if (menu.getAmount() < quantity) {
                 throw new RuntimeException("재고 부족: " + menu.getName());

@@ -31,7 +31,7 @@
     WHERE om.order_id = #{orderId}
   </select>
 
-  <select id="selectById" resultType="com.grepp.gridncircle.app.model.menu.dto.MenuDTO">
+  <select id="selectById" resultType="com.grepp.gridncircle.app.model.menu.dto.MenuDto">
     SELECT * FROM menu WHERE id = #{id}
   </select>
 
