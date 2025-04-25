@@ -2,8 +2,8 @@ package com.grepp.gridncircle.app.controller.web;
 
 import com.grepp.gridncircle.app.model.menu.ImageService;
 import com.grepp.gridncircle.app.model.menu.MenuService;
-import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
-import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
+import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
+import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +24,11 @@ public class MainController {
 
     @GetMapping
     public String searchMain(Model model) {
-        List<MenuDTO> popularMenus = menuService.getPopularMenus();
-        List<MenuImageDTO> imageList = imageService.getAllImage(); // 이미지 리스트 출력
+        List<MenuDto> popularMenus = menuService.getPopularMenus();
+        List<MenuImageDto> imageList = imageService.getAllImage(); // 이미지 리스트 출력
 
-        Map<Integer, List<MenuImageDTO>> imageMap = imageList.stream()
-                .collect(Collectors.groupingBy(MenuImageDTO::getMenuId));
+        Map<Integer, List<MenuImageDto>> imageMap = imageList.stream()
+                .collect(Collectors.groupingBy(MenuImageDto::getMenuId));
 
         model.addAttribute("imageMap", imageMap);
         model.addAttribute("popularMenus", popularMenus);

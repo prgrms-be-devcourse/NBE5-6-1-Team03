@@ -6,13 +6,11 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 import jakarta.validation.constraints.*;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @Builder
-public class MenuImageDTO {
+public class MenuImageDto {
     @NotNull
     private int id;
 

@@ -1,6 +1,6 @@
 package com.grepp.gridncircle.app.model.menu;
 
-import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
+import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -11,11 +11,11 @@ import java.util.Optional;
 public interface ImageRepository {
 
     @Select("SELECT * FROM menu_img ")
-    List<MenuImageDTO> selectAllImage();
+    List<MenuImageDto> selectAllImage();
 
     @Select("SELECT * FROM menu_img WHERE menu_id = #{menuId}")
-    Optional<MenuImageDTO> selectMenuImage(int menuId);
+    Optional<MenuImageDto> selectMenuImage(int menuId);
 
     @Select("SELECT * FROM menu_img WHERE menu_id = #{menuId}")
-    List<MenuImageDTO> selectMenuImageList(int menuId);
+    List<MenuImageDto> selectMenuImageList(int menuId);
 }
