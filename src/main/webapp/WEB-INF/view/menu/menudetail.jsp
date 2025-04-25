@@ -1,61 +1,63 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/view/include/page.jsp" %>
+<%@include file="/WEB-INF/view/include/page.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>메뉴 상세</title>
-    <%@ include file="/WEB-INF/view/include/static.jsp" %>
+    <%@include file="/WEB-INF/view/include/static.jsp" %>
+
 </head>
+<link rel="stylesheet" href="../../../../assets/css/menu.css">
 
 <body>
-<%@ include file="/WEB-INF/view/include/header.jsp" %>
 <main>
-    <c:choose>
-        <c:when test="${not empty menudetail}">
-            <div class="container" style="max-width: 800px;">
-                <div class="card horizontal z-depth-2" style="padding: 20px;">
-                    <!-- 이미지 영역 -->
-                    <div class="card-image" style="min-width: 300px;">
-                        <c:set var="foundImage" value="false" />
-                        <c:forEach var="image" items="${imageList}">
-                            <c:if test="${!foundImage && image.menuId == menudetail.id}">
-                                <img src="/upload/${image.savePath}${image.originalName}" alt="${menudetail.name}" style="width: 100%; height: auto; object-fit: cover;" />
-                                <c:set var="foundImage" value="true" />
-                            </c:if>
-                        </c:forEach>
-                        <c:if test="${!foundImage}">
-                            <img src="/assets/img/sample.jpeg" alt="샘플 이미지" style="width: 100%; height: auto; object-fit: cover;" />
+    <%@include file="/WEB-INF/view/include/header.jsp" %>
+
+
+    <div class="section container" id="order-statistics">
+        <div>
+            <div class="up">
+                <div id="imagebox">
+                    <c:forEach var="image" items="${imageList}">
+                        <c:if test="${image.menuId == menudetail.id}">
+                            <img src="/upload${image.savePath}${image.originalName}" />
+                            <p>"/upload${image.savePath}${image.originalName}"</p>
                         </c:if>
-                    </div>
+                    </c:forEach>
+                </div>
+                <div id="namebox">
+                    <span>${menudetail.name}</span>
+                    <p>판매가 ${menudetail.price}</p>
+                    <p>적립금 ${menudetail.price * 0.05}원 (5%)</p>
+                    <p>배송비 3000원</p>
 
-                    <!-- 내용 영역 -->
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <h5 class="brown-text text-darken-3">${menudetail.name}</h5>
-                            <p><strong>설명:</strong> ${menudetail.info}</p>
-                            <p><strong>가격:</strong> ${menudetail.price}원</p>
-                        </div>
-                        <div class="card-action">
-                            <a href="${pageContext.request.contextPath}/menu" class="btn brown lighten-2">메뉴로 돌아가기</a>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </c:when>
 
-        <c:otherwise>
-            <div class="container" style="max-width: 600px;">
-                <div class="card-panel red lighten-4 center-align">
-                    상세 정보를 찾을 수 없습니다.
+            <div class ="down">
+                <div id="info">
+                    <p>${menudetail.info}</p>
                 </div>
             </div>
-        </c:otherwise>
-    </c:choose>
+
+            <div class ="infoimage">
+                <div>
+                    <img src="${context}/assets/img/info.jpg" alt="info">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
 
 </main>
 
-<%@ include file="/WEB-INF/view/include/footer.jsp" %>
+<%@include file="/WEB-INF/view/include/footer.jsp" %>
 </body>
 
 </html>
