@@ -11,4 +11,13 @@ public class MainController {
     public String searchMain() {
         return "main/main";
     }
+
+    // 500번 에러페이지 데모용
+    @GetMapping("500")
+    public String transferServerError() {
+
+        int a = 1/0;
+
+        return "main/main";
+    }
 }
