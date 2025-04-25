@@ -1,6 +1,6 @@
 package com.grepp.gridncircle.app.controller.web.menu.form;
 
-import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
+import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -30,8 +30,8 @@ public class MenuRegistForm {
     @Min(0)
     private int price;
 
-    public MenuDTO toDto() {
-        MenuDTO menuDTO = new MenuDTO();
+    public MenuDto toDto() {
+        MenuDto menuDTO = new MenuDto();
         menuDTO.setId(menuId);
         menuDTO.setName(name);
         menuDTO.setAmount(amount);

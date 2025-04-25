@@ -4,12 +4,11 @@ import com.grepp.gridncircle.app.controller.web.menu.form.MenuRegistForm;
 import com.grepp.gridncircle.app.model.admin.AdminService;
 import com.grepp.gridncircle.app.model.menu.ImageService;
 import com.grepp.gridncircle.app.model.menu.MenuService;
-import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
-import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
+import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
+import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,10 +56,10 @@ public class AdminController {
     // 상품 관리
     @GetMapping("menu")
     public String menu(Model model) {
-        List<MenuDTO> menuList = menuService.getMenuList();
-        List<MenuImageDTO> imageList = imageService.getAllImage();
-        Map<Integer, List<MenuImageDTO>> imageMap = imageList.stream()
-            .collect(Collectors.groupingBy(MenuImageDTO::getMenuId));
+        List<MenuDto> menuList = menuService.getMenuList();
+        List<MenuImageDto> imageList = imageService.getAllImage();
+        Map<Integer, List<MenuImageDto>> imageMap = imageList.stream()
+            .collect(Collectors.groupingBy(MenuImageDto::getMenuId));
         model.addAttribute("menuList", menuList);
         model.addAttribute("imageMap", imageMap);
         return "admin/menu/menu";
@@ -70,7 +69,7 @@ public class AdminController {
     @GetMapping("menu/{id}")
     public String menuDetail(@PathVariable int id, Model model,
         RedirectAttributes redirectAttributes) {
-        MenuDTO menuDTO = menuService.getMenuById(id).orElse(null);
+        MenuDto menuDTO = menuService.getMenuById(id).orElse(null);
         if (menuDTO == null) {
             redirectAttributes.addFlashAttribute("msg", "존재하지 않는 메뉴입니다.");
             return "redirect:/admin/menu";
@@ -82,7 +81,7 @@ public class AdminController {
         form.setPrice(menuDTO.getPrice());
         form.setAmount(menuDTO.getAmount());
 
-        List<MenuImageDTO> imageList = imageService.getMenuImage(id);
+        List<MenuImageDto> imageList = imageService.getMenuImageList(id);
 
         model.addAttribute("menuRegistForm", form);
         model.addAttribute("imageList", imageList);

@@ -25,15 +25,14 @@
             <c:forEach var="menu" items="${menus}">
                 <a href="${pageContext.request.contextPath}/menu/detail?id=${menu.id}" style="text-decoration: none; color: inherit;">
                     <div class="card overlay" title="상세보기">
-                        <c:forEach var = "image" items="${images}">
-                            <c:if test="${menu.id == image.menuId}">
-                                <div class="card-image">
-                                    <img src="/download/${image.savePath}${image.renameName}" width="200px" alt="thumnail" />
-                                </div>
+                        <div class="card-image">
+                            <c:if test="${not empty imageMap[menu.id][0]}">
+                                <img src="/upload${imageMap[menu.id][0].savePath}${imageMap[menu.id][0].originalName}" width="200px" />
                             </c:if>
-
-                        </c:forEach>
-
+                            <c:if test="${ empty imageMap[menu.id][0]}">
+                                <img src="/upload/img/beans/no-image.jpg" width="200px" />
+                            </c:if>
+                        </div>
                         <div class="card-content">
                             <span class="card-title">${menu.name}</span>
                             <p>가격 : ${menu.price}원</p>

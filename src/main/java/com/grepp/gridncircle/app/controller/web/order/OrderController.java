@@ -5,7 +5,7 @@ import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
 import com.grepp.gridncircle.app.model.member.MemberService;
 import com.grepp.gridncircle.app.model.member.dto.MemberDto;
 import com.grepp.gridncircle.app.model.menu.MenuService;
-import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
+import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -45,7 +45,7 @@ public class OrderController {
             MemberDto member = memberDto.get();
             model.addAttribute("member", member);
         }
-        List<MenuDTO> menus = menuService.getMenuList();
+        List<MenuDto> menus = menuService.getMenuList();
 
         model.addAttribute("menus", menus);
         
@@ -55,7 +55,7 @@ public class OrderController {
     @PostMapping
     public String createOrder(@Valid OrderForm form, BindingResult bindingResult, Model model) {
 
-        List<MenuDTO> menus = menuService.getMenuList();
+        List<MenuDto> menus = menuService.getMenuList();
         List<PaymentDto> orderedMenus = form.getMenuList();
         model.addAttribute("menus", menus);
         model.addAttribute("orderedMenus", orderedMenus);
