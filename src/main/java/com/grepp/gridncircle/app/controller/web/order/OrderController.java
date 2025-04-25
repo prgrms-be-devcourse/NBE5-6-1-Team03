@@ -64,11 +64,16 @@ public class OrderController {
             return "order/order";
         }
 
-        log.info(form.toString());
+        int totalPrice = 0;
 
-        OrderDto dto = form.toDto();
+        for (PaymentDto payment : orderedMenus) {
+            totalPrice += payment.getPrice() * payment.getQuantity();
+        }
 
-        return "redirect:/";
+        model.addAttribute("orderDetails", form);
+        model.addAttribute("totalPrice", totalPrice);
+
+        return "order/order-detail";
     }
 
 }

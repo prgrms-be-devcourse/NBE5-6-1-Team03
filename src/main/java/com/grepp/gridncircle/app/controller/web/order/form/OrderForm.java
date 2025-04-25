@@ -15,7 +15,7 @@ public class OrderForm {
     @NotNull
     private List<PaymentDto> menuList;
 
-    private String id;
+    private String userId;
 
     @NotBlank
     private String userAddress;

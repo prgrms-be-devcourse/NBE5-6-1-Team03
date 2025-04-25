@@ -98,7 +98,7 @@
                         <h5 class="brown-text text-darken-2">주문자 정보</h5>
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <form:input type="hidden" path="id" id="id" value="${empty member.id ? null : member.id}" />
+                                <form:input type="hidden" path="userId" id="userId" value="${empty member.id ? null : member.id}" />
 
                                 <form:input path="userEmail" id="userEmail" type="email" class="validate" value="${member.email}" />
                                 <label for="userEmail">이메일</label>
