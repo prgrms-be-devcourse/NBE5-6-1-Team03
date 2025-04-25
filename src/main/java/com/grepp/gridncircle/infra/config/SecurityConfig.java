@@ -77,6 +77,7 @@ public class SecurityConfig {
                                 .requestMatchers(POST, "/order-check/**").permitAll()
                                 .requestMatchers(GET, "/payment/**").permitAll()
                                 .requestMatchers(POST, "/payment/**").permitAll()
+                                .requestMatchers(GET, "/upload/img/beans/**").permitAll() // 메뉴 이미지 공개 위해 해당 폴더만 접근 허용
                                 .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
