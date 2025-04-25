@@ -74,8 +74,6 @@ public class SecurityConfig {
                                 .requestMatchers(GET, "/member/login").permitAll()
                                 .requestMatchers(GET, "/menu/**").permitAll()
                                 .requestMatchers(POST, "/member/login", "/member/signup").permitAll()
-                                .requestMatchers(GET, "/admin/**").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers(POST, "/admin/**").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers(GET, "/order-check/**").permitAll()
                                 .requestMatchers(POST, "/order-check/**").permitAll()
                                 .anyRequest().authenticated()

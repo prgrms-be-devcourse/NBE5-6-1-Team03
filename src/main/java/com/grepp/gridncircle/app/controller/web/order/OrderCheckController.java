@@ -3,6 +3,8 @@ package com.grepp.gridncircle.app.controller.web.order;
 import com.grepp.gridncircle.app.controller.web.order.form.OrderCheckForm;
 import com.grepp.gridncircle.app.model.order.OrderService;
 import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
+import com.grepp.gridncircle.infra.error.exceptions.CommonException;
+import com.grepp.gridncircle.infra.response.ResponseCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +41,7 @@ public class OrderCheckController {
         List<OrderCheckDto> dto = orderService.selectByEmailJoinMenu(email);
 
         if (dto == null || dto.isEmpty()) {
-            model.addAttribute("error", "해당 이메일의 주문이 없습니다.");
-            model.addAttribute("email", email); // 이메일 값 유지
-            return "order-check/guest-email";
+            throw new CommonException(ResponseCode.BAD_REQUEST);
         }
 
 

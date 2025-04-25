@@ -15,8 +15,12 @@
             <div class="card brown lighten-5 z-depth-2">
                 <div class="card-content">
                     <span class="card-title center-align brown-text text-darken-3">로그인</span>
-                    <c:if test="${not empty param.error}">
-                        <div class="card-panel red lighten-2 text-white">아이디나 비밀번호를 확인하세요</div>
+
+                    <c:if test="${param.error != null}">
+                        <div class="card-panel red lighten-2 white-text center-align" style="border-radius: 10px; font-size: 1.1rem;">
+                            <i class="material-icons left">error_outline</i>
+                            아이디나 비밀번호가 올바르지 않습니다.
+                        </div>
                     </c:if>
 
                     <!--  로그인 form 시작 -->
