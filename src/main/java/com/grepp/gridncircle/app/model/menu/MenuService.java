@@ -25,6 +25,10 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final FileUtil fileUtil;
 
+    public List<MenuDTO> getPopularMenus(){
+        return menuRepository.selectPopularMenuList();
+    }
+
     public List<MenuDTO> getMenuList() {
         return menuRepository.selectMenuList();
     }

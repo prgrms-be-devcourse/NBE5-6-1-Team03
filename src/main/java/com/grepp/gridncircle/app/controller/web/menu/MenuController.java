@@ -31,8 +31,6 @@ public class MenuController {
     private final ImageService imageService;
 
 
-
-
     @GetMapping
     public String searchmenu(Model model) {
         List<MenuDTO> menuList = menuService.getMenuList(); // 메뉴 리스트 출력
@@ -61,6 +59,8 @@ public class MenuController {
         model.addAttribute("image", image);
         return "menu/menudetail";
     }
+
+
 
 
 

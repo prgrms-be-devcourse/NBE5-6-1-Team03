@@ -15,6 +15,10 @@ import org.apache.ibatis.annotations.Update;
 public interface MenuRepository {
 
     // Menu
+
+    @Select("SELECT m.* FROM menu m JOIN (SELECT menu_id, COUNT(*) AS cnt FROM ordered_menu GROUP BY menu_id ORDER BY cnt DESC LIMIT 3) om ON m.id = om.menu_id ORDER BY om.cnt DESC")
+    List<MenuDTO> selectPopularMenuList();
+
     @Select("select * from menu")
     List<MenuDTO> selectMenuList();
 

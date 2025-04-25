@@ -6,7 +6,7 @@
     <title>Grepp</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
 </head>
-
+<link rel="stylesheet" href="../../../../assets/css/menu.css">
 <body>
 <%@include file="/WEB-INF/view/include/header.jsp" %>
 <main>
@@ -26,38 +26,25 @@
     <div class="section container" id="menu">
         <h4 class="brown-text text-darken-2">인기 메뉴</h4>
         <div class="row">
-            <div class="col s12 m4">
-                <div class="card menu-card">
-                    <div class="card-image">
-                        <img src="${context}/assets/coffee1.jpg" alt="아메리카노">
-                        <span class="card-title">아메리카노</span>
-                    </div>
-                    <div class="card-content">
-                        <p>고소하고 깔끔한 맛의 스페셜티 아메리카노.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="card menu-card">
-                    <div class="card-image">
-                        <img src="${context}/assets/latte.jpg" alt="카페라떼">
-                        <span class="card-title">카페라떼</span>
-                    </div>
-                    <div class="card-content">
-                        <p>부드러운 우유 거품과 에스프레소의 조화.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="card menu-card">
-                    <div class="card-image">
-                        <img src="${context}/assets/dessert.jpg" alt="티라미수">
-                        <span class="card-title">티라미수</span>
-                    </div>
-                    <div class="card-content">
-                        <p>직접 만든 이탈리안 디저트로 달콤함을 더하세요.</p>
-                    </div>
-                </div>
+            <div class="cardbox">
+                <c:forEach var="popularMenu" items="${popularMenus}">
+                    <a href="${pageContext.request.contextPath}/menu/detail?id=${popularMenu.id}" style="text-decoration: none; color: inherit;">
+                        <div class="card overlay" title="상세보기">
+                            <div class="card-image">
+                                <c:if test="${not empty imageMap[popularMenu.id][0]}">
+                                    <img src="/upload${imageMap[popularMenu.id][0].savePath}${imageMap[popularMenu.id][0].originalName}" width="200px" />
+                                </c:if>
+                                <c:if test="${ empty imageMap[popularMenu.id][0]}">
+                                    <img src="/upload/img/beans/no-image.jpg" width="200px" />
+                                </c:if>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">${popularMenu.name}</span>
+                                <p>가격 : ${popularMenu.price}원</p>
+                            </div>
+                        </div>
+                    </a>
+                </c:forEach>
             </div>
         </div>
     </div>
