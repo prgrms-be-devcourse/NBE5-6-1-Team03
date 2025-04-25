@@ -37,6 +37,15 @@
                             <form:errors path="password" cssClass="helper-text"/>
                         </div>
 
+                        <div class="row">
+                            <p>
+                                <label>
+                                    <input type="checkbox" name="remember-me" />
+                                    <span>로그인 유지</span>
+                                </label>
+                            </p>
+                        </div>
+
                         <div class="center-align">
                             <button type="submit" class="btn brown darken-2 waves-effect waves-light">
                                 로그인
