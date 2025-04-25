@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="/WEB-INF/view/include/page.jsp" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +19,7 @@
 
         <div class="row">
             <form:form class="col s12" action="${context}/admin/menu/${menuRegistForm.menuId}" method="post" enctype="multipart/form-data" modelAttribute="menuRegistForm">
+                <sec:csrfInput/>
                 <div class="card" style="width: 25%; min-width: 200px">
                     <div class="card-image">
                         <c:if test="${empty imageList}">

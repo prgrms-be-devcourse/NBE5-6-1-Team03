@@ -4,4 +4,21 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.grepp.gridncircle.app.model.order.OrderRepository">
 
+<select id="selectOrderInfoByDate" resultType="com.grepp.gridncircle.app.model.order.dto.OrderInfoDto">
+  SELECT
+  o.user_email AS orderUserEmail,
+  o.user_name AS orderUserName,
+  GROUP_CONCAT(m.name SEPARATOR ', ' ) AS menuName,
+  SUM(om.quantity) AS quantity,
+  MAX(o.status) AS status,
+  MAX(o.created_at) AS orderDate
+  FROM orders o
+  LEFT JOIN ordered_menu om ON o.id = om.order_id
+  LEFT JOIN menu m ON om.menu_id = m.id
+  WHERE o.created_at BETWEEN #{startDateTime} AND #{endDateTime}
+  GROUP BY o.user_email, o.user_name
+</select>
+
+
+
 </mapper>

@@ -2,8 +2,18 @@ package com.grepp.gridncircle.app.model.order;
 
 import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import java.util.List;
+import com.grepp.gridncircle.app.model.order.code.OrderStatus;
+import com.grepp.gridncircle.app.model.order.dto.OrderDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderInfoDto;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface OrderRepository {
@@ -28,4 +38,11 @@ public interface OrderRepository {
             GROUP BY o.id
             """)
     List<OrderCheckDto> selectByUserIdJoinMenu(String userId);
+    List<OrderInfoDto> selectOrderInfoByDate(LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    @Update("update orders set status = #{status} where id = #{id}")
+    void updateStatus(int id, OrderStatus status);
+
+    @Select("select * from orders where id = #{id}")
+    Optional<OrderDto> findById(int id);
 }
