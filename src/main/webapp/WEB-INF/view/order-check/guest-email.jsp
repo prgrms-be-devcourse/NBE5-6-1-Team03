@@ -29,7 +29,7 @@
                     <tr>
                         <td>${order.id}</td>
                         <td>${order.totalQuantity}개</td>
-                        <td>${order.totalPrice}개</td>
+                        <td>${order.totalPrice}원</td>
                         <td>
                             <a href="${context}/order-check?id=${order.id}">
                                 <button type="button" class="btn small brown lighten-1">상세보기</button>
