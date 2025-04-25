@@ -82,7 +82,7 @@ public class AdminController {
         form.setPrice(menuDTO.getPrice());
         form.setAmount(menuDTO.getAmount());
 
-        List<MenuImageDTO> imageList = imageService.getMenuImage(id);
+        List<MenuImageDTO> imageList = imageService.getMenuImageList(id);
 
         model.addAttribute("menuRegistForm", form);
         model.addAttribute("imageList", imageList);
