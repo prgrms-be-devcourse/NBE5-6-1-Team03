@@ -1,7 +1,9 @@
 package com.grepp.gridncircle.app.model.payment;
 
 import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
+import com.grepp.gridncircle.app.model.order.OrderRepository;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
+import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import java.util.List;
@@ -13,6 +15,13 @@ import org.springframework.stereotype.Service;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final OrderRepository orderRepository;
+
+
+
+    public List<OrderCheckDto> getOrderCheckInfoByEmailForPayment(String userEmail) {
+        return orderRepository.selectByEmailJoinMenu(userEmail);
+    }
 
     // 결제 성공 시 주문 상태 업데이트
     public void updateOrderStatus(int orderId, OrderStatus status) {

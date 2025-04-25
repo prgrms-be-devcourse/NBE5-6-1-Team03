@@ -9,13 +9,13 @@ import org.apache.ibatis.annotations.Select;
 public interface OrderRepository {
 
     @Select("""
-            select o.id, sum(m.price * om.quantity) as total_price, sum(om.quantity) as total_quantity
-            from orders o
-            JOIN ordered_menu om ON o.id = om.order_id
-            JOIN menu m ON om.menu_id = m.id
-            WHERE o.user_email = #{email}
-            GROUP BY o.id
-            """)
+        select o.id, sum(m.price * om.quantity) as total_price, sum(om.quantity) as total_quantity
+        from orders o
+        JOIN ordered_menu om ON o.id = om.order_id
+        JOIN menu m ON om.menu_id = m.id
+        WHERE o.user_email = #{email}
+        GROUP BY o.id
+        """)
     List<OrderCheckDto> selectByEmailJoinMenu(String email);
 
 

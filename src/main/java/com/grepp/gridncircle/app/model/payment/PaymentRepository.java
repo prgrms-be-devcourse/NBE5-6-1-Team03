@@ -1,21 +1,17 @@
 package com.grepp.gridncircle.app.model.payment;
 
-import com.grepp.gridncircle.app.model.order.dto.OrderDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
-import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
+import com.grepp.gridncircle.app.model.order.dto.OrderDto;
+import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface PaymentRepository {
 
-    // 주문 등록
-    void insertOrder(OrderDto orderDto);
 
-    // 주문된 메뉴 등록
-    void insertOrderedMenu(OrderedMenuDto orderedMenuDto);
 
     // 주문 조회
     OrderDto selectOrderById(@Param("orderId") int orderId);
@@ -31,4 +27,6 @@ public interface PaymentRepository {
 
     // 주문 상태 업데이트
     void updateOrderStatus(@Param("orderId") int orderId, @Param("status") OrderStatus status);
+
+
 }
