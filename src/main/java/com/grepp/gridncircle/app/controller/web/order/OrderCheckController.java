@@ -5,14 +5,17 @@ import com.grepp.gridncircle.app.model.order.OrderService;
 import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import com.grepp.gridncircle.infra.error.exceptions.CommonException;
 import com.grepp.gridncircle.infra.response.ResponseCode;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/order-check")
@@ -22,11 +25,7 @@ public class OrderCheckController {
 
 
     private final OrderService orderService;
-//
-//    @RequiredArgsConstructor
-//    public OrderCheckController(OrderService orderService) {
-//        this.orderService = orderService;
-//    }
+
 
 
     @GetMapping("/guest")
@@ -52,22 +51,19 @@ public class OrderCheckController {
     }
 
     @GetMapping("/member")
-    public String showMemberOrders(Model model) {
+    public String showMemberOrders(Authentication auth, Model model) {
 
-//        // SecurityContext에서 인증된 사용자 정보 가져오기
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        // 인증 안된 사람은 로그인 페이지로
-//        if (authentication == null || !authentication.isAuthenticated()) {
-//            return "redirect:/login";
-//        }
-//
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        String userId = userDetails.getUsername(); // 비밀번호는 로그인에서 처리해서 비교할 필요 x
-//
-//        // 주문 목록 조회
-//        List<Order> memberOrders = orderService.getMemberOrdersByUserId(userId);
-//        model.addAttribute("memberOrders", memberOrders);
+        // 인증 안된 사람은 로그인 페이지로
+        if (auth == null || !auth.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        String userId = auth.getName();
+
+        // 주문 목록 가져오기 (서비스에서 userId로 조회)
+        List<OrderCheckDto> memberDto = orderService.selectByUserIdJoinMenu(userId);
+
+        model.addAttribute("orders", memberDto);
 
         return "order-check/member";
     }
