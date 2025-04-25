@@ -5,7 +5,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderInfoDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderItemDto;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @RequiredArgsConstructor
 @Slf4j
 public class OrderService {
@@ -34,30 +35,37 @@ public class OrderService {
     }
     private final OrderRepository orderRepository;
 
-    public List<OrderInfoDto> getTodayOrderList() {
-        List<OrderInfoDto> orderInfoList = getOrderInfoByDate(LocalDate.now());
-        orderInfoList.forEach(e -> {
-            OrderStatus status = OrderStatus.valueOf(e.getStatus());
-            e.setStatus(status.getDesc());
-        });
-        return orderInfoList;
+    public List<OrderGroupDto> getTodayOrderList() {
+        List<OrderGroupDto> orderGroupList = getOrderInfoByDate(LocalDate.now());
+        for (OrderGroupDto orderGroupDto : orderGroupList) {
+            List<OrderItemDto> items = orderGroupDto.getItems();
+            items.forEach(e -> {
+                OrderStatus status = OrderStatus.valueOf(e.getStatus());
+                e.setStatus(status.getDesc());
+            });
+        }
+        log.info("{}", orderGroupList);
+        return orderGroupList;
     }
 
-    public List<OrderInfoDto> getDDayOrderList(LocalDate date) {
-        List<OrderInfoDto> orderInfoList = getOrderInfoByDate(date);
-        orderInfoList.forEach(e -> {
-            OrderStatus status = OrderStatus.valueOf(e.getStatus());
-            e.setStatus(status.getDesc());
-        });
-        return orderInfoList;
+    public List<OrderGroupDto> getDDayOrderList(LocalDate date) {
+        List<OrderGroupDto> orderGroupList = getOrderInfoByDate(date);
+        for (OrderGroupDto orderGroupDto : orderGroupList) {
+            List<OrderItemDto> items = orderGroupDto.getItems();
+            items.forEach(e -> {
+                OrderStatus status = OrderStatus.valueOf(e.getStatus());
+                e.setStatus(status.getDesc());
+            });
+        }
+        log.info("{}", orderGroupList);
+        return orderGroupList;
     }
 
-    private List<OrderInfoDto> getOrderInfoByDate(LocalDate date) {
+    private List<OrderGroupDto> getOrderInfoByDate(LocalDate date) {
         LocalDateTime dateTime = date.atStartOfDay();
         LocalDateTime startDateTime = dateTime.minusDays(1).plusHours(14);
         LocalDateTime endDateTime = dateTime.plusHours(14);
-        return orderRepository.selectOrderInfoByDate(startDateTime,
-            endDateTime);
+        return orderRepository.selectGroupedOrders(startDateTime, endDateTime);
     }
 
     @Transactional
@@ -66,5 +74,19 @@ public class OrderService {
         OrderDto orderDto = orderRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
         orderRepository.updateStatus(id, status);
+    }
+
+    @Transactional
+    public void updateGroupStatus(String orderUserEmail, LocalDateTime orderDateTime, String desc) {
+        OrderStatus status = OrderStatus.getStatus(desc);
+        LocalDateTime standardDate = LocalDate.of(orderDateTime.getYear(), orderDateTime.getMonth(),
+            orderDateTime.getDayOfMonth()).atStartOfDay().plusHours(14);
+        if (orderDateTime.isBefore(standardDate)) { // 주문일시가 당일 14시 이전일 경우
+            orderRepository.updateGroupStatus(orderUserEmail, status, standardDate.minusDays(1),
+                standardDate);
+        } else { // 주문일시가 당일 14시 이후일 경우
+            orderRepository.updateGroupStatus(orderUserEmail, status, standardDate,
+                standardDate.plusDays(1));
+        }
     }
 }

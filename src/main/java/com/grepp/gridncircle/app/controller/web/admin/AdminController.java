@@ -9,9 +9,9 @@ import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
 import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
 import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
 import com.grepp.gridncircle.app.model.order.OrderService;
+import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderInfoDto;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Null;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,9 +29,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -58,16 +58,16 @@ public class AdminController {
         Model model
     ) {
         System.out.println(date);
-        List<OrderInfoDto> orderInfoList = null;
+        List<OrderGroupDto> orderGroupList = null;
         if (date == null || date.isEmpty()) {
-            orderInfoList = orderService.getTodayOrderList();
+            orderGroupList = orderService.getTodayOrderList();
             model.addAttribute("date", LocalDate.now());
         } else {
-            LocalDate today = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            orderInfoList = orderService.getDDayOrderList(today);
-            model.addAttribute("date", today);
+            LocalDate dDay = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            orderGroupList = orderService.getDDayOrderList(dDay);
+            model.addAttribute("date", dDay);
         }
-        model.addAttribute("orderInfoList", orderInfoList);
+        model.addAttribute("orderGroupList", orderGroupList);
         return "admin/order/order";
     }
 
@@ -79,17 +79,17 @@ public class AdminController {
     }
 
     // 상태변경
-    @PostMapping("orders/{id}")
+    @PostMapping("orders/status")
     public String updateOrderStatus(
-        @PathVariable int id,
+        @RequestParam String baseDate,
         @RequestParam String status,
-        @RequestParam String date,
+        @RequestParam String orderUserEmail,
+        @RequestParam LocalDateTime orderDateTime,
         RedirectAttributes redirectAttributes
     ) {
-        orderService.updateStatus(id, status);
+        orderService.updateGroupStatus(orderUserEmail, orderDateTime, status);
         redirectAttributes.addFlashAttribute("msg", "주문 상태가 변경되었습니다.");
-        LocalDate dDay = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        return "redirect:/admin/orders?date=" + dDay;
+        return "redirect:/admin/orders?date=" + baseDate;
     }
 
     // 상품 관리

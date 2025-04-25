@@ -4,6 +4,7 @@ import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import java.util.List;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderInfoDto;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -45,4 +46,11 @@ public interface OrderRepository {
 
     @Select("select * from orders where id = #{id}")
     Optional<OrderDto> findById(int id);
+
+    List<OrderGroupDto> selectGroupedOrders(LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    @Update("update orders set status = #{status} where user_email = #{orderUserEmail} "
+        + "and created_at between #{startDateTime} and #{endDateTime}")
+    void updateGroupStatus(String orderUserEmail, OrderStatus status, LocalDateTime startDateTime,
+        LocalDateTime endDateTime);
 }

@@ -12,17 +12,20 @@
 <%@include file="/WEB-INF/view/include/header-admin.jsp" %>
 
 <main>
-    <!-- 주문 내역 리스트 -->
     <div class="section container" id="order-statistics">
         <h4 class="brown-text text-darken-2">주문 내역</h4>
 
-        <%-- TODO 조회한 날짜가 표출되도록 --%>
+        <c:if test="${not empty msg}">
+            <script>
+              alert('${msg}');
+            </script>
+        </c:if>
 
         <h5>${date}</h5>
         <form action="/admin/orders" class="col s2" method="get">
             <div class="row">
                 <div class="input-field">
-                    <input type=text name="date" id="date" class="datepicker" required>
+                    <input type="text" name="date" id="date" class="datepicker" required>
                     <label for="date">기준일자</label>
                     <button type="submit" class="waves-effect waves-light btn green darken-4">
                         <i class="material-icons left">refresh</i>새로고침
@@ -30,50 +33,51 @@
                 </div>
             </div>
         </form>
-        <table class="highlight">
-            <thead>
-            <tr>
-                <th>번호</th>
-                <th>이메일</th>
-                <th>성명</th>
-                <th>상품명</th>
-                <th>총 수량</th>
-                <th>최근 주문일시</th>
-                <th>주문상태</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${orderInfoList}" var="order" varStatus="status">
-                <tr>
-                    <td>${status.count}</td>
-                    <td>${order.orderUserEmail}</td>
-                    <c:if test="${empty order.orderUserName}">
-                        <td>비회원</td>
+
+        <c:forEach items="${orderGroupList}" var="group">
+            <div style="margin-top: 30px;">
+                <h5 style="color: darkgreen">
+                        ${group.orderUserEmail}
+                    <medium>(${empty group.orderUserName ? '비회원' : group.orderUserName})</medium>
+                </h5>
+                <div style="display: flex; flex-direction: row-reverse ; align-items: center">
+                    <c:if test="${group.items[0].status eq '주문접수'}">
+                        <form action="/admin/orders/status" method="post" style="display: inline">
+                            <sec:csrfInput/>
+                            <input type="hidden" name="baseDate" value="${param.date}">
+                            <input type="hidden" name="status" value="발송완료">
+                            <input type="hidden" name="orderUserEmail" value="${group.orderUserEmail}">
+                            <input type="hidden" name="orderDateTime" value="${group.items[0].orderDate}">
+                            <button type="submit" class="btn-small blue darken-1" style="margin-right: 20px">발송</button>
+                        </form>
                     </c:if>
-                    <c:if test="${not empty order.orderUserName}">
-                        <td>${order.orderUserName}</td>
-                    </c:if>
-                    <td>${order.menuName}</td>
-                    <td>${order.quantity}</td>
-                    <td>${order.formattedOrderDate}</td>
-                    <td>
-                        ${order.status}
-                        <c:if test="${order.status eq '주문접수'}">
-                            <form action="/admin/orders/${order.orderId}" method="post" style="display: inline">
-                                <sec:csrfInput/>
-                                <input type="hidden" name="date" value="${param.date}">
-                                <input type="hidden" name="status" value="발송완료">
-                                <button type="submit" class="btn-small blue darken-1" style="margin-left: 10px">발송</button>
-                            </form>
-                        </c:if>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </div>
+
+                <table class="highlight">
+                    <thead>
+                    <tr>
+                        <th>주문일시</th>
+                        <th>상품명</th>
+                        <th>수량</th>
+                        <th>주문상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${group.items}" var="item">
+                        <tr>
+                            <td>${item.formattedOrderDate}</td>
+                            <td>${item.menuName}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.status}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+            <hr style="margin: 30px 0;">
+        </c:forEach>
+
     </div>
-
-
 </main>
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
 <script>
