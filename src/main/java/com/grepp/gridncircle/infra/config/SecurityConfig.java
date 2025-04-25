@@ -75,6 +75,8 @@ public class SecurityConfig {
                                 .requestMatchers(POST, "/member/login", "/member/signup").permitAll()
                                 .requestMatchers(GET, "/order-check/**").permitAll()
                                 .requestMatchers(POST, "/order-check/**").permitAll()
+                                .requestMatchers(GET, "/payment/**").permitAll()
+                                .requestMatchers(POST, "/payment/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

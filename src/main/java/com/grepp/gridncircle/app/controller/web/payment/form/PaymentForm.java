@@ -10,8 +10,9 @@ public class PaymentForm {
     private String userId;
     private String userEmail;
     private String userAddress;
+    private List<Integer> menuId;
+    private List<Integer> quantity;
 
-    private List<PaymentDto> menuItems;
 
 }
 

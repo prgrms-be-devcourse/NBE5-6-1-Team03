@@ -1,11 +1,11 @@
 package com.grepp.gridncircle.app.controller.web.order;
 
 import com.grepp.gridncircle.app.controller.web.order.form.OrderForm;
+import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
 import com.grepp.gridncircle.app.model.member.MemberService;
 import com.grepp.gridncircle.app.model.member.dto.MemberDto;
 import com.grepp.gridncircle.app.model.menu.MenuService;
 import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
-import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -13,7 +13,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -69,6 +68,14 @@ public class OrderController {
         for (PaymentDto payment : orderedMenus) {
             totalPrice += payment.getPrice() * payment.getQuantity();
         }
+
+        if (form.getUserId().isEmpty()) {
+            form.setUserId(null);
+        }
+
+        log.info("form :{}", form);
+
+        model.addAttribute("paymentForm", new PaymentForm());
 
         model.addAttribute("orderDetails", form);
         model.addAttribute("totalPrice", totalPrice);

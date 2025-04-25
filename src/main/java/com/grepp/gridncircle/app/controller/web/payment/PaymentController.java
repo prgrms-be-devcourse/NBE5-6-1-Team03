@@ -26,7 +26,9 @@ public class PaymentController {
 
     @PostMapping
     public String paymentPage(@ModelAttribute PaymentForm form, Model model) {
-        model.addAttribute("paymentForm", form);
+
+        log.info("Payment form : {}", form);
+
         return "payment/payment";
     }
 
