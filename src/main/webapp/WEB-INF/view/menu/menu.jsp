@@ -28,8 +28,7 @@
                         <c:forEach var = "image" items="${images}">
                             <c:if test="${menu.id == image.menuId}">
                                 <div class="card-image">
-                                    <img src="/upload${image.savePath}${image.originalName}" width="200px" />
-                                    <p>"/upload${image.savePath}${image.originalName}"</p>
+                                    <img src="/download/${image.savePath}${image.renameName}" width="200px" alt="thumnail" />
                                 </div>
                             </c:if>
 

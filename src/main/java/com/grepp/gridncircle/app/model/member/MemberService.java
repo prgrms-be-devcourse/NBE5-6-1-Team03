@@ -35,4 +35,7 @@ public class MemberService {
         memberRepository.insert(dto);
     }
 
+    public Boolean isDuplicatedId(String id) {
+        return memberRepository.existsMember(id);
+    }
 }

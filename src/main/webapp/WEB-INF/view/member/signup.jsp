@@ -79,4 +79,34 @@
 
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
 </body>
+<script>
+  const validElement = document.querySelector('#idCheckMsg');
+  document.querySelector('#id').addEventListener('focusout', async ev => {
+    const id = ev.target.value;
+    if(!id) return;
+    const response = await fetch('/api/member/exists/' + id);
+    const data = await response.json();
+    validElement.style.display = 'block';
+    validElement.textContent = data.data ? '사용이 불가능한 아이디 입니다.' : '사용 가능한 아이디 입니다.';
+  });
+
+  document.querySelector('#signupForm').addEventListener('submit', async ev => {
+    // form tag 의 기본 이벤트 차단
+    ev.preventDefault();
+
+    const id = document.querySelector('#id').value;
+    if(!id) return;
+    const response = await fetch('/api/member/exists/' + id);
+    const data = await response.json();
+
+    if(data.data){
+      document.querySelector('#id').focus();
+      validElement.textContent = '사용이 불가능한 아이디 입니다.';
+      return;
+    }
+
+    ev.target.submit();
+  });
+</script>
+
 </html>

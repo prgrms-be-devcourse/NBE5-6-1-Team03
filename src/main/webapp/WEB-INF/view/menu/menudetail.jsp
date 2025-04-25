@@ -23,7 +23,7 @@
                 <div id="imagebox">
                     <c:forEach var="image" items="${imageList}">
                         <c:if test="${image.menuId == menudetail.id}">
-                            <img src="/upload${image.savePath}${image.originalName}" />
+                            <img src="/download/${image.savePath}${image.originalName}" />
                             <p>"/upload${image.savePath}${image.originalName}"</p>
                         </c:if>
                     </c:forEach>
