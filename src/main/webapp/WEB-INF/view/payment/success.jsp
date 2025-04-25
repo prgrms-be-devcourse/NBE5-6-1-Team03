@@ -9,14 +9,34 @@
 <body>
 <%@ include file="/WEB-INF/view/include/header.jsp" %>
 <main class="container">
-    <h2>결제가 완료되었습니다</h2>
+    <h3>주문한 메뉴</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>메뉴명</th>
+            <th>수량</th>
+            <th>단가</th>
+            <th>금액</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="item" items="${menuItems}">
+            <tr>
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+                <td>${item.price}원</td>
+                <td>${item.price * item.quantity}원</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 
-    <div class="button-box">
-        <a class="btn" href="/">메인으로 돌아가기</a>
-        <a class="btn" href="/payment/order-check">주문 확인하기</a>
+    <p class="total">총 결제 금액: <strong>${totalPrice}원</strong></p>
+
+    <div class="btn">
+        <a href="/">홈으로 가기</a>
     </div>
 </main>
-<%@ include file="/WEB-INF/view/include/footer.jsp" %>
 </body>
 </html>
 
