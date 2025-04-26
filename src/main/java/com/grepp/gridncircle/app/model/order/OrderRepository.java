@@ -5,6 +5,8 @@ import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDetailDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderSalesDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderStatsDto;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +65,10 @@ public interface OrderRepository {
 
     List<OrderGroupDto> selectGroupedOrders(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
+    List<OrderStatsDto> getTop5Menu(LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    List<OrderSalesDto> getDailySales(LocalDateTime startDateTime, LocalDateTime endDateTime);
+
     @Update("update orders set status = #{status} where user_email = #{orderUserEmail} "
         + "and created_at between #{startDateTime} and #{endDateTime}")
     void updateGroupStatus(String orderUserEmail, OrderStatus status, LocalDateTime startDateTime,
@@ -70,4 +76,5 @@ public interface OrderRepository {
 
     @Update("update orders set status = #{status} where id = #{orderId} and created_at = #{orderDateTime}")
     void updateStatusByIdAndDateTime(int orderId, LocalDateTime orderDateTime, OrderStatus status);
+
 }

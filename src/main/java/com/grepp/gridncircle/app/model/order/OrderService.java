@@ -4,11 +4,15 @@ import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDetailDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderItemDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderSalesDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderStatsDto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -100,4 +104,40 @@ public class OrderService {
         LocalDate baseDate = getBaseDate(orderDateTime);
         return getOrderInfoByDate(baseDate);
     }
+
+    public List<OrderStatsDto> getTop5Menu(LocalDate startDate, LocalDate endDate) {
+        LocalDateTime from = startDate.atStartOfDay();
+        LocalDateTime to = endDate.atStartOfDay().plusHours(23).plusMinutes(59).plusSeconds(59);
+        return orderRepository.getTop5Menu(from, to);
+    }
+
+    public List<OrderSalesDto> getDailySales(LocalDate startDate, LocalDate endDate) {
+        LocalDateTime from = startDate.atStartOfDay();
+        LocalDateTime to = endDate.atStartOfDay().plusHours(23).plusMinutes(59).plusSeconds(59);
+        List<OrderSalesDto> dbSales =  orderRepository.getDailySales(from, to);
+
+        Map<LocalDate, Integer> salesMap = new HashMap<>();
+        for (OrderSalesDto dto : dbSales) {
+            salesMap.put(dto.getOrderDate(), dto.getTotalAmount());
+        }
+
+        // start ~ end 날짜별로 순회하면서 없는 날짜는 0으로 채움
+        List<OrderSalesDto> result = new ArrayList<>();
+        LocalDate currentDate = from.toLocalDate();
+        LocalDate lastDate = to.toLocalDate();
+
+        while (!currentDate.isAfter(lastDate)) {
+            int amount = salesMap.getOrDefault(currentDate, 0);
+            OrderSalesDto dailySales = new OrderSalesDto();
+            dailySales.setOrderDate(currentDate);
+            dailySales.setTotalAmount(amount);
+            result.add(dailySales);
+
+            currentDate = currentDate.plusDays(1);
+        }
+
+        return result;
+    }
+
+
 }

@@ -95,6 +95,7 @@
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          [csrfHeader]: csrfToken
         }
       })
       .then(response => {

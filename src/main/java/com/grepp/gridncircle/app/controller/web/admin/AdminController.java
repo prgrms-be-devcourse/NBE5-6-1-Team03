@@ -8,6 +8,8 @@ import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
 import com.grepp.gridncircle.app.model.order.OrderService;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderSalesDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderStatsDto;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,7 +44,28 @@ public class AdminController {
 
     // 관리자 메인페이지
     @GetMapping
-    public String dashboard() {
+    public String dashboard(
+        @RequestParam(required = false) LocalDate startDate,
+        @RequestParam(required = false) LocalDate endDate,
+        Model model
+    ) {
+        List<OrderStatsDto> orderStatsList = null;
+        List<OrderSalesDto> orderSalesList = null;
+        if (startDate != null && endDate != null) {
+            orderStatsList = orderService.getTop5Menu(startDate, endDate);
+            orderSalesList = orderService.getDailySales(startDate, endDate);
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("endDate", endDate);
+        } else {
+            LocalDate from = LocalDate.now().minusDays(7);
+            LocalDate to = LocalDate.now();
+            orderStatsList = orderService.getTop5Menu(from, to);
+            orderSalesList = orderService.getDailySales(from, to);
+            model.addAttribute("startDate", from);
+            model.addAttribute("endDate", to);
+        }
+        model.addAttribute("orderStatsList", orderStatsList);
+        model.addAttribute("orderSalesList", orderSalesList);
         return "admin/dashboard";
     }
 
