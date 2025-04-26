@@ -51,7 +51,7 @@
     FROM orders o
     LEFT JOIN ordered_menu om ON o.id = om.order_id
     LEFT JOIN menu m ON om.menu_id = m.id
-    WHERE o.id = #{orderId} AND o.created_at = #{orderDateTime}
+    WHERE o.id = #{orderId} AND o.created_at BETWEEN #{startDateTime} AND #{endDateTime}
     ORDER BY o.user_email, o.created_at
   </select>
 

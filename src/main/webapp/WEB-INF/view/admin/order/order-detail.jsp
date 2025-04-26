@@ -87,8 +87,8 @@
             <div class="input-field col s12">
                 <select name="orderStatus">
                     <option value="${orderGroup.items[0].status}" disabled selected>${orderGroup.items[0].statusDesc}</option>
-                    <c:if test="${orderGroup.items[0].status != 'ORDER_ACCEPTED'}">
-                        <option value="ORDER_ACCEPTED">주문접수</option>
+                    <c:if test="${orderGroup.items[0].status != 'ACCEPTED'}">
+                        <option value="ACCEPTED">주문접수</option>
                     </c:if>
                     <c:if test="${orderGroup.items[0].status != 'RELEASE'}">
                         <option value="RELEASE">상품발송</option>
@@ -98,6 +98,9 @@
                     </c:if>
                     <c:if test="${orderGroup.items[0].status != 'DELIVERED'}">
                         <option value="DELIVERED">배송완료</option>
+                    </c:if>
+                    <c:if test="${orderGroup.items[0].status != 'REJECTED'}">
+                        <option value="REJECTED">주문거절</option>
                     </c:if>
                     <c:if test="${orderGroup.items[0].status != 'EXCHANGE'}">
                         <option value="EXCHANGE">교환처리</option>
@@ -111,7 +114,7 @@
             </button>
             <button onclick="location.href='/admin/orders?orderDateTime=${param.orderDateTime}'"
                     type="reset" class="waves-effect waves-light btn col s2 grey darken-2">
-                <i class="material-icons left">cancel</i>취소
+                <i class="material-icons left">cancel</i>뒤로가기
             </button>
         </form>
     </div>

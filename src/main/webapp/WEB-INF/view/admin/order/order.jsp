@@ -41,14 +41,14 @@
                     <medium>(${empty group.orderUserName ? '비회원' : group.orderUserName})</medium>
                 </h5>
                 <div style="display: flex; flex-direction: row-reverse ; align-items: center">
-                    <c:if test="${group.items[0].status eq '주문접수'}">
+                    <c:if test="${group.items[0].status eq 'ACCEPTED'}">
                         <form action="/admin/orders/status" method="post" style="display: inline">
                             <sec:csrfInput/>
                             <input type="hidden" name="baseDate" value="${param.date}">
-                            <input type="hidden" name="status" value="발송완료">
+                            <input type="hidden" name="status" value="RELEASE">
                             <input type="hidden" name="orderUserEmail" value="${group.orderUserEmail}">
                             <input type="hidden" name="orderDateTime" value="${group.items[0].orderDateTime}">
-                            <button type="submit" class="btn-small blue darken-1" style="margin-right: 20px">상품 발송</button>
+                            <button type="submit" class="btn-small blue darken-1" style="margin-right: 20px">그룹 발송</button>
                         </form>
                     </c:if>
                 </div>
@@ -69,7 +69,7 @@
                             <td>${item.formattedOrderDate}</td>
                             <td>${item.menuName}</td>
                             <td>${item.quantity}</td>
-                            <td>${item.status}</td>
+                            <td>${item.statusDesc}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

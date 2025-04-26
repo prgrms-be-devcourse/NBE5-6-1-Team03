@@ -1,20 +1,16 @@
 package com.grepp.gridncircle.app.controller.web.admin;
 
 import com.grepp.gridncircle.app.controller.web.menu.form.MenuRegistForm;
-import com.grepp.gridncircle.app.model.admin.AdminService;
 import com.grepp.gridncircle.app.model.menu.ImageService;
 import com.grepp.gridncircle.app.model.menu.MenuService;
 import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
 import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
-import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
-import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
 import com.grepp.gridncircle.app.model.order.OrderService;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,7 +36,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
-    private final AdminService adminService;
     private final MenuService menuService;
     private final ImageService imageService;
     private final OrderService orderService;
@@ -106,7 +101,6 @@ public class AdminController {
     // 그룹 발송처리
     @PostMapping("orders/status")
     public String orderGroupRelease(
-        @RequestParam String baseDate,
         @RequestParam String status,
         @RequestParam String orderUserEmail,
         @RequestParam LocalDateTime orderDateTime,
@@ -114,7 +108,8 @@ public class AdminController {
     ) {
         orderService.updateOrderGroupStatus(orderUserEmail, orderDateTime, status);
         redirectAttributes.addFlashAttribute("msg", "주문 상태가 변경되었습니다.");
-        return "redirect:/admin/orders?date=" + baseDate;
+        LocalDate baseDate = orderService.getBaseDate(orderDateTime);
+        return "redirect:/admin/orders?orderDate=" + baseDate;
     }
 
     // 상품 관리

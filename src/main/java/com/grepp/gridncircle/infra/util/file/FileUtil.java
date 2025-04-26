@@ -31,11 +31,11 @@ public class FileUtil {
     }
 
     private void uploadFile(MultipartFile file, FileDto fileDto) throws IOException {
-        File path = new File(filePath + fileDto.savePath());
+        File path = new File(filePath + "/" + fileDto.savePath());
         if (!path.exists()) {
             path.mkdirs();
         }
-        File target = new File(filePath + fileDto.savePath() + fileDto.renameName());
+        File target = new File(filePath + "/" + fileDto.savePath() + fileDto.renameName());
         file.transferTo(target);
     }
 

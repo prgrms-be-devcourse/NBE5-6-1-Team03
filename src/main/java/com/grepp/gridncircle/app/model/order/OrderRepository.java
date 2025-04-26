@@ -1,18 +1,13 @@
 package com.grepp.gridncircle.app.model.order;
 
-import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
-import java.util.List;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
+import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderInfoDto;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -39,12 +34,11 @@ public interface OrderRepository {
             GROUP BY o.id
             """)
     List<OrderCheckDto> selectByUserIdJoinMenu(String userId);
-    List<OrderInfoDto> selectOrderInfoByDate(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     @Select("select * from orders where id = #{id}")
     Optional<OrderDto> findById(int id);
 
-    OrderGroupDto findByIdAndDateTime(int orderId, LocalDateTime orderDateTime);
+    OrderGroupDto findByIdAndDateTime(int orderId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     List<OrderGroupDto> selectGroupedOrders(LocalDateTime startDateTime, LocalDateTime endDateTime);
 

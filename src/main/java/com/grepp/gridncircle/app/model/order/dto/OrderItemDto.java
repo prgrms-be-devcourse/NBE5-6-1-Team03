@@ -17,8 +17,9 @@ public class OrderItemDto {
         return orderDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
+    // enum 영문 => 한글 desc
     public String getStatusDesc() {
-        OrderStatus orderStatus = OrderStatus.valueOf(status);
+        OrderStatus orderStatus = OrderStatus.getStatus(status);
         return orderStatus.getDesc();
     }
 }
