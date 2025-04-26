@@ -5,6 +5,7 @@
     <title>결제 실패</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
 </head>
+<link rel="stylesheet" href="../../../../assets/css/footer.css">
 <body>
 <%@include file="/WEB-INF/view/include/header.jsp" %>
 <main class="container">

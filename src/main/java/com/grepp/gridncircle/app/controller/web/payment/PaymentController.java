@@ -63,6 +63,7 @@ public class PaymentController {
             model.addAttribute("order", order);
             model.addAttribute("menuItems", menuItems);
             model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("orderId", orderId);
         }
 
         return "payment/success";
