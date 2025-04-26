@@ -8,19 +8,31 @@
 <link rel="stylesheet" href="../../../../assets/css/footer.css">
 <body>
 <%@include file="/WEB-INF/view/include/header.jsp" %>
-<main class="container">
-    <h2>결제가 실패했습니다</h2>
-    <p>죄송합니다. 결제 처리 중 오류가 발생했습니다.</p>
-    <p>다시 시도해 주세요</p>
+<main class="container" style="max-width: 800px;">
+    <div class="card">
+        <div class="card-content">
+            <div class="fail center-align">
+                <h2 class="brown-text text-darken-2">결제 실패</h2>
+                <div style="text-align: center;">
+                    <p style="margin: 0; font-size: 20px;">주문처리에 실패하여</p>
+                    <p style="font-size: 20px;">주문을 완료하지 못하였습니다.</p>
+                </div>
 
-    <!-- 재고 부족 메시지 출력 -->
-    <c:if test="${not empty errorMessage}">
-        <p><strong>${errorMessage}</strong></p>
-    </c:if>
+                <!-- 재고 부족 메시지 출력 -->
+                <c:if test="${not empty errorMessage}">
+                    <p style="font-size: 24px; text-align: center;"><strong>${errorMessage}</strong></p>
+                </c:if>
+            </div>
+            <br>
 
-    <a href="/">메인으로 돌아가기</a>
+            <div class="btn-container center-align">
+                <button class="btn-large brown darken-2 waves-effect waves-light" type="button">
+                    <a href="/" class="white-text">홈으로 돌아가기</a>
+                </button>
+            </div>
+        </div>
+    </div>
 </main>
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
 </body>
-
 </html>
