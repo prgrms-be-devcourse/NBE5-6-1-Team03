@@ -12,6 +12,10 @@
     <h3>결제 완료</h3>
     <p>주문이 성공적으로 처리되었습니다.</p>
 
+    <h4>주문자 정보</h4>
+    <p>이메일: ${order.userEmail}</p>
+    <p>주소: ${order.userAddress}</p>
+
     <h4>주문 내역</h4>
     <table>
         <thead>
