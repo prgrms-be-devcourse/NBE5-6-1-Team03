@@ -21,31 +21,33 @@
         <div>
             <div class="up">
                 <div id="imagebox">
-                    <c:forEach var="image" items="${imageList}">
-                        <c:if test="${image.menuId == menudetail.id}">
-                            <img src="/download/${image.savePath}${image.originalName}" />
-                            <p>"/upload${image.savePath}${image.originalName}"</p>
-                        </c:if>
-                    </c:forEach>
+                    <c:if test="${not empty image}">
+                        <c:set var="found" value="true" />
+                        <img src="/upload${image.savePath}${image.originalName}" />
+                    </c:if>
+                    <c:if test="${empty image}">
+                        <img src="/upload/img/beans/no-image.jpg" alt="이미지 없음" width="200px" />
+                    </c:if>
                 </div>
-                <div id="namebox">
-                    <span>${menudetail.name}</span>
-                    <p>판매가 ${menudetail.price}</p>
-                    <p>적립금 ${menudetail.price * 0.05}원 (5%)</p>
-                    <p>배송비 3000원</p>
 
+                <div id="namebox">
+                    <span>${menu.name}</span>
+                    <p>판매가 ${menu.price}</p>
+                    <p>적립금 ${menu.price * 0.05}원 (5%)</p>
+                    <p>배송비 3000원</p>
                 </div>
+
             </div>
 
             <div class ="down">
                 <div id="info">
-                    <p>${menudetail.info}</p>
+                    <p>${menu.info}</p>
                 </div>
             </div>
 
             <div class ="infoimage">
                 <div>
-                    <img src="${context}/assets/img/info.jpg" alt="info">
+                    <img src="/upload${image.savePath}infopage.jpg" />
 
                 </div>
             </div>

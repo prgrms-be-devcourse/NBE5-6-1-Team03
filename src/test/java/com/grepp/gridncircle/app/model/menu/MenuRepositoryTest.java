@@ -1,6 +1,6 @@
 package com.grepp.gridncircle.app.model.menu;
 
-import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
+import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
@@ -33,14 +33,14 @@ class MenuRepositoryTest {
 
     @Test
     public void insert() {
-        MenuDTO menu = new MenuDTO(0, "좋은원두", 10, "맛있는 원두입니다",
+        MenuDto menu = new MenuDto(0, "좋은원두", 10, "맛있는 원두입니다",
             Timestamp.valueOf(LocalDateTime.now()), 10000);
         menuRepository.insert(menu);
     }
 
     @Test
     public void update() {
-        MenuDTO menuDTO = menuRepository.selectById(1000).get();
+        MenuDto menuDTO = menuRepository.selectById(1000).get();
         menuDTO.setName("카누");
         menuDTO.setAmount(50);
         menuDTO.setInfo("세상에서 가장 작은 카페");

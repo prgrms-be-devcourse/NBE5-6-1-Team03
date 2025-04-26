@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MenuDTO {
+public class MenuDto {
 
     @NotNull
     private int id;

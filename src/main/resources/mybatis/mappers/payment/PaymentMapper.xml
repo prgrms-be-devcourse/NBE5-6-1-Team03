@@ -14,6 +14,7 @@
     <result property="status" column="status" javaType="com.grepp.gridncircle.app.model.order.code.OrderStatus"/>
   </resultMap>
 
+  <!-- 주문 조회 -->
   <select id="selectOrderById" parameterType="int" resultMap="orderMap">
     SELECT * FROM orders WHERE id = #{orderId}
   </select>
@@ -30,30 +31,31 @@
     WHERE om.order_id = #{orderId}
   </select>
 
-  <!-- 총 금액을 orders 테이블에 반영 -->
-  <update id="applyTotalPrice">
-    UPDATE orders
-    SET total_price = #{totalPrice}
-    WHERE id = #{orderId}
-  </update>
-
-  <!-- 주문 상태 변경 -->
-  <update id="updateOrderStatus">
-    UPDATE orders
-    SET status = #{status}
-    WHERE id = #{orderId}
-  </update>
+  <select id="selectById" resultType="com.grepp.gridncircle.app.model.menu.dto.MenuDto">
+    SELECT * FROM menu WHERE id = #{id}
+  </select>
 
   <!-- 주문 저장 -->
-  <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO orders (user_id, user_name, user_email, user_address, created_at, status)
-    VALUES (#{userId}, #{userName}, #{userEmail}, #{userAddress}, NOW(), #{status})
+  <insert id="insertOrder" parameterType="com.grepp.gridncircle.app.model.order.dto.OrderDto"
+    useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO orders (user_id, user_email, user_address, status)
+    VALUES (#{userId}, #{userEmail}, #{userAddress}, #{status})
   </insert>
+
+
 
   <!-- 메뉴 저장 -->
   <insert id="insertOrderedMenu">
     INSERT INTO ordered_menu (order_id, menu_id, quantity)
     VALUES (#{orderId}, #{menuId}, #{quantity})
   </insert>
+
+  <update id="updateAmount" parameterType="map">
+    UPDATE menu
+    SET amount = #{amount}
+    WHERE id = #{id}
+  </update>
+
+
 
 </mapper>

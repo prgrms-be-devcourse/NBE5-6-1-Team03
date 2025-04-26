@@ -1,7 +1,7 @@
 package com.grepp.gridncircle.app.model.menu;
 
-import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
-import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
+import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
+import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
 import com.grepp.gridncircle.infra.util.file.FileDto;
 import com.grepp.gridncircle.infra.util.file.FileUtil;
 import jakarta.validation.constraints.NotNull;
@@ -25,23 +25,27 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final FileUtil fileUtil;
 
-    public List<MenuDTO> getMenuList() {
+    public List<MenuDto> getPopularMenus(){
+        return menuRepository.selectPopularMenuList();
+    }
+
+    public List<MenuDto> getMenuList() {
         return menuRepository.selectMenuList();
     }
 
-    public Optional<MenuDTO> getMenuById(@RequestParam("id") int menuId) {
+    public Optional<MenuDto> getMenuById(@RequestParam("id") int menuId) {
         return menuRepository.selectById(menuId);
     }
 
     @Transactional
-    public void registMenu(List<MultipartFile> thumbnail, MenuDTO menuDTO) {
+    public void registMenu(List<MultipartFile> thumbnail, MenuDto menuDTO) {
         try {
             List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
             menuRepository.insert(menuDTO);
 
             if (fileDtos.isEmpty()) return;
             for (FileDto fileDto : fileDtos) {
-                MenuImageDTO menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
+                MenuImageDto menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
                 menuRepository.insertImage(menuImageDTO);
             }
         } catch (IOException e) { // 파일 이름이 너무 길 경우 오류 발생 가능
@@ -52,14 +56,14 @@ public class MenuService {
     }
 
     @Transactional
-    public void updateMenu(@NotNull List<MultipartFile> thumbnail, MenuDTO menuDTO) {
+    public void updateMenu(@NotNull List<MultipartFile> thumbnail, MenuDto menuDTO) {
         try {
             List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
             menuRepository.update(menuDTO);
 
             if (fileDtos.isEmpty()) return;
             for (FileDto fileDto : fileDtos) {
-                MenuImageDTO menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
+                MenuImageDto menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
                 menuRepository.updateImage(menuImageDTO);
             }
         } catch (IOException e) {
@@ -74,8 +78,8 @@ public class MenuService {
         menuRepository.deleteById(id);
     }
 
-    private MenuImageDTO fileToImageDTO(FileDto fileDto, int id) {
-        return MenuImageDTO.builder()
+    private MenuImageDto fileToImageDTO(FileDto fileDto, int id) {
+        return MenuImageDto.builder()
             .originalName(fileDto.originalName())
             .renameName(fileDto.renameName())
             .savePath(fileDto.savePath())
