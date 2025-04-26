@@ -9,12 +9,13 @@
 
 <body>
 <%@include file="/WEB-INF/view/include/header.jsp" %>
-<main>
+<main style="margin-top: 100px;">
     <div class="row">
         <div class="col s12 m6 offset-m3">
             <div class="card brown lighten-5 z-depth-2">
                 <div class="card-content">
-                    <span class="card-title center-align brown-text text-darken-3">로그인</span>
+                    <span class="card-title center-align brown-text text-darken-3"
+                          style="margin-top: 20px; margin-bottom: 40px; font-weight: 700; font-size: 30px; border-bottom: 1px;">로그인</span>
 
                     <c:if test="${param.error != null}">
                         <div class="card-panel red lighten-2 white-text center-align" style="border-radius: 10px; font-size: 1.1rem;">
@@ -37,13 +38,13 @@
                             <form:errors path="password" cssClass="helper-text"/>
                         </div>
 
-                        <div class="row">
-                            <p>
-                                <label>
-                                    <input type="checkbox" name="remember-me" />
+                        <div class="row" style="margin-left: 0; margin-bottom: 20px;">
+                            <div class="col s12">
+                                <label style="margin-left: 10px;">
+                                    <input type="checkbox" name="remember-me" style="margin-right: 5px;"/>
                                     <span>로그인 유지</span>
                                 </label>
-                            </p>
+                            </div>
                         </div>
 
                         <div class="center-align">
