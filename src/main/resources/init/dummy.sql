@@ -25,12 +25,11 @@ INSERT INTO `menu_img` (`original_name`, `rename_name`, `save_path`, `menu_id`, 
 
 -- orders 더미 데이터 (회원과 비회원 주문 혼합)
 INSERT INTO `orders` (`user_id`, `user_name`, `user_address`, `user_email`, `created_at`, `status`) VALUES
-                                                                                                        ('user-001', '홍길동', '서울시 강남구', 'user1@example.com', NOW(), 'ORDER_ACCEPT'),
-                                                                                                        (NULL, NULL, '부산시 중구', 'guest1@example.com', NOW(), 'ORDER_ACCEPT'),
-                                                                                                        ('user-002', '이순신', '서울시 서초구', 'user2@example.com', NOW(), 'ORDER_COMPLETE'),
-                                                                                                        (NULL, NULL, '대구시 달서구', 'guest2@example.com', NOW(), 'ORDER_ACCEPT'),
-                                                                                                        ('user-003', '김유신', '부산시 해운대구', 'admin@example.com', NOW(), 'ORDER_CANCEL');
-
+                                                                                                        ('user-001', '홍길동', '서울시 강남구', 'user1@example.com', '2025-04-25 13:00:00', 'ACCEPTED'),
+                                                                                                        (NULL, NULL, '부산시 중구', 'guest1@example.com', '2025-04-25 18:00:00', 'RELEASE'),
+                                                                                                        ('user-002', '이순신', '서울시 서초구', 'user2@example.com', '2025-04-25 22:00:00', 'ACCEPTED'),
+                                                                                                        (NULL, NULL, '대구시 달서구', 'guest2@example.com', '2025-04-26 13:00:00', 'DELIVERED'),
+                                                                                                        ('user-003', '이순신', '서울시 서초구', 'user2@example.com', '2025-04-26 15:00:00', 'ACCEPTED');
 -- ordered_menu 더미 데이터
 INSERT INTO `ordered_menu` (`order_id`, `menu_id`, `quantity`) VALUES
                                                                    (10000, 1000, 2),
@@ -43,3 +42,6 @@ INSERT INTO `ordered_menu` (`order_id`, `menu_id`, `quantity`) VALUES
                                                                    (10003, 1003, 1),
                                                                    (10004, 1001, 2),
                                                                    (10004, 1002, 2);
+-- admin 계정
+INSERT INTO `member` (`id`, `password`, `role`, `tel`, `email`, `name`, `address`)
+VALUES ('admin','{bcrypt}$2a$10$J35cAg1GvMQAFzM2pZDOaeqplOhpyc.gRBgyKb.DxkgT1.XU5e0CC', 'ROLE_ADMIN', '010-0000-0000', 'super@super.com', 'admin', 'admin_address');

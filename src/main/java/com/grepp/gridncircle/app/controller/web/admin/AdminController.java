@@ -81,7 +81,6 @@ public class AdminController {
         OrderGroupDto orderGroup = orderService.getOrderByIdAndDateTIme(orderId, orderDateTime);
         log.info("orderGroup : {}", orderGroup);
         model.addAttribute("orderGroup", orderGroup);
-        model.addAttribute("orderStatusList", OrderStatus.values());
         return "admin/order/order-detail";
     }
 

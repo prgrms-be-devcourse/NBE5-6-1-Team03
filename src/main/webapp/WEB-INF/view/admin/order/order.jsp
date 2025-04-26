@@ -64,7 +64,7 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${group.items}" var="item">
-                        <tr onclick="location.href='/admin/orders/${group.orderId}?orderDateTime=${item.orderDateTime}'"
+                        <tr onclick="location.href='/admin/orders/${item.orderId}?orderDateTime=${item.orderDateTime}'"
                             style="cursor: pointer">
                             <td>${item.formattedOrderDate}</td>
                             <td>${item.menuName}</td>

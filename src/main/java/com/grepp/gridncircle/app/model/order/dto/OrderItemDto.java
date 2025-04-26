@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class OrderItemDto {
+    private int orderId;
     private String menuName;
     private int quantity;
     private int price;

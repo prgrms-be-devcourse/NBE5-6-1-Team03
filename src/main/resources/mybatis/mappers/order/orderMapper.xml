@@ -8,9 +8,9 @@
     <id property="orderUserEmail" column="orderUserEmail"/>
     <result property="orderUserName" column="orderUserName"/>
     <result property="orderUserAddress" column="orderUserAddress"/>
-    <result property="orderId" column="orderId"/>
 
     <collection property="items" ofType="OrderItemDto">
+      <result property="orderId" column="orderId"/>
       <result property="menuName" column="menuName"/>
       <result property="quantity" column="quantity"/>
       <result property="price" column="price"/>

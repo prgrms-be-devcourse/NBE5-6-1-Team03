@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class OrderGroupDto {
-    private int orderId;
     private String orderUserEmail;
     private String orderUserName;
     private String orderUserAddress;

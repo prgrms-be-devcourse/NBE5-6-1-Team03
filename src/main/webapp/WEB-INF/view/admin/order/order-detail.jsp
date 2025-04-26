@@ -23,7 +23,7 @@
     <div class="section container" id="order-detail">
         <h4 class="brown-text text-darken-2">주문 상세</h4>
         <h5>${orderGroup.items[0].formattedOrderDate} 주문</h5>
-        <p>주문 번호 ${orderGroup.orderId}</p>
+        <p>주문 번호 ${orderGroup.items[0].orderId}</p>
     </div>
 
     <div class="section container" id="order">
@@ -82,7 +82,7 @@
 
         <br>
 
-        <form method="post" action="/admin/orders/${orderGroup.orderId}">
+        <form method="post" action="/admin/orders/${orderGroup.items[0].orderId}">
             <sec:csrfInput/>
             <div class="input-field col s12">
                 <select name="orderStatus">
