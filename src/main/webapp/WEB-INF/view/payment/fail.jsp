@@ -9,10 +9,9 @@
 <%@include file="/WEB-INF/view/include/header.jsp" %>
 <main class="container">
     <h2>결제가 실패했습니다</h2>
-
-    <p>문제가 발생하여 결제가 정상적으로 처리되지 않았습니다.</p>
+    <p>죄송합니다. 결제 처리 중 오류가 발생했습니다.</p>
     <p>다시 시도해 주세요</p>
-
+    <p><strong>${error}</strong></p>
     <hr />
 
     <a href="/">메인으로 돌아가기</a>

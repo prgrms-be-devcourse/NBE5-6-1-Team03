@@ -21,15 +21,9 @@ public class PaymentService {
     private final OrderRepository orderRepository;
 
 
-    public List<OrderCheckDto> getOrderCheckInfoByEmailForPayment(String userEmail) {
-        return orderRepository.selectByEmailJoinMenu(userEmail);
 
-    }
-
-
-    // 재고 부족
     @Transactional
-    public void Payment(PaymentForm form) {
+    public int Payment(PaymentForm form) {
         List<Integer> menuIds = form.getMenuId();
         List<Integer> quantities = form.getQuantity();
 
@@ -43,7 +37,7 @@ public class PaymentService {
         paymentRepository.insertOrder(order);
         int orderId = order.getId();
 
-        // 메뉴별 수량 loop 처리
+        // 메뉴별 수량 loop 처리(재고 부족하면 롤백)
         for (int i = 0; i < menuIds.size(); i++) {
             int menuId = menuIds.get(i);
             int quantity = quantities.get(i);
@@ -66,6 +60,7 @@ public class PaymentService {
             int newAmount = menu.getAmount() - quantity;
             paymentRepository.updateAmount(menuId, newAmount);
         }
+        return orderId;
     }
 
     // 결제 완료 후 주문 정보 확인

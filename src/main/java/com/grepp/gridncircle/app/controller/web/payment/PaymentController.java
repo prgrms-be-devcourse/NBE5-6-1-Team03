@@ -1,10 +1,15 @@
 package com.grepp.gridncircle.app.controller.web.payment;
 
 import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
+import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.payment.PaymentService;
+import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +32,14 @@ public class PaymentController {
 //    }
 
     // 결제 처리
-    @PostMapping("/payment")
-    public String payment(@ModelAttribute PaymentForm form) {
+    @PostMapping
+    public String payment(@ModelAttribute PaymentForm form, HttpSession session) {
         try {
-            paymentService.Payment(form);
+            int orderId = paymentService.Payment(form);
+
+            // 세션에 orderId 저장
+            session.setAttribute("orderId", orderId);
+
             return "forward:/payment/success";
         } catch (Exception e) {
             log.error("결제 실패: {}", e.getMessage());
@@ -39,9 +48,28 @@ public class PaymentController {
     }
 
     @PostMapping("/success")
-    public String paymentSuccess() {
+    public String paymentSuccess(HttpSession session, Model model) {
+        Integer orderId = (Integer) session.getAttribute("orderId");
+
+        if (orderId != null) {
+            // 주문 정보 조회
+            OrderDto order = paymentService.getOrderById(orderId);
+            List<PaymentDto> menuItems = paymentService.getOrderedMenus(orderId);
+
+            // 총 결제 금액 계산
+            int totalPrice = menuItems.stream()
+                .mapToInt(item -> item.getPrice() * item.getQuantity())
+                .sum();
+
+            // 모델에 데이터 추가
+            model.addAttribute("order", order);
+            model.addAttribute("menuItems", menuItems);
+            model.addAttribute("totalPrice", totalPrice);
+        }
+
         return "payment/success";
     }
+
 
     @PostMapping("/fail")
     public String paymentFail() {
