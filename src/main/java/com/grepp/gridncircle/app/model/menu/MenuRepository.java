@@ -26,12 +26,12 @@ public interface MenuRepository {
     Optional<MenuDto> selectById(int menuId);
 
     @Insert("insert into menu (name, amount, info, created_at, price) "
-        + "VALUES (#{name}, #{amount}, #{info}, #{createdAt}, #{price})")
+            + "VALUES (#{name}, #{amount}, #{info}, #{createdAt}, #{price})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void insert(MenuDto menuDTO);
 
     @Update("update menu set name = #{name}, amount=#{amount}, "
-        + "info=#{info}, created_at=#{createdAt}, price=#{price} where id = #{id}")
+            + "info=#{info}, created_at=#{createdAt}, price=#{price} where id = #{id}")
     boolean update(MenuDto menuDTO);
 
     @Delete("delete from menu where id = #{id}")
@@ -39,13 +39,14 @@ public interface MenuRepository {
 
     // MenuImage
     @Insert("insert into menu_img (created_at, original_name, rename_name, save_path, menu_id)"
-        + " VALUES (#{createdAt}, #{originalName}, #{renameName}, #{savePath}, #{menuId})")
+            + " VALUES (#{createdAt}, #{originalName}, #{renameName}, #{savePath}, #{menuId})")
     void insertImage(MenuImageDto menuImageDTO);
 
     @Update("update menu_img set original_name = #{originalName}, rename_name = #{renameName}, "
-        + "save_path = #{savePath} where menu_id = #{menuId}")
+            + "save_path = #{savePath} where menu_id = #{menuId}")
     void updateImage(MenuImageDto menuImageDTO);
 
     @Delete("delete from menu_img where menu_id = #{id}")
     void deleteImageByMenuId(int id);
 }
+
