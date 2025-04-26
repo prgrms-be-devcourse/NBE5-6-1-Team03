@@ -11,8 +11,11 @@
     <h2>결제가 실패했습니다</h2>
     <p>죄송합니다. 결제 처리 중 오류가 발생했습니다.</p>
     <p>다시 시도해 주세요</p>
-    <p><strong>${error}</strong></p>
-    <hr />
+
+    <!-- 재고 부족 메시지 출력 -->
+    <c:if test="${not empty errorMessage}">
+        <p><strong>${errorMessage}</strong></p>
+    </c:if>
 
     <a href="/">메인으로 돌아가기</a>
 </main>
