@@ -3,15 +3,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>회원 주문 확인</title>
+    <title>비회원 주문 확인</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
 </head>
 <body>
 <%@include file="/WEB-INF/view/include/header.jsp" %>
-<main>
+<main style="margin-top: 100px;">
     <form:form modelAttribute="orderCheckForm" action="${context}/order-check/guest" method="post" class="col s12">
         <div class="container" style="max-width: 600px;">
-            <h4 class="center-align brown-text text-darken-2">비회원 주문 확인</h4>
+            <h4 class="center-align brown-text text-darken-2"
+                style="margin-bottom: 60px; font-weight: 700; font-size: 32px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+                비회원 주문 확인
+            </h4>
 
             <div class="card z-depth-2" style="padding: 30px;">
                 <div class="input-field">
