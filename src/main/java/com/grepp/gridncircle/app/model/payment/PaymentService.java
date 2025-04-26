@@ -8,6 +8,7 @@ import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,19 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
 
+    // 재고 부족 여부 확인
+    public List<String> checkStock(List<PaymentDto> orderedMenus) {
+        List<String> errorMessages = new ArrayList<>();
 
+        for (PaymentDto menu : orderedMenus) {
+            MenuDto menuItem = paymentRepository.selectById(menu.getId());
+            if (menuItem.getAmount() < menu.getQuantity()) {
+                errorMessages.add("재고 부족: " + menuItem.getName());
+            }
+        }
+
+        return errorMessages;
+    }
 
     @Transactional
     public int Payment(PaymentForm form) {
@@ -37,16 +50,29 @@ public class PaymentService {
         paymentRepository.insertOrder(order);
         int orderId = order.getId();
 
+        // 주문된 메뉴 정보 생성
+        List<PaymentDto> orderedMenus = new ArrayList<>();
+        for (int i = 0; i < menuIds.size(); i++) {
+            PaymentDto menuDto = new PaymentDto();
+            menuDto.setId(menuIds.get(i));
+            menuDto.setQuantity(quantities.get(i));
+            orderedMenus.add(menuDto);
+        }
+
+        // 재고 부족 체크
+        List<String> errorMessages = checkStock(orderedMenus);
+
+        // 재고 부족 메시지가 있을 경우 예외 처리
+        if (!errorMessages.isEmpty()) {
+            throw new RuntimeException(String.join(", ", errorMessages));
+        }
+
         // 메뉴별 수량 loop 처리(재고 부족하면 롤백)
         for (int i = 0; i < menuIds.size(); i++) {
             int menuId = menuIds.get(i);
             int quantity = quantities.get(i);
 
             MenuDto menu = paymentRepository.selectById(menuId);
-
-            if (menu.getAmount() < quantity) {
-                throw new RuntimeException("재고 부족: " + menu.getName());
-            }
 
             // 주문된 메뉴 저장
             OrderedMenuDto orderedMenu = new OrderedMenuDto();
@@ -60,6 +86,7 @@ public class PaymentService {
             int newAmount = menu.getAmount() - quantity;
             paymentRepository.updateAmount(menuId, newAmount);
         }
+
         return orderId;
     }
 
@@ -68,9 +95,8 @@ public class PaymentService {
         return paymentRepository.selectOrderById(orderId);
     }
 
-    // // 결제 완료 후 주문 상세 내역 확인
+    // 결제 완료 후 주문 상세 내역 확인
     public List<PaymentDto> getOrderedMenus(int orderId) {
         return paymentRepository.selectOrderedMenuByOrderId(orderId);
     }
-
 }

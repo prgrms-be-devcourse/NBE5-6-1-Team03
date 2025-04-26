@@ -15,12 +15,13 @@
                 <h2 class="brown-text text-darken-2">결제 실패</h2>
                 <div style="text-align: center;">
                     <p style="margin: 0; font-size: 20px;">주문처리에 실패하여</p>
-                    <p style="font-size: 20px;">주문을 완료하지 못하였습니다.</p>
+                    <p style="font-size: 20px;">결제를 완료하지 못하였습니다.</p>
                 </div>
 
-                <!-- 재고 부족 메시지 출력 -->
-                <c:if test="${not empty errorMessage}">
-                    <p style="font-size: 24px; text-align: center;"><strong>${errorMessage}</strong></p>
+                <c:if test="${not empty errorMessages}">
+                    <c:forEach var="errorMessage" items="${errorMessages}">
+                        <p><strong style="font-size: 24px;">${errorMessage}</strong></p>
+                    </c:forEach>
                 </c:if>
             </div>
             <br>

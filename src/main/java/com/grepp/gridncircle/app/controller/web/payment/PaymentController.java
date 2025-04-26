@@ -36,14 +36,17 @@ public class PaymentController {
     public String payment(@ModelAttribute PaymentForm form, HttpSession session, Model model) {
         try {
             int orderId = paymentService.Payment(form);
-            // 세션에 orderId 저장
             session.setAttribute("orderId", orderId);
+
             return "forward:/payment/success";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "forward:/payment/fail";
+
+        } catch (RuntimeException e) {
+            log.error("결제 실패: {}", e.getMessage());
+            model.addAttribute("errorMessages", e.getMessage());
+            return "payment/fail";
         }
     }
+
 
     @PostMapping("/success")
     public String paymentSuccess(HttpSession session, Model model) {
@@ -59,7 +62,6 @@ public class PaymentController {
                 .mapToInt(item -> item.getPrice() * item.getQuantity())
                 .sum();
 
-            // 모델에 데이터 추가
             model.addAttribute("order", order);
             model.addAttribute("menuItems", menuItems);
             model.addAttribute("totalPrice", totalPrice);
@@ -74,8 +76,4 @@ public class PaymentController {
     public String paymentFail() {
         return "payment/fail";
     }
-
-
-
-
 }
