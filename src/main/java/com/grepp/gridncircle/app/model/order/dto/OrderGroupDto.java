@@ -8,5 +8,14 @@ public class OrderGroupDto {
     private int orderId;
     private String orderUserEmail;
     private String orderUserName;
+    private String orderUserAddress;
     private List<OrderItemDto> items;
+
+    public String getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItemDto item : items) {
+            totalPrice += (item.getPrice() * item.getQuantity());
+        }
+        return String.valueOf(totalPrice);
+    }
 }

@@ -41,11 +41,10 @@ public interface OrderRepository {
     List<OrderCheckDto> selectByUserIdJoinMenu(String userId);
     List<OrderInfoDto> selectOrderInfoByDate(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
-    @Update("update orders set status = #{status} where id = #{id}")
-    void updateStatus(int id, OrderStatus status);
-
     @Select("select * from orders where id = #{id}")
     Optional<OrderDto> findById(int id);
+
+    OrderGroupDto findByIdAndDateTime(int orderId, LocalDateTime orderDateTime);
 
     List<OrderGroupDto> selectGroupedOrders(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
@@ -53,4 +52,7 @@ public interface OrderRepository {
         + "and created_at between #{startDateTime} and #{endDateTime}")
     void updateGroupStatus(String orderUserEmail, OrderStatus status, LocalDateTime startDateTime,
         LocalDateTime endDateTime);
+
+    @Update("update orders set status = #{status} where id = #{orderId} and created_at = #{orderDateTime}")
+    void updateStatusByIdAndDateTime(int orderId, LocalDateTime orderDateTime, OrderStatus status);
 }

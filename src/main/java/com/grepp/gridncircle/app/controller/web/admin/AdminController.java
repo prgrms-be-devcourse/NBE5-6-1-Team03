@@ -9,8 +9,8 @@ import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
 import com.grepp.gridncircle.app.model.menu.dto.MenuDTO;
 import com.grepp.gridncircle.app.model.menu.dto.MenuImageDTO;
 import com.grepp.gridncircle.app.model.order.OrderService;
+import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderInfoDto;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -46,6 +45,7 @@ public class AdminController {
     private final ImageService imageService;
     private final OrderService orderService;
 
+    // 관리자 메인페이지
     @GetMapping
     public String dashboard() {
         return "admin/dashboard";
@@ -54,40 +54,65 @@ public class AdminController {
     // 주문 조회
     @GetMapping("orders")
     public String orders(
-        @RequestParam(value = "date", required = false) String date,
+        @RequestParam(value = "orderDate", required = false) LocalDate orderDate,
+        @RequestParam(value = "orderDateTime", required = false) LocalDateTime orderDateTime,
         Model model
     ) {
-        System.out.println(date);
         List<OrderGroupDto> orderGroupList = null;
-        if (date == null || date.isEmpty()) {
-            orderGroupList = orderService.getTodayOrderList();
-            model.addAttribute("date", LocalDate.now());
-        } else {
-            LocalDate dDay = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            orderGroupList = orderService.getDDayOrderList(dDay);
-            model.addAttribute("date", dDay);
+        if (orderDateTime != null) { // 주문일시를 받았을 때
+            orderGroupList = orderService.getTimeZoneOrderList(orderDateTime);
+            LocalDate baseDate = orderService.getBaseDate(orderDateTime);
+            model.addAttribute("date", baseDate);
+        } else { // 주문일을 받았을 때
+            if (orderDate == null) {
+                orderGroupList = orderService.getTodayOrderList();
+                model.addAttribute("date", LocalDate.now());
+            } else {
+                orderGroupList = orderService.getDDayOrderList(orderDate);
+                model.addAttribute("date", orderDate);
+            }
         }
         model.addAttribute("orderGroupList", orderGroupList);
         return "admin/order/order";
     }
 
-    @GetMapping("orders/{id}")
-    public String orderDetail(@PathVariable int id, Model model) {
-//        Order order = orderService.findById(id);
-//        model.addAttribute("order", order);
+    // 주문 상세조회
+    @GetMapping("orders/{orderId}")
+    public String orderDetail(
+        @PathVariable int orderId,
+        @RequestParam LocalDateTime orderDateTime,
+        Model model
+    ) {
+        OrderGroupDto orderGroup = orderService.getOrderByIdAndDateTIme(orderId, orderDateTime);
+        log.info("orderGroup : {}", orderGroup);
+        model.addAttribute("orderGroup", orderGroup);
+        model.addAttribute("orderStatusList", OrderStatus.values());
         return "admin/order/order-detail";
     }
 
-    // 상태변경
-    @PostMapping("orders/status")
+    // 주문 상태변경
+    @PostMapping("orders/{orderId}")
     public String updateOrderStatus(
+        @PathVariable int orderId,
+        @RequestParam OrderStatus orderStatus,
+        @RequestParam LocalDateTime orderDateTime,
+        RedirectAttributes redirectAttributes
+    ) {
+        orderService.updateOrderStatus(orderId, orderDateTime, orderStatus);
+        redirectAttributes.addFlashAttribute("msg", "주문 상태가 변경되었습니다.");
+        return "redirect:/admin/orders/" + orderId + "?orderDateTime=" + orderDateTime;
+    }
+
+    // 그룹 발송처리
+    @PostMapping("orders/status")
+    public String orderGroupRelease(
         @RequestParam String baseDate,
         @RequestParam String status,
         @RequestParam String orderUserEmail,
         @RequestParam LocalDateTime orderDateTime,
         RedirectAttributes redirectAttributes
     ) {
-        orderService.updateGroupStatus(orderUserEmail, orderDateTime, status);
+        orderService.updateOrderGroupStatus(orderUserEmail, orderDateTime, status);
         redirectAttributes.addFlashAttribute("msg", "주문 상태가 변경되었습니다.");
         return "redirect:/admin/orders?date=" + baseDate;
     }
@@ -104,7 +129,7 @@ public class AdminController {
         return "admin/menu/menu";
     }
 
-    // 상품 수정
+    // 전체 상품 조회
     @GetMapping("menu/{id}")
     public String menuDetail(@PathVariable int id, Model model,
         RedirectAttributes redirectAttributes) {
@@ -127,6 +152,7 @@ public class AdminController {
         return "admin/menu/menu-detail";
     }
 
+    // 상품 수정
     @PostMapping("menu/{id}")
     public String menuUpdate(
         @PathVariable int id,

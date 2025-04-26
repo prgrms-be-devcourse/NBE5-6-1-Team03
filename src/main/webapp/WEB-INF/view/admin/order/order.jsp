@@ -25,10 +25,10 @@
         <form action="/admin/orders" class="col s2" method="get">
             <div class="row">
                 <div class="input-field">
-                    <input type="text" name="date" id="date" class="datepicker" required>
-                    <label for="date">기준일자</label>
+                    <input type="text" name="orderDate" id="orderDate" class="datepicker" required>
+                    <label for="orderDate">기준일자</label>
                     <button type="submit" class="waves-effect waves-light btn green darken-4">
-                        <i class="material-icons left">refresh</i>새로고침
+                        <i class="material-icons left">refresh</i>조회
                     </button>
                 </div>
             </div>
@@ -47,8 +47,8 @@
                             <input type="hidden" name="baseDate" value="${param.date}">
                             <input type="hidden" name="status" value="발송완료">
                             <input type="hidden" name="orderUserEmail" value="${group.orderUserEmail}">
-                            <input type="hidden" name="orderDateTime" value="${group.items[0].orderDate}">
-                            <button type="submit" class="btn-small blue darken-1" style="margin-right: 20px">발송</button>
+                            <input type="hidden" name="orderDateTime" value="${group.items[0].orderDateTime}">
+                            <button type="submit" class="btn-small blue darken-1" style="margin-right: 20px">상품 발송</button>
                         </form>
                     </c:if>
                 </div>
@@ -64,7 +64,8 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${group.items}" var="item">
-                        <tr>
+                        <tr onclick="location.href='/admin/orders/${group.orderId}?orderDateTime=${item.orderDateTime}'"
+                            style="cursor: pointer">
                             <td>${item.formattedOrderDate}</td>
                             <td>${item.menuName}</td>
                             <td>${item.quantity}</td>

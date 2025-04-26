@@ -6,12 +6,9 @@ import lombok.RequiredArgsConstructor;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderInfoDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderItemDto;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,24 +66,42 @@ public class OrderService {
     }
 
     @Transactional
-    public void updateStatus(int id, String desc) {
+    public void updateOrderGroupStatus(String orderUserEmail, LocalDateTime orderDateTime, String desc) {
         OrderStatus status = OrderStatus.getStatus(desc);
-        OrderDto orderDto = orderRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
-        orderRepository.updateStatus(id, status);
+        LocalDateTime condition = orderDateTime.toLocalDate().atStartOfDay().plusHours(14);
+        if (orderDateTime.isBefore(condition)) { // 주문일시가 당일 14시 이전일 경우
+            orderRepository.updateGroupStatus(orderUserEmail, status, condition.minusDays(1),
+                condition);
+        } else { // 주문일시가 당일 14시 이후일 경우
+            orderRepository.updateGroupStatus(orderUserEmail, status, condition,
+                condition.plusDays(1));
+        }
+    }
+
+    public OrderGroupDto getOrderByIdAndDateTIme(int orderId, LocalDateTime orderDateTime) {
+        OrderGroupDto orderGroup = orderRepository.findByIdAndDateTime(orderId, orderDateTime);
+        if (orderGroup == null) {
+            throw new RuntimeException("존재하지 않는 주문입니다.");
+        }
+        return orderGroup;
     }
 
     @Transactional
-    public void updateGroupStatus(String orderUserEmail, LocalDateTime orderDateTime, String desc) {
-        OrderStatus status = OrderStatus.getStatus(desc);
-        LocalDateTime standardDate = LocalDate.of(orderDateTime.getYear(), orderDateTime.getMonth(),
-            orderDateTime.getDayOfMonth()).atStartOfDay().plusHours(14);
-        if (orderDateTime.isBefore(standardDate)) { // 주문일시가 당일 14시 이전일 경우
-            orderRepository.updateGroupStatus(orderUserEmail, status, standardDate.minusDays(1),
-                standardDate);
-        } else { // 주문일시가 당일 14시 이후일 경우
-            orderRepository.updateGroupStatus(orderUserEmail, status, standardDate,
-                standardDate.plusDays(1));
+    public void updateOrderStatus(int orderId, LocalDateTime orderDateTime, OrderStatus orderStatus) {
+        orderRepository.updateStatusByIdAndDateTime(orderId, orderDateTime, orderStatus);
+    }
+
+    // 시간을 기준으로 주문이 속하는 기준일자 계산
+    public LocalDate getBaseDate(LocalDateTime orderDateTime) {
+        LocalDateTime condition = orderDateTime.toLocalDate().atStartOfDay().plusHours(14);
+        if (orderDateTime.isBefore(condition)) { // 당일 14시 이전
+            return orderDateTime.toLocalDate();
         }
+        return orderDateTime.toLocalDate().plusDays(1);
+    }
+
+    public List<OrderGroupDto> getTimeZoneOrderList(LocalDateTime orderDateTime) {
+        LocalDate baseDate = getBaseDate(orderDateTime);
+        return getOrderInfoByDate(baseDate);
     }
 }

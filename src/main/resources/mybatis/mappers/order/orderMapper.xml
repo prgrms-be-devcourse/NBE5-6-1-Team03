@@ -4,32 +4,18 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.grepp.gridncircle.app.model.order.OrderRepository">
 
-  <!-- 단순 이메일별 매핑 => orderId 가 다르면 자동으로 분리됨 -->
-  <select id="selectOrderInfoByDate"
-    resultType="com.grepp.gridncircle.app.model.order.dto.OrderInfoDto">
-    SELECT
-    o.user_email AS orderUserEmail,
-    o.user_name AS orderUserName,
-    GROUP_CONCAT(m.name SEPARATOR ', ' ) AS menuName,
-    SUM(om.quantity) AS quantity,
-    MAX(o.status) AS status,
-    MAX(o.created_at) AS orderDate
-    FROM orders o
-    LEFT JOIN ordered_menu om ON o.id = om.order_id
-    LEFT JOIN menu m ON om.menu_id = m.id
-    WHERE o.created_at BETWEEN #{startDateTime} AND #{endDateTime}
-    GROUP BY o.user_email, o.user_name
-  </select>
-
   <resultMap id="orderGroupMap" type="OrderGroupDto">
     <id property="orderUserEmail" column="orderUserEmail"/>
     <result property="orderUserName" column="orderUserName"/>
+    <result property="orderUserAddress" column="orderUserAddress"/>
     <result property="orderId" column="orderId"/>
+
     <collection property="items" ofType="OrderItemDto">
       <result property="menuName" column="menuName"/>
       <result property="quantity" column="quantity"/>
+      <result property="price" column="price"/>
       <result property="status" column="status"/>
-      <result property="orderDate" column="orderDate"/>
+      <result property="orderDateTime" column="orderDateTime"/>
     </collection>
   </resultMap>
 
@@ -38,14 +24,34 @@
     o.id AS orderId,
     o.user_email AS orderUserEmail,
     o.user_name AS orderUserName,
-    o.created_at AS orderDate,
+    o.user_address AS orderUserAddress,
+    o.created_at AS orderDateTime,
     m.name AS menuName,
     om.quantity AS quantity,
+    m.price AS price,
     o.status AS status
     FROM orders o
     LEFT JOIN ordered_menu om ON o.id = om.order_id
     LEFT JOIN menu m ON om.menu_id = m.id
     WHERE o.created_at BETWEEN #{startDateTime} AND #{endDateTime}
+    ORDER BY o.user_email, o.created_at
+  </select>
+
+  <select id="findByIdAndDateTime" resultMap="orderGroupMap">
+    SELECT
+    o.id AS orderId,
+    o.user_email AS orderUserEmail,
+    o.user_name AS orderUserName,
+    o.user_address AS orderUserAddress,
+    o.created_at AS orderDateTime,
+    m.name AS menuName,
+    om.quantity AS quantity,
+    m.price AS price,
+    o.status AS status
+    FROM orders o
+    LEFT JOIN ordered_menu om ON o.id = om.order_id
+    LEFT JOIN menu m ON om.menu_id = m.id
+    WHERE o.id = #{orderId} AND o.created_at = #{orderDateTime}
     ORDER BY o.user_email, o.created_at
   </select>
 
