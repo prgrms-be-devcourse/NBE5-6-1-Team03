@@ -5,6 +5,7 @@ import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.payment.PaymentService;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import jakarta.servlet.http.HttpSession;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,10 +63,14 @@ public class PaymentController {
                 .mapToInt(item -> item.getPrice() * item.getQuantity())
                 .sum();
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a HH시 mm분");
+            String formattedDate = order.getCreatedAt().format(formatter);
+
             model.addAttribute("order", order);
             model.addAttribute("menuItems", menuItems);
             model.addAttribute("totalPrice", totalPrice);
             model.addAttribute("orderId", orderId);
+            model.addAttribute("createdAt", formattedDate);
         }
 
         return "payment/success";

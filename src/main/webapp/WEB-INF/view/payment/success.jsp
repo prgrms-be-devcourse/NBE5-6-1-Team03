@@ -20,6 +20,7 @@
                 <li class="collection-item" style="border: none;"><strong>주문번호: </strong>${orderId}</li>
                 <li class="collection-item" style="border: none;"><strong>이메일: </strong>${order.userEmail}</li>
                 <li class="collection-item" style="border: none;"><strong>주소: </strong>${order.userAddress}</li>
+                <li class="collection-item" style="border: none;"><strong>주문 날짜: </strong>${createdAt}</li>
             </ul>
 
             <div class="row">
