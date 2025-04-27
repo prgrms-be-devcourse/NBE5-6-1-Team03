@@ -47,9 +47,7 @@
     flex: 1; /* 남은 공간을 main이 차지하게 */
   }
 
-  .section{
-      border: 1px solid red;
-  }
+
 
 </style>
 <sec:csrfMetaTags />
