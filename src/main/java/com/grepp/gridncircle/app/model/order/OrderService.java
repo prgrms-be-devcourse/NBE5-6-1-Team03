@@ -2,6 +2,7 @@ package com.grepp.gridncircle.app.model.order;
 
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderDetailDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderItemDto;
 import java.time.LocalDate;
@@ -27,6 +28,11 @@ public class OrderService {
     // 회원 : userId 로 주문 조회
     public List<OrderCheckDto> selectByUserIdJoinMenu(String userId) {
         return orderRepository.selectByUserIdJoinMenu(userId);
+    }
+
+    // (비)회원 주문 1건 상세보기 조회
+    public List<OrderDetailDto> selectOrderDetailById(int orderId) {
+        return orderRepository.selectOrderDetailById(orderId);
     }
 
     // 오늘 주문내역 조회
