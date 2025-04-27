@@ -38,10 +38,9 @@
   <!-- 주문 저장 -->
   <insert id="insertOrder" parameterType="com.grepp.gridncircle.app.model.order.dto.OrderDto"
     useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO orders (user_id, user_email, user_address, status)
-    VALUES (#{userId}, #{userEmail}, #{userAddress}, #{status})
+    INSERT INTO orders (user_id, user_email, user_address, status, user_name)
+    VALUES (#{userId}, #{userEmail}, #{userAddress}, #{status}, #{name})
   </insert>
-
 
 
   <!-- 메뉴 저장 -->
