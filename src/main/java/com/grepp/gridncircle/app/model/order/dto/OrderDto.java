@@ -1,8 +1,6 @@
 package com.grepp.gridncircle.app.model.order.dto;
 
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 

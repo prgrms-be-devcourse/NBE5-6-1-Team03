@@ -31,25 +31,20 @@ public class PaymentController {
     @PostMapping
     public String payment(@ModelAttribute PaymentForm form, HttpSession session, Model model) {
         try {
-            // 회원,비회원 구분 PaymentService 에서 처리
-            if (form.getUserEmail() == null || form.getUserEmail().isEmpty()) {
-                throw new CommonException(ResponseCode.BAD_REQUEST);  // 이메일이 없으면 오류 처리
-            }
-
+            // 회원/비회원 구분 없이 Payment 메서드 호출
             int orderId = paymentService.Payment(form);
 
+            // 주문 ID를 세션에 저장
             session.setAttribute("orderId", orderId);
 
-            return "forward:/payment/success";
+            return "forward:/payment/success";  // 결제 성공 페이지로 포워딩
 
         } catch (RuntimeException e) {
             log.error("결제 실패: {}", e.getMessage());
             model.addAttribute("errorMessages", e.getMessage());
-            return "payment/fail";
+            return "payment/fail";  // 결제 실패 페이지로 이동
         }
     }
-
-
 
 
     @PostMapping("/success")

@@ -41,13 +41,13 @@ public class PaymentService {
         OrderDto order = new OrderDto();
 
         if (form.getUserId() != null && !form.getUserId().isEmpty()) {
-            // 회원
             order.setUserId(form.getUserId());
             order.setUserEmail(form.getUserEmail());
+            order.setName(form.getUserName());
         } else {
-            // 비회원
             order.setUserEmail(form.getUserEmail());
             order.setUserId(null);
+            order.setName(null);
         }
 
         order.setUserAddress(form.getUserAddress());
@@ -64,7 +64,6 @@ public class PaymentService {
             orderedMenus.add(menuDto);
         }
 
-        // 재고 부족 체크
         List<String> errorMessages = checkStock(orderedMenus);
 
         // 재고 부족 예외 처리
@@ -79,7 +78,6 @@ public class PaymentService {
 
             MenuDto menu = paymentRepository.selectById(menuId);
 
-            // 주문된 메뉴 저장
             OrderedMenuDto orderedMenu = new OrderedMenuDto();
             orderedMenu.setOrderId(orderId);
             orderedMenu.setMenuId(menuId);
