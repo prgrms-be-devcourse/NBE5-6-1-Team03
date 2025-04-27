@@ -14,7 +14,7 @@
 
     <property name="mapperLocations" value="classpath*:mybatis/mappers/**/*.xml" />
 
-    <property name="typeAliasesPackage" value="com.grepp.spring.app.model" />
+    <property name="typeAliasesPackage" value="com.grepp.gridncircle.app.model" />
     <property name="configuration">
       <bean class="org.apache.ibatis.session.Configuration">
         <property name="mapUnderscoreToCamelCase" value="true"/>

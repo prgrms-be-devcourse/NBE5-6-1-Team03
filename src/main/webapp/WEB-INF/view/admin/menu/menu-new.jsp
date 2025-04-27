@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="/WEB-INF/view/include/page.jsp" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,11 +14,15 @@
 <main>
     <!-- 신규 상품 추가 -->
     <div class="section container" id="order-statistics">
+        <c:if test="${not empty alertMessage}">
+            <div class="card-panel red lighten-2 text-white">${alertMessage}</div>
+        </c:if>
 
         <h4 class="brown-text text-darken-2 col s10">상품 추가</h4>
 
         <div class="row">
             <form:form class="col s12" action="${context}/admin/menu/new" method="post" enctype="multipart/form-data" modelAttribute="menuRegistForm">
+                <sec:csrfInput/>
                 <div class="card" style="width: 25%; min-width: 200px">
                     <div class="card-image">
                         <img src="/assets/img/sample.jpeg" style="width: 100%">

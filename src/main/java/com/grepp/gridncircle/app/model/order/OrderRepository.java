@@ -1,9 +1,15 @@
 package com.grepp.gridncircle.app.model.order;
 
+import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface OrderRepository {
@@ -28,4 +34,19 @@ public interface OrderRepository {
             GROUP BY o.id
             """)
     List<OrderCheckDto> selectByUserIdJoinMenu(String userId);
+
+    @Select("select * from orders where id = #{id}")
+    Optional<OrderDto> findById(int id);
+
+    OrderGroupDto findByIdAndDateTime(int orderId, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    List<OrderGroupDto> selectGroupedOrders(LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    @Update("update orders set status = #{status} where user_email = #{orderUserEmail} "
+        + "and created_at between #{startDateTime} and #{endDateTime}")
+    void updateGroupStatus(String orderUserEmail, OrderStatus status, LocalDateTime startDateTime,
+        LocalDateTime endDateTime);
+
+    @Update("update orders set status = #{status} where id = #{orderId} and created_at = #{orderDateTime}")
+    void updateStatusByIdAndDateTime(int orderId, LocalDateTime orderDateTime, OrderStatus status);
 }
