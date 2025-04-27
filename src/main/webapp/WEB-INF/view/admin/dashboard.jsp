@@ -74,6 +74,11 @@
                     <td>${orderStats.totalQuantity}</td>
                 </tr>
             </c:forEach>
+            <tr>
+                <td style="font-weight: bold;">총 판매량</td>
+                <td></td>
+                <td id="statsSum"  style="font-weight: bold;"></td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -105,9 +110,9 @@
                 </tr>
             </c:forEach>
             <tr>
-                <td style="font-weight: bold;">총 금액</td>
+                <td style="font-weight: bold;">총 매출액</td>
                 <td></td>
-                <td id="sum"  style="font-weight: bold;"></td>
+                <td id="salesSum"  style="font-weight: bold;"></td>
             </tr>
             </tbody>
         </table>
@@ -131,11 +136,16 @@
 
     const productNames = [];
     const productQuantities = [];
+    let statsSum = 0;
 
     <c:forEach items="${orderStatsList}" var="orderStats">
     productNames.push("${orderStats.name}");
     productQuantities.push(${orderStats.totalQuantity});
+    statsSum += ${orderStats.totalQuantity};
     </c:forEach>
+
+    document.querySelector('#statsSum').innerText = statsSum + '개';
+
 
     new Chart(orderStatsChart, {
       type: 'doughnut',
@@ -200,15 +210,16 @@
 
     const orderDates = [];
     const salesAmounts = [];
-    let sum = 0;
+
+    let salesSum = 0;
 
     <c:forEach items="${orderSalesList}" var="orderSales">
     orderDates.push("${orderSales.orderDate}");
     salesAmounts.push(${orderSales.totalAmount});
-    sum += ${orderSales.totalAmount};
+    salesSum += ${orderSales.totalAmount};
     </c:forEach>
 
-    document.querySelector('#sum').innerText = sum + '원';
+    document.querySelector('#salesSum').innerText = salesSum + '원';
 
     new Chart(salesChart, {
       type: 'line',
