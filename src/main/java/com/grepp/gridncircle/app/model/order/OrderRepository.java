@@ -2,6 +2,7 @@ package com.grepp.gridncircle.app.model.order;
 
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
 import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderDetailDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
 import java.time.LocalDateTime;
@@ -34,6 +35,26 @@ public interface OrderRepository {
             GROUP BY o.id
             """)
     List<OrderCheckDto> selectByUserIdJoinMenu(String userId);
+
+
+    @Select("""
+        SELECT
+            o.id AS orderId,
+            sum(m.price * om.quantity) AS total_price,
+            o.status AS orderStatus,
+            o.user_address AS userAddress,
+            m.name AS menuName,
+            m.price AS menuPrice,
+            om.quantity AS quantity,
+            (m.price * om.quantity) AS totalPricePerItem
+        FROM orders o
+        JOIN ordered_menu om ON o.id = om.order_id
+        JOIN menu m ON om.menu_id = m.id
+        WHERE o.id = #{orderId}
+        GROUP BY
+            o.id, o.status, o.user_address, m.name, m.price, om.quantity
+    """)
+    List<OrderDetailDto> selectOrderDetailById(int orderId);
 
     @Select("select * from orders where id = #{id}")
     Optional<OrderDto> findById(int id);
