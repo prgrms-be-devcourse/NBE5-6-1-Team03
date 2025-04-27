@@ -139,5 +139,20 @@ public class OrderService {
         return result;
     }
 
+    public Map<String, List<?>> convertToChartData(List<OrderSalesDto> salesList) {
+        List<String> labels = new ArrayList<>(); // 날짜 문자열 리스트
+        List<Integer> data = new ArrayList<>();  // 매출 데이터 리스트
+
+        for (OrderSalesDto dto : salesList) {
+            labels.add(dto.getOrderDate().toString());
+            data.add(dto.getTotalAmount());
+        }
+
+        Map<String, List<?>> chartData = new HashMap<>();
+        chartData.put("labels", labels);
+        chartData.put("data", data);
+
+        return chartData;
+    }
 
 }
