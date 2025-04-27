@@ -45,7 +45,6 @@
                                     <img src="/assets/img/sample.jpeg" alt="샘플" style="width: 60px; height: 60px; object-fit: cover;">
                                 </c:if>
                                 <c:if test="${not empty imageMap[menu.id][0]}">
-                                    <div>${imageMap[menu.id][0].renamedUrl}</div>
                                     <img src="${imageMap[menu.id][0].renamedUrl}" alt="${menu.name}" style="width: 60px; height: 60px; object-fit: cover;">
                                 </c:if>
                             </td>

@@ -37,4 +37,6 @@ public class MenuDto {
     @Min(0)
     private int price;
 
+    private boolean isDeleted;
+
 }

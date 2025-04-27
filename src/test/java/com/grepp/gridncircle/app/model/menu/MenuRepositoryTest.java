@@ -34,7 +34,7 @@ class MenuRepositoryTest {
     @Test
     public void insert() {
         MenuDto menu = new MenuDto(0, "좋은원두", 10, "맛있는 원두입니다",
-            Timestamp.valueOf(LocalDateTime.now()), 10000);
+            Timestamp.valueOf(LocalDateTime.now()), 10000, false);
         menuRepository.insert(menu);
     }
 
@@ -51,6 +51,6 @@ class MenuRepositoryTest {
 
     @Test
     public void delete() {
-        log.info("{}", menuRepository.deleteById(1003));
+        log.info("{}", menuRepository.makeDeletedById(1003));
     }
 }

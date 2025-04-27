@@ -81,7 +81,7 @@ public class MenuService {
     @Transactional
     public void deleteMenu(int id) {
         menuRepository.deleteImageByMenuId(id);
-        menuRepository.deleteById(id);
+        menuRepository.makeDeletedById(id);
     }
 
     private MenuImageDto fileToImageDTO(FileDto fileDto, int id) {

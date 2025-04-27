@@ -23,6 +23,7 @@ CREATE TABLE `menu` (
                         `info` VARCHAR(100),
                         `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
                         `price` INT NOT NULL,
+                        `is_deleted` BOOLEAN DEFAULT FALSE,
                         PRIMARY KEY (`id`)
 ) AUTO_INCREMENT = 1000;
 
