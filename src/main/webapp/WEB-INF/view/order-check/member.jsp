@@ -10,7 +10,10 @@
 <%@include file="/WEB-INF/view/include/header.jsp" %>
 <main>
     <div class="container" style="max-width: 800px;">
-        <h4 class="center-align brown-text text-darken-2">주문 목록</h4>
+        <h2 class="brown-text text-darken-2 col s10"
+            style="font-weight: 700; font-size: 28px; margin-top : 40px; margin-bottom: 40px;">
+            주문 목록
+        </h2>
 
         <div class="row">
             <table class="highlight centered responsive-table">
@@ -23,6 +26,11 @@
                 </tr>
                 </thead>
                 <tbody>
+                <c:if test="${empty orders}">
+                    <tr>
+                        <td colspan="4">주문 내역이 없습니다.</td>
+                    </tr>
+                </c:if>
                 <c:forEach var="order" items="${orders}">
                     <tr>
                         <td>${order.id}</td>

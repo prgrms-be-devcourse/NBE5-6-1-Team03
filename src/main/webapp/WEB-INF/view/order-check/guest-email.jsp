@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>회원 주문 확인</title>
+    <title>비회원 주문 확인</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
 </head>
 <body>
@@ -11,7 +11,10 @@
 <main>
     <div class="section container" id="order-statistics">
         <div class="row">
-            <h2 class="brown-text text-darken-2 col s10">주문 목록</h2>
+            <h2 class="brown-text text-darken-2 col s10"
+                style="font-weight: 700; font-size: 28px; margin-top : 40px; margin-bottom: 40px;">
+                주문 목록
+            </h2>
         </div>
 
         <div class="row">
@@ -32,7 +35,9 @@
                         <td>${order.totalPrice}원</td>
                         <td>
                             <a href="${context}/order-check?id=${order.id}">
-                                <button type="button" class="btn small brown lighten-1">상세보기</button>
+                                <a href="${context}/order-check/member/${order.id}">
+                                    <button type="button" class="btn small brown lighten-1">상세보기</button>
+                                </a>
                             </a>
                         </td>
                     </tr>
