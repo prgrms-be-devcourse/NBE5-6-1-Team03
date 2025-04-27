@@ -4,7 +4,6 @@ import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
 import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
 import com.grepp.gridncircle.app.model.order.OrderRepository;
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
-import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final OrderRepository orderRepository;
 
     // 재고 부족 여부 확인
     public List<String> checkStock(List<PaymentDto> orderedMenus) {
@@ -40,17 +38,24 @@ public class PaymentService {
         List<Integer> menuIds = form.getMenuId();
         List<Integer> quantities = form.getQuantity();
 
-        // 주문 객체 생성 및 저장
         OrderDto order = new OrderDto();
-        order.setUserId(form.getUserId());
-        order.setUserEmail(form.getUserEmail());
+
+        if (form.getUserId() != null && !form.getUserId().isEmpty()) {
+            // 회원
+            order.setUserId(form.getUserId());
+            order.setUserEmail(form.getUserEmail());
+        } else {
+            // 비회원
+            order.setUserEmail(form.getUserEmail());
+            order.setUserId(null);
+        }
+
         order.setUserAddress(form.getUserAddress());
         order.setStatus(OrderStatus.ACCEPTED);
 
         paymentRepository.insertOrder(order);
         int orderId = order.getId();
 
-        // 주문된 메뉴 정보 생성
         List<PaymentDto> orderedMenus = new ArrayList<>();
         for (int i = 0; i < menuIds.size(); i++) {
             PaymentDto menuDto = new PaymentDto();
@@ -62,7 +67,7 @@ public class PaymentService {
         // 재고 부족 체크
         List<String> errorMessages = checkStock(orderedMenus);
 
-        // 재고 부족 메시지가 있을 경우 예외 처리
+        // 재고 부족 예외 처리
         if (!errorMessages.isEmpty()) {
             throw new RuntimeException(String.join(", ", errorMessages));
         }
@@ -89,6 +94,7 @@ public class PaymentService {
 
         return orderId;
     }
+
 
     // 결제 완료 후 주문 정보 확인
     public OrderDto getOrderById(int orderId) {

@@ -1,9 +1,12 @@
 package com.grepp.gridncircle.app.controller.web.payment;
 
 import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
+import com.grepp.gridncircle.app.model.order.OrderService;
 import com.grepp.gridncircle.app.model.order.dto.OrderDto;
 import com.grepp.gridncircle.app.model.payment.PaymentService;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
+import com.grepp.gridncircle.infra.error.exceptions.CommonException;
+import com.grepp.gridncircle.infra.response.ResponseCode;
 import jakarta.servlet.http.HttpSession;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -24,19 +27,17 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    //    @PostMapping
-//    public String paymentPage(@ModelAttribute PaymentForm form, Model model) {
-//
-//        log.info("Payment form : {}", form);
-//
-//        return "payment/payment";
-//    }
-
     // 결제 처리
     @PostMapping
     public String payment(@ModelAttribute PaymentForm form, HttpSession session, Model model) {
         try {
+            // 회원,비회원 구분 PaymentService 에서 처리
+            if (form.getUserEmail() == null || form.getUserEmail().isEmpty()) {
+                throw new CommonException(ResponseCode.BAD_REQUEST);  // 이메일이 없으면 오류 처리
+            }
+
             int orderId = paymentService.Payment(form);
+
             session.setAttribute("orderId", orderId);
 
             return "forward:/payment/success";
@@ -49,12 +50,13 @@ public class PaymentController {
     }
 
 
+
+
     @PostMapping("/success")
     public String paymentSuccess(HttpSession session, Model model) {
         Integer orderId = (Integer) session.getAttribute("orderId");
 
         if (orderId != null) {
-            // 주문 정보 조회
             OrderDto order = paymentService.getOrderById(orderId);
             List<PaymentDto> menuItems = paymentService.getOrderedMenus(orderId);
 
