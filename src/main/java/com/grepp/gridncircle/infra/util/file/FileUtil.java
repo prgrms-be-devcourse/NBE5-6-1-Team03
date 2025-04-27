@@ -45,12 +45,17 @@ public class FileUtil {
         return UUID.randomUUID() + ext;
     }
 
+    // 특정 폴더에 저장
     private String createSavePath(String depth) {
+        return "/" + depth + "/beans/";
+    }
+
+    // 날짜를 기준으로 분류하여 저장
+    private String createDateSavePath(String depth) {
         LocalDate now = LocalDate.now();
         return "/" +depth + "/"
             + now.getYear() + "/"
             + now.getMonth() + "/"
             + now.getDayOfMonth() + "/";
-
     }
 }

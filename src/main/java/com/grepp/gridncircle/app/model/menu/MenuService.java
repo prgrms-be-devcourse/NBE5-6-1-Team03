@@ -42,7 +42,7 @@ public class MenuService {
         try {
             menuRepository.insert(menuDTO);
             if (thumbnail != null && thumbnail.stream().anyMatch(file -> !file.isEmpty())) {
-                List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
+                List<FileDto> fileDtos = fileUtil.upload(thumbnail, "img");
                 for (FileDto fileDto : fileDtos) {
                     MenuImageDto menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
                     menuRepository.insertImage(menuImageDTO);
@@ -58,7 +58,7 @@ public class MenuService {
         try {
             menuRepository.update(menuDTO);
             if (thumbnail != null && thumbnail.stream().anyMatch(file -> !file.isEmpty())) {
-                List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
+                List<FileDto> fileDtos = fileUtil.upload(thumbnail, "img");
                 Optional<MenuImageDto> result = menuRepository.findImageById(menuDTO.getId());
                 if (result.isPresent()) {
                     for (FileDto fileDto : fileDtos) {
