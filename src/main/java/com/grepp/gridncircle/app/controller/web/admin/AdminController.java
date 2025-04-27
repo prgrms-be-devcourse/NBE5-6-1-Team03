@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -134,7 +135,7 @@ public class AdminController {
         return "redirect:/admin/orders?orderDate=" + baseDate;
     }
 
-    // 상품 관리
+    // 메뉴 전체 조회
     @GetMapping("menu")
     public String menu(Model model) {
         List<MenuDto> menuList = menuService.getMenuList();
@@ -146,7 +147,7 @@ public class AdminController {
         return "admin/menu/menu";
     }
 
-    // 전체 상품 조회
+    // 메뉴 상세 조회
     @GetMapping("menu/{id}")
     public String menuDetail(@PathVariable int id, Model model,
         RedirectAttributes redirectAttributes) {
@@ -169,28 +170,36 @@ public class AdminController {
         return "admin/menu/menu-detail";
     }
 
-    // 상품 수정
+    // 메뉴 수정
     @PostMapping("menu/{id}")
     public String menuUpdate(
         @PathVariable int id,
         @Valid MenuRegistForm form,
         BindingResult bindingResult
     ) {
+        if (form.getThumbnail() != null) {
+            for (MultipartFile file : form.getThumbnail()) {
+                if (file.getOriginalFilename() != null && file.getOriginalFilename().length() > 100) { // 예: 100자 초과 금지
+                    bindingResult.reject("thumbnail", "파일 이름이 너무 깁니다 (최대 100자).");
+                }
+            }
+        }
         if (bindingResult.hasErrors()) {
-            return "admin/menu/" + id;
+            return "admin/menu/menu-detail";
         }
         form.setMenuId(id);
         menuService.updateMenu(form.getThumbnail(), form.toDto());
         return "redirect:/admin/menu";
     }
 
+    // 메뉴 삭제
     @DeleteMapping("menu/{id}")
     public ResponseEntity<?> menuDelete(@PathVariable int id) {
         menuService.deleteMenu(id);
         return ResponseEntity.ok().build();
     }
 
-    // 상품 등록
+    // 메뉴 등록
     @GetMapping("menu/new")
     public String menuAdd(MenuRegistForm form) {
         return "admin/menu/menu-new";
@@ -199,16 +208,17 @@ public class AdminController {
     @PostMapping("menu/new")
     public String menuRegist(
         @Valid MenuRegistForm form,
-        BindingResult bindingResult,
-        RedirectAttributes redirectAttributes) {
-
+        BindingResult bindingResult
+    ) {
+        if (form.getThumbnail() != null) {
+            for (MultipartFile file : form.getThumbnail()) {
+                if (file.getOriginalFilename() != null && file.getOriginalFilename().length() > 100) { // 예: 100자 초과 금지
+                    bindingResult.reject("thumbnail", "파일 이름이 너무 깁니다 (최대 100자).");
+                }
+            }
+        }
         if (bindingResult.hasErrors()) {
             return "admin/menu/menu-new";
-        }
-        if (form.getThumbnail() == null || form.getThumbnail().isEmpty() ||
-            form.getThumbnail().stream().allMatch(file -> file.isEmpty())) {
-            redirectAttributes.addFlashAttribute("alertMessage", "사진을 등록해주세요.");
-            return "redirect:/admin/menu/new";
         }
 
         menuService.registMenu(form.getThumbnail(), form.toDto());

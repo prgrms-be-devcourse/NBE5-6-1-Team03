@@ -25,7 +25,7 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final FileUtil fileUtil;
 
-    public List<MenuDto> getPopularMenus(){
+    public List<MenuDto> getPopularMenus() {
         return menuRepository.selectPopularMenuList();
     }
 
@@ -40,35 +40,41 @@ public class MenuService {
     @Transactional
     public void registMenu(List<MultipartFile> thumbnail, MenuDto menuDTO) {
         try {
-            List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
             menuRepository.insert(menuDTO);
-
-            if (fileDtos.isEmpty()) return;
-            for (FileDto fileDto : fileDtos) {
-                MenuImageDto menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
-                menuRepository.insertImage(menuImageDTO);
+            if (thumbnail != null && thumbnail.stream().anyMatch(file -> !file.isEmpty())) {
+                List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
+                for (FileDto fileDto : fileDtos) {
+                    MenuImageDto menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
+                    menuRepository.insertImage(menuImageDTO);
+                }
             }
-        } catch (IOException e) { // 파일 이름이 너무 길 경우 오류 발생 가능
-            e.printStackTrace();
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException("파일 업로드 중 오류 발생", e);
         }
-
     }
 
     @Transactional
     public void updateMenu(@NotNull List<MultipartFile> thumbnail, MenuDto menuDTO) {
         try {
-            List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
             menuRepository.update(menuDTO);
+            if (thumbnail != null && thumbnail.stream().anyMatch(file -> !file.isEmpty())) {
+                List<FileDto> fileDtos = fileUtil.upload(thumbnail, "menu");
+                Optional<MenuImageDto> result = menuRepository.findImageById(menuDTO.getId());
+                if (result.isPresent()) {
+                    for (FileDto fileDto : fileDtos) {
+                        MenuImageDto menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
+                        menuRepository.updateImage(menuImageDTO);
+                    }
+                } else {
+                    for (FileDto fileDto : fileDtos) {
+                        MenuImageDto menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
+                        menuRepository.insertImage(menuImageDTO);
+                    }
+                }
 
-            if (fileDtos.isEmpty()) return;
-            for (FileDto fileDto : fileDtos) {
-                MenuImageDto menuImageDTO = fileToImageDTO(fileDto, menuDTO.getId());
-                menuRepository.updateImage(menuImageDTO);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new RuntimeException("파일 업로드 중 오류 발생", e);
         }
     }
 

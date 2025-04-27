@@ -2,6 +2,7 @@ package com.grepp.gridncircle.app.model.menu;
 
 import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
 import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Delete;
@@ -15,7 +16,6 @@ import org.apache.ibatis.annotations.Update;
 public interface MenuRepository {
 
     // Menu
-
     @Select("SELECT m.* FROM menu m JOIN (SELECT menu_id, COUNT(*) AS cnt FROM ordered_menu GROUP BY menu_id ORDER BY cnt DESC LIMIT 3) om ON m.id = om.menu_id ORDER BY om.cnt DESC")
     List<MenuDto> selectPopularMenuList();
 
@@ -38,14 +38,18 @@ public interface MenuRepository {
     boolean deleteById(int id);
 
     // MenuImage
+    @Select("select * from menu_img where menu_id = #{menuId}")
+    Optional<MenuImageDto> findImageById(@NotNull int menuId);
+
     @Insert("insert into menu_img (created_at, original_name, rename_name, save_path, menu_id)"
         + " VALUES (#{createdAt}, #{originalName}, #{renameName}, #{savePath}, #{menuId})")
     void insertImage(MenuImageDto menuImageDTO);
 
-    @Update("update menu_img set original_name = #{originalName}, rename_name = #{renameName}, "
+    @Update("update menu_img set created_at = #{createdAt}, original_name = #{originalName}, rename_name = #{renameName}, "
         + "save_path = #{savePath} where menu_id = #{menuId}")
     void updateImage(MenuImageDto menuImageDTO);
 
     @Delete("delete from menu_img where menu_id = #{id}")
     void deleteImageByMenuId(int id);
+
 }
