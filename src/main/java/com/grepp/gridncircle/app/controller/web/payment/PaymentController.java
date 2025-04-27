@@ -30,19 +30,19 @@ public class PaymentController {
     // 결제 처리
     @PostMapping
     public String payment(@ModelAttribute PaymentForm form, HttpSession session, Model model) {
+
         try {
-            // 회원/비회원 구분 없이 Payment 메서드 호출
             int orderId = paymentService.Payment(form);
 
             // 주문 ID를 세션에 저장
             session.setAttribute("orderId", orderId);
 
-            return "forward:/payment/success";  // 결제 성공 페이지로 포워딩
+            return "forward:/payment/success";
 
         } catch (RuntimeException e) {
             log.error("결제 실패: {}", e.getMessage());
             model.addAttribute("errorMessages", e.getMessage());
-            return "payment/fail";  // 결제 실패 페이지로 이동
+            return "payment/fail";
         }
     }
 

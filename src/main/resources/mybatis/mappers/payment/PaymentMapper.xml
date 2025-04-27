@@ -35,11 +35,17 @@
     SELECT * FROM menu WHERE id = #{id}
   </select>
 
-  <!-- 주문 저장 -->
-  <insert id="insertOrder" parameterType="com.grepp.gridncircle.app.model.order.dto.OrderDto"
+  <!--회원 주문 저장-->
+  <insert id="insertOrderForMember" parameterType="com.grepp.gridncircle.app.model.order.dto.OrderDto"
     useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO orders (user_id, user_email, user_address, status, user_name)
-    VALUES (#{userId}, #{userEmail}, #{userAddress}, #{status}, #{name})
+    INSERT INTO orders (user_id, user_name, user_email, user_address, status)
+    VALUES (#{userId}, #{name}, #{userEmail}, #{userAddress}, #{status})
+  </insert>
+<!--비회원 주문 저장-->
+  <insert id="insertOrderForGuest" parameterType="com.grepp.gridncircle.app.model.order.dto.OrderDto"
+    useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO orders (user_id, user_email, user_address, status)
+    VALUES (#{userId}, #{userEmail}, #{userAddress}, #{status})
   </insert>
 
 

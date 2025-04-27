@@ -21,12 +21,15 @@ public interface PaymentRepository {
     // 주문 메뉴 저장
     void insertOrderedMenu(OrderedMenuDto orderedMenu);
 
-    //주문 저장
-    void insertOrder(OrderDto order);
-
     // 결제 완료 후 주문 정보 확인
     OrderDto selectOrderById(int orderId);
 
     // 결제 완료 후 주문 상세 내역 확인
     List<PaymentDto> selectOrderedMenuByOrderId(int orderId);
+
+    // 회원 주문 저장
+    void insertOrderForMember(OrderDto order);
+
+    // 비회원 주문 저장
+    void insertOrderForGuest(OrderDto order);
 }
