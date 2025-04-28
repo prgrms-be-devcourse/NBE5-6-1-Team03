@@ -39,8 +39,15 @@
                                 </c:if>
                             </div>
                             <div class="card-content">
-                                <span class="card-title">${popularMenu.name}</span>
-                                <p>가격 : ${popularMenu.price}원</p>
+                                <table>
+                                    <tr>
+                                            ${popularMenu.name}
+                                    </tr>
+                                    <tr>
+                                        <td>가격</td>
+                                        <td>${popularMenu.price}</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </a>
