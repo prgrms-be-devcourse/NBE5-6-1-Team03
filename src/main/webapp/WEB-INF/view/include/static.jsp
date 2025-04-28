@@ -43,10 +43,6 @@
     flex-direction: column;
   }
 
-  main {
-    flex: 1; /* 남은 공간을 main이 차지하게 */
-  }
-
 
 
 </style>

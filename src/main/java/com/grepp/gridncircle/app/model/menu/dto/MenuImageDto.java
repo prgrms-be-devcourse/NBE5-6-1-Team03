@@ -37,6 +37,6 @@ public class MenuImageDto {
     }
 
     public String getRenamedUrl() {
-        return "/download" + savePath + renameName;
+        return "/download/" + savePath + renameName;
     }
 }

@@ -6,11 +6,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
+@Slf4j
 public class FileUtil {
 
     @Value("${upload.path}")
@@ -25,6 +27,7 @@ public class FileUtil {
             System.out.println(originalName);
             String renameName = generateRenameFileName(originalName);
             FileDto fileDto = new FileDto(originalName, renameName, savePath);
+            log.info(fileDto.toString());
             fileDtos.add(fileDto);
             uploadFile(file, fileDto);
         }
@@ -47,7 +50,7 @@ public class FileUtil {
 
     // 특정 폴더에 저장
     private String createSavePath(String depth) {
-        return "/" + depth + "/beans/";
+        return depth + "/beans/";
     }
 
     // 날짜를 기준으로 분류하여 저장

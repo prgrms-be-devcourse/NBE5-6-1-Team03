@@ -25,6 +25,7 @@
                     <li><a href="${context}/menu">메뉴</a></li>
                     <li><a href="${context}/order">주문하기</a></li>
                     <li><a href="${context}/admin">대시보드</a></li>
+                    <li><a href="${context}/order-check/member">주문확인</a></li>
                     <li><a href="#" id="logout">로그아웃</a></li>
                 </sec:authorize>
             </ul>
