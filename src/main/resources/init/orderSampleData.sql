@@ -8,11 +8,11 @@ INSERT INTO `menu` (`name`, `amount`, `info`, `created_at`, `price`) VALUES
 
 -- menu_img 더미 데이터 (커피 원두 이미지)
 INSERT INTO `menu_img` (`original_name`, `rename_name`, `save_path`, `menu_id`, `created_at`) VALUES
-                                                                                                  ('yirgacheffe.jpg', 'bean_1001.jpg', '/img/beans/', 1000, NOW()),
-                                                                                                  ('colombia.jpg', 'bean_1002.jpg', '/img/beans/', 1001, NOW()),
-                                                                                                  ('kenya.jpg', 'bean_1003.jpg', '/img/beans/', 1002, NOW()),
-                                                                                                  ('guatemala.jpg', 'bean_1004.jpg', '/img/beans/', 1003, NOW()),
-                                                                                                  ('mandheling.jpg', 'bean_1005.jpg', '/img/beans/', 1004, NOW());
+                                                                                                  ('yirgacheffe.jpg', 'bean_1001.jpg', 'img/beans/', 1000, NOW()),
+                                                                                                  ('colombia.jpg', 'bean_1002.jpg', 'img/beans/', 1001, NOW()),
+                                                                                                  ('kenya.jpg', 'bean_1003.jpg', 'img/beans/', 1002, NOW()),
+                                                                                                  ('guatemala.jpg', 'bean_1004.jpg', 'img/beans/', 1003, NOW()),
+                                                                                                  ('mandheling.jpg', 'bean_1005.jpg', 'img/beans/', 1004, NOW());
 
 
 
