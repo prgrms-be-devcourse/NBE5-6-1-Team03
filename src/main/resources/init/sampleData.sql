@@ -15,9 +15,9 @@ VALUES
 -- 메뉴 이미지
 INSERT INTO `menu_img` (`original_name`, `rename_name`, `save_path`, `menu_id`)
 VALUES
-    ('yirgacheffe.jpg', 'bean_1001.jpg', '/img/beans/', 1000),
-    ('colombia.jpg', 'bean_1002.jpg', '/img/beans/', 1001),
-    ('kenya.jpg', 'bean_1003.jpg', '/img/beans/', 1002);
+    ('yirgacheffe.jpg', 'bean_1001.jpg', 'img/beans/', 1000),
+    ('colombia.jpg', 'bean_1002.jpg', 'img/beans/', 1001),
+    ('kenya.jpg', 'bean_1003.jpg', 'img/beans/', 1002);
 
 -- 주문 - 비회원
 INSERT INTO `orders` (`user_name`, `user_address`, `user_email`)
