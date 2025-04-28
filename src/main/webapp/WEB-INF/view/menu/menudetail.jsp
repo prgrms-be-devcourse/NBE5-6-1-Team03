@@ -23,7 +23,7 @@
                 <div id="imagebox">
                     <c:if test="${not empty image}">
                         <c:set var="found" value="true" />
-                        <img src="/download${image.savePath}${image.renameName}" />
+                        <img src="/download/${image.savePath}${image.renameName}" />
                     </c:if>
                     <c:if test="${empty image}">
                         <img src="/download/img/beans/no-image.jpg" alt="이미지 없음" width="200px" />
@@ -47,7 +47,7 @@
 
             <div class ="infoimage">
                 <div>
-                    <img src="/download${image.savePath}infopage.jpg" />
+                    <img src="/download/${image.savePath}infopage.jpg" />
 
                 </div>
             </div>

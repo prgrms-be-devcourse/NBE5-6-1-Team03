@@ -32,7 +32,7 @@
                         <div class="card overlay" title="상세보기">
                             <div class="card-image">
                                 <c:if test="${not empty imageMap[popularMenu.id][0]}">
-                                    <img src="/download${imageMap[popularMenu.id][0].savePath}${imageMap[popularMenu.id][0].renameName}" width="200px" />
+                                    <img src="/download/${imageMap[popularMenu.id][0].savePath}${imageMap[popularMenu.id][0].renameName}" width="200px" />
                                 </c:if>
                                 <c:if test="${ empty imageMap[popularMenu.id][0]}">
                                     <img src="/download/img/beans/no-image.jpg" width="200px" />
