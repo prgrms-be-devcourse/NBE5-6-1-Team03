@@ -4,12 +4,16 @@ import com.grepp.gridncircle.app.controller.web.order.form.OrderForm;
 import com.grepp.gridncircle.app.controller.web.payment.form.PaymentForm;
 import com.grepp.gridncircle.app.model.member.MemberService;
 import com.grepp.gridncircle.app.model.member.dto.MemberDto;
+import com.grepp.gridncircle.app.model.menu.ImageService;
 import com.grepp.gridncircle.app.model.menu.MenuService;
 import com.grepp.gridncircle.app.model.menu.dto.MenuDto;
+import com.grepp.gridncircle.app.model.menu.dto.MenuImageDto;
 import com.grepp.gridncircle.app.model.payment.dto.PaymentDto;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -28,11 +32,16 @@ public class OrderController {
 
     private final MenuService menuService;
     private final MemberService memberService;
+    private final ImageService imageService;
 
     @GetMapping
     public String showOrderPage(Authentication authentication, OrderForm form, Model model) {
 
         Optional<Authentication> auth = Optional.ofNullable(authentication);
+
+        List<MenuImageDto> imageList = imageService.getAllImage();
+        Map<Integer, List<MenuImageDto>> imageMap = imageList.stream()
+                .collect(Collectors.groupingBy(MenuImageDto::getMenuId));
 
         String id = null;
 
@@ -48,6 +57,7 @@ public class OrderController {
         List<MenuDto> menus = menuService.getMenuList();
 
         model.addAttribute("menus", menus);
+        model.addAttribute("imageMap", imageMap);
         
         return "order/order";
     }
@@ -57,6 +67,12 @@ public class OrderController {
 
         List<MenuDto> menus = menuService.getMenuList();
         List<PaymentDto> orderedMenus = form.getMenuList();
+
+        List<MenuImageDto> imageList = imageService.getAllImage();
+        Map<Integer, List<MenuImageDto>> imageMap = imageList.stream()
+                .collect(Collectors.groupingBy(MenuImageDto::getMenuId));
+
+        model.addAttribute("imageMap", imageMap);
         model.addAttribute("menus", menus);
         model.addAttribute("orderedMenus", orderedMenus);
         if (bindingResult.hasErrors()) {

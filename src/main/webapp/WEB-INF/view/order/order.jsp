@@ -14,11 +14,14 @@
             <div class="menu-list container">
                 <h4 class="brown-text text-darken-3 center-align">메뉴</h4>
                 <div class="row">
+                    <c:set var="imageList" value="${imageMap}"/>
                     <table class="highlight centered">
                         <thead>
                         <tr>
+                            <th>     </th>
                             <th>메뉴명</th>
                             <th>가격</th>
+                            <th>재고</th>
                             <th>추가</th>
                         </tr>
                         </thead>
@@ -28,8 +31,17 @@
                                 data-id="${menu.id}"
                                 data-name="${menu.name}"
                                 data-price="${menu.price}">
+                                <td>
+                                    <c:if test="${empty imageMap[menu.id][0]}">
+                                        <img src="/assets/img/sample.jpeg" alt="샘플" style="width: 60px; height: 60px; object-fit: cover;">
+                                    </c:if>
+                                    <c:if test="${not empty imageMap[menu.id][0]}">
+                                        <img src="${imageMap[menu.id][0].renamedUrl}" alt="${menu.name}" style="width: 60px; height: 60px; object-fit: cover;">
+                                    </c:if>
+                                </td>
                                 <td>${menu.name}</td>
                                 <td>${menu.price}원</td>
+                                <td>${menu.amount}개</td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${menu.amount > 0}">
