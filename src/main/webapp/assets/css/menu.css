@@ -87,9 +87,14 @@
 
 }
 
-#namebox table{
-    font-size: 20px;
+#namebox table {
+    font-size: 18px;
+    border: none;
+    border-collapse: collapse; /* (옵션) 선 겹치는 것도 방지 */
+}
 
+#namebox table td, #namebox table th #namebox table tr {
+    border: none;
 }
 
 .down {
