@@ -6,7 +6,6 @@
     <title>Cafe Grid & Circle</title>
     <%@ include file="/WEB-INF/view/include/static.jsp" %>
 </head>
-<link rel="stylesheet" href="../../../../assets/css/footer.css">
 <body>
 <%@ include file="/WEB-INF/view/include/header.jsp" %>
 <main class="container" style="max-width: 800px;">

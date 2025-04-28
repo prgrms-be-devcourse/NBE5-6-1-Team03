@@ -4,8 +4,16 @@
 <head>
     <title>Cafe Grid & Circle</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
+    <style>
+        .card {
+          margin-top: 50px;
+        }
+        .image-container{
+          text-align: center;
+          margin-top: 30px;
+        }
+    </style>
 </head>
-<link rel="stylesheet" href="../../../../assets/css/footer.css">
 <body>
 <%@include file="/WEB-INF/view/include/header.jsp" %>
 <main class="container" style="max-width: 800px;">
@@ -24,6 +32,10 @@
                         <p><strong style="font-size: 24px;">${errorMessage}</strong></p>
                     </c:forEach>
                 </c:if>
+            </div>
+
+            <div class="image-container">
+                <img src="../../../../assets/img/payment.png" alt="이미지 설명" width="300" />
             </div>
             <br>
 
