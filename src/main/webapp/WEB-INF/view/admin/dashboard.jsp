@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="/WEB-INF/view/include/page.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,6 @@
     <%@include file="/WEB-INF/view/include/static.jsp" %>
     <!-- Chart.js 라이브러리 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<%--    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>--%>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <style>
       .date-range {
@@ -26,98 +26,101 @@
 <link rel="stylesheet" href="../../../assets/css/footer.css">
 <body>
 <%@include file="/WEB-INF/view/include/header-admin.jsp" %>
-
 <main>
     <!-- 대시보드 차트 -->
     <div class="section container" id="order-statistics">
         <h4 class="brown-text text-darken-2">대시보드</h4>
-        <form action="/admin" method="get">
-            <div class="date-range">
-                <div class="input-field col s5">
-                    <input type="text" name="startDate" id="startDate" class="datepicker">
-                    <label for="startDate">시작일</label>
-                </div>
+        <div style="font-size: 1rem; color: #757575">기준일: ${startDate} ~ ${endDate}</div>
 
-                <div class="input-field col s5">
-                    <input type="text" name="endDate" id="endDate" class="datepicker">
-                    <label for="endDate">종료일</label>
-                </div>
-                <button id="applyBtn" type="submit"
-                        class="waves-effect waves-light btn green darken-4">
-                    <i class="material-icons left">refresh</i>조회
-                </button>
+        <form action="/admin" method="get" style="margin-top: 20px; display: flex; gap: 12px; align-items: center;">
+            <div class="input-field" style="margin: 0;">
+                <input type="text" name="startDate" id="startDate" class="datepicker" required
+                       style="border-bottom: 1px solid; box-shadow: none; font-size: 1.1rem;">
+                <label for="startDate" class="active">시작일</label>
             </div>
+
+            <div class="input-field" style="margin: 0;">
+                <input type="text" name="endDate" id="endDate" class="datepicker" required
+                       style="border-bottom: 1px solid; box-shadow: none; font-size: 1.1rem;">
+                <label for="endDate" class="active">종료일</label>
+            </div>
+
+            <button id="applyBtn" type="submit"
+                    class="btn-small green darken-3 waves-effect waves-light" style="height: 45px; line-height: 45px;">
+                <i class="material-icons left" style="margin-right: 5px;">search</i>조회
+            </button>
         </form>
 
-        <h5 class="brown-text text-darken-2">주문 통계</h5>
+        <!-- 주문 통계 카드 -->
+        <div style="display: flex; justify-content: space-between">
+            <div class="card" style="padding: 20px; margin: 10px; width: 95%; margin-top: 30px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.15);">
 
-        <div class="brown-text text-darken-2">기준일: ${startDate} ~ ${endDate}</div>
+            <h5 class="brown-text text-darken-2" style="font-size: 2rem; font-weight: 600;">주문 통계</h5>
 
-        <!-- 상품별 판매량 차트 -->
-        <div class="chart-container">
-            <canvas id="orderStatsChart"></canvas>
+            <div class="chart-container" style="margin-bottom: 20px;">
+                <canvas id="orderStatsChart"></canvas>
+            </div>
+
+            <table class="highlight centered" style="margin-top: 30px; font-size: 0.95rem">
+                <thead class="grey lighten-5">
+                <tr>
+                    <th>순위</th>
+                    <th>상품명</th>
+                    <th>판매량</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${orderStatsList}" var="orderStats" varStatus="status">
+                    <tr>
+                        <td>${status.count}</td>
+                        <td>${orderStats.name}</td>
+                        <td><fmt:formatNumber value="${orderStats.totalQuantity}" pattern="#,###" />개</td>
+                    </tr>
+                </c:forEach>
+                <tr style="font-weight: bold;" class="grey lighten-5">
+                    <td>총 판매량</td>
+                    <td></td>
+                    <td id="statsSum"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <table>
-            <thead>
-            <tr>
-                <th>순위</th>
-                <th>상품명</th>
-                <th>판매량</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${orderStatsList}" var="orderStats" varStatus="status">
+        <!-- 매출 통계 카드 -->
+        <div class="card"
+             style="padding: 20px; margin: 10px; width: 95%; margin-top: 30px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.15);">
+            <h5 class="brown-text text-darken-2" style="font-size: 2rem; font-weight: 600;">매출 통계</h5>
+
+            <div class="chart-container" style="margin-bottom: 20px;">
+                <canvas id="salesChart"></canvas>
+            </div>
+            <table class="highlight centered" style="margin-top: 30px; font-size: 0.95rem">
+                <thead class="grey lighten-5">
                 <tr>
-                    <td>${status.count}</td>
-                    <td>${orderStats.name}</td>
-                    <td>${orderStats.totalQuantity}</td>
+                    <th>구분</th>
+                    <th>일자</th>
+                    <th>매출액</th>
                 </tr>
-            </c:forEach>
-            <tr>
-                <td style="font-weight: bold;">총 판매량</td>
-                <td></td>
-                <td id="statsSum"  style="font-weight: bold;"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section container" id="sales-statistics">
-        <h5 class="brown-text text-darken-2">매출 통계</h5>
-
-        <div class="brown-text text-darken-2">기준일: ${startDate} ~ ${endDate}</div>
-
-        <!-- 일자별 매출액 차트 -->
-        <div class="chart-container">
-            <canvas id="salesChart"></canvas>
+                </thead>
+                <tbody>
+                <c:forEach items="${orderSalesList}" var="orderSales" varStatus="status">
+                    <tr>
+                        <td>${status.count}</td>
+                        <td>${orderSales.orderDate}</td>
+                        <td><fmt:formatNumber value="${orderSales.totalAmount}" pattern="#,###" />원</td>
+                    </tr>
+                </c:forEach>
+                <tr style="font-weight: bold;" class="grey lighten-5">
+                    <td>총 매출액</td>
+                    <td></td>
+                    <td id="salesSum"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         </div>
 
-        <table>
-            <thead>
-            <tr>
-                <th>구분</th>
-                <th>일자</th>
-                <th>매출액</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${orderSalesList}" var="orderSales" varStatus="status">
-                <tr>
-                    <td>${status.count}</td>
-                    <td>${orderSales.orderDate}</td>
-                    <td>${orderSales.totalAmount}원</td>
-                </tr>
-            </c:forEach>
-            <tr>
-                <td style="font-weight: bold;">총 매출액</td>
-                <td></td>
-                <td id="salesSum"  style="font-weight: bold;"></td>
-            </tr>
-            </tbody>
-        </table>
     </div>
-
 </main>
 <%@include file="/WEB-INF/view/include/footer.jsp" %>
 
@@ -144,8 +147,7 @@
     statsSum += ${orderStats.totalQuantity};
     </c:forEach>
 
-    document.querySelector('#statsSum').innerText = statsSum + '개';
-
+    document.querySelector('#statsSum').innerText = statsSum.toLocaleString() +'개';
 
     new Chart(orderStatsChart, {
       type: 'doughnut',
@@ -193,7 +195,7 @@
             formatter: (value, context) => {
               const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
               const percentage = (value / total * 100).toFixed(1);
-              return percentage +'%';
+              return percentage + '%';
             },
             font: {
               weight: 'bold',
@@ -219,7 +221,7 @@
     salesSum += ${orderSales.totalAmount};
     </c:forEach>
 
-    document.querySelector('#salesSum').innerText = salesSum + '원';
+    document.querySelector('#salesSum').innerText = salesSum.toLocaleString() +'원';
 
     new Chart(salesChart, {
       type: 'line',
@@ -285,7 +287,6 @@
       e.preventDefault();
       alert('시작일과 종료일을 모두 선택해주세요.')
     }
-
 
   });
 </script>

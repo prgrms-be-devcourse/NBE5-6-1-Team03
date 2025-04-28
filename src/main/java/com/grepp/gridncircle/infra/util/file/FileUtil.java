@@ -56,7 +56,7 @@ public class FileUtil {
     // 날짜를 기준으로 분류하여 저장
     private String createDateSavePath(String depth) {
         LocalDate now = LocalDate.now();
-        return "/" +depth + "/"
+        return depth + "/"
             + now.getYear() + "/"
             + now.getMonth() + "/"
             + now.getDayOfMonth() + "/";
