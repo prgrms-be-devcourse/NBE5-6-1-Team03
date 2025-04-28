@@ -20,10 +20,10 @@
     <div class="card">
         <div class="card-content">
             <div class="fail center-align">
-                <h2 class="brown-text text-darken-2">결제 실패</h2>
+                <h2 class="brown-text text-darken-2">❌ 결제 실패 ❌</h2>
                 <div style="text-align: center;">
                     <p style="margin: 0; font-size: 20px;">주문처리에 실패하여</p>
-                    <p style="font-size: 20px;">결제를 완료하지 못하였습니다 😭 </p>
+                    <p style="font-size: 20px;">결제를 완료하지 못하였습니다</p>
                 </div>
                 <br>
 
@@ -35,7 +35,7 @@
             </div>
 
             <div class="image-container">
-                <img src="../../../../assets/img/payment.png" alt="이미지 설명" width="300" />
+                <img src="/assets/img/payment_fail.png" alt="결제 실패" width="300" />
             </div>
             <br>
 

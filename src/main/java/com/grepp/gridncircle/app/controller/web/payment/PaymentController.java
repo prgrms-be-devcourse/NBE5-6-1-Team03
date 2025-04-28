@@ -60,7 +60,7 @@ public class PaymentController {
                 .mapToInt(item -> item.getPrice() * item.getQuantity())
                 .sum();
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a HH시 mm분");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a h시 mm분");
             String formattedDate = order.getCreatedAt().format(formatter);
 
             model.addAttribute("order", order);

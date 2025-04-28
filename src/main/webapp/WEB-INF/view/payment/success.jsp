@@ -5,13 +5,18 @@
 <head>
     <title>Cafe Grid & Circle</title>
     <%@ include file="/WEB-INF/view/include/static.jsp" %>
+    <style>
+      .card {
+        margin-top: 50px;
+      }
+    </style>
 </head>
 <body>
 <%@ include file="/WEB-INF/view/include/header.jsp" %>
 <main class="container" style="max-width: 800px;">
     <div class="card">
         <div class="card-content">
-            <h2 class="brown-text text-darken-2 center-align">결제 완료</h2>
+            <h2 class="brown-text text-darken-2 center-align">🎉 결제 완료 🎉</h2>
 
 
             <h4 class="brown-text text-darken-2">주문 상세</h4>
