@@ -4,7 +4,7 @@
     gap: 20px;               /* 카드 사이 여백 */
     justify-content: flex-start; /* 왼쪽 정렬 */
     padding: 20px;
-    border: solid crimson ;
+    /*border: solid crimson ;*/
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     background-color: #fff;
@@ -33,7 +33,7 @@
     object-fit: contain; /* 비율 유지하며 빈 공간 채우기 */
     display: block;
     margin: 0 auto;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .card-content{
@@ -42,7 +42,7 @@
     object-fit: contain; /* 비율 유지하며 빈 공간 채우기 */
     display: block;
     margin: 0 auto;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 
 }
 
@@ -55,19 +55,19 @@
 
 
 .section{
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
 .up {
     display: flex;
     gap: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 #imagebox {
     flex: 2;
     max-width: 500px;
-    border: 1px solid green;
+    /*border: 1px solid green;*/
 }
 
 #imagebox img {
@@ -80,19 +80,27 @@
 #namebox {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid orange;
+    justify-content: center; /* 좌우 가운데 */
+    align-items: center;      /* 위아래 가운데 */
+    height: 600px; /* div 높이 설정 필요. 원하는 값으로 바꿔도 돼 */
+    /*border: 1px solid orange;*/
+
+}
+
+#namebox table{
+    font-size: 20px;
+
 }
 
 .down {
-    margin-top: 20px;
+    /*margin-top: 10px;*/
     margin-bottom: 20px;
+    font-size: 20px;
 }
 
 #info {
     padding: 10px;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
 .infoimage
@@ -100,13 +108,14 @@
     min-height: 5000px;
     margin-top: 20px;
     margin-bottom: 20px;
-    border: 1px solid darkblue;
-    display: flex;
-    justify-content: center;
-    overflow:visible;
+    /*border: 1px solid darkblue;*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+
 }
+
 .infoimage img {
-    display: block;
-    max-width: 80%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 비율 유지하면서 div 꽉 채우기 */
 }

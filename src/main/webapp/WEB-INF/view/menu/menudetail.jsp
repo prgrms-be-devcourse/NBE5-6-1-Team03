@@ -31,10 +31,24 @@
                 </div>
 
                 <div id="namebox">
-                    <span>${menu.name}</span>
-                    <p>판매가 ${menu.price}</p>
-                    <p>적립금 ${menu.price * 0.05}원 (5%)</p>
-                    <p>배송비 3000원</p>
+                    <table >
+                        <tr>
+                            <td>이름</td>
+                            <td>${menu.name}</td>
+                        </tr>
+                        <tr>
+                            <td>판매가</td>
+                            <td>${menu.price}</td>
+                        </tr>
+                        <tr>
+                            <td>적립금</td>
+                            <td>${menu.price * 0.05}원 (5%)</td>
+                        </tr>
+                        <tr>
+                            <td>배송비</td>
+                            <td>3000원</td>
+                        </tr>
+                    </table>
                 </div>
 
             </div>
