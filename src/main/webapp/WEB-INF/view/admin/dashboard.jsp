@@ -30,6 +30,7 @@
     <!-- 대시보드 차트 -->
     <div class="section container" id="order-statistics">
         <h4 class="brown-text text-darken-2">대시보드</h4>
+        <div style="font-size: 1rem; color: #757575">기준일: ${startDate} ~ ${endDate}</div>
 
         <form action="/admin" method="get" style="margin-top: 20px; display: flex; gap: 12px; align-items: center;">
             <div class="input-field" style="margin: 0;">
@@ -55,8 +56,6 @@
             <div class="card" style="padding: 20px; margin: 10px; width: 95%; margin-top: 30px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.15);">
 
             <h5 class="brown-text text-darken-2" style="font-size: 2rem; font-weight: 600;">주문 통계</h5>
-
-            <div style="margin-bottom: 20px; font-size: 1rem; color: #757575">기준일: ${startDate} ~ ${endDate}</div>
 
             <div class="chart-container" style="margin-bottom: 20px;">
                 <canvas id="orderStatsChart"></canvas>
@@ -91,7 +90,6 @@
         <div class="card"
              style="padding: 20px; margin: 10px; width: 95%; margin-top: 30px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.15);">
             <h5 class="brown-text text-darken-2" style="font-size: 2rem; font-weight: 600;">매출 통계</h5>
-            <div style="margin-bottom: 20px; font-size: 1rem; color: #757575">기준일: ${startDate} ~ ${endDate}</div>
 
             <div class="chart-container" style="margin-bottom: 20px;">
                 <canvas id="salesChart"></canvas>

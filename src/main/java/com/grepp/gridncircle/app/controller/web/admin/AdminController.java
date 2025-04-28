@@ -118,7 +118,7 @@ public class AdminController {
     ) {
         orderService.updateOrderStatus(orderId, orderDateTime, orderStatus);
         redirectAttributes.addFlashAttribute("msg", "주문 상태가 변경되었습니다.");
-        return "redirect:/admin/orders/" + orderId + "?orderDateTime=" + orderDateTime;
+        return "redirect:/admin/orders?orderDateTime=" + orderDateTime;
     }
 
     // 그룹 발송처리

@@ -14,7 +14,8 @@
 <main>
     <div class="section container" id="order-statistics">
 
-        <h4 class="brown-text text-darken-2">주문 내역 (${date} 기준)</h4>
+        <h4 class="brown-text text-darken-2">주문 내역</h4>
+        <div style="font-size: 1rem; color: #757575">기준일: ${date}</div>
         <c:if test="${not empty msg}">
             <script>
               alert('${msg}');
@@ -26,7 +27,8 @@
             <div class="input-field" style="margin: 0;">
                 <input type="text" name="orderDate" id="orderDate" class="datepicker" required
                        style="border-bottom: 1px solid; box-shadow: none; font-size: 1.1rem;">
-                <label for="orderDate" class="active">기준일자</label>
+                <label for="orderDate" class="active">기준일 선택
+                </label>
             </div>
             <button type="submit"
                     class="btn-small green darken-3 waves-effect waves-light tooltipped"

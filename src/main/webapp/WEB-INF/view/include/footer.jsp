@@ -18,7 +18,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            © 2025 Grid & Circle. All rights reserved.
+            © 2025 Grid & Circle. All rights reserved. Icons by <a target="_blank" href="https://icons8.com">Icons8</a>
         </div>
     </div>
 </footer>
