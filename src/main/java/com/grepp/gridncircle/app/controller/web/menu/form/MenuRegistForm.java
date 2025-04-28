@@ -15,7 +15,6 @@ public class MenuRegistForm {
 
     private int menuId;
     private int menuImageId;
-    @NotNull
     private List<MultipartFile> thumbnail;
     @NotBlank
     @Size(max = 100)

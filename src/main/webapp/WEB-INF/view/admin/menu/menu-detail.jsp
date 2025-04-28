@@ -16,24 +16,24 @@
     <div class="section container" id="order-statistics">
 
         <h4 class="brown-text text-darken-2 col s10">상품 수정</h4>
-
         <div class="row">
-            <form:form class="col s12" action="${context}/admin/menu/${menuRegistForm.menuId}" method="post" enctype="multipart/form-data" modelAttribute="menuRegistForm">
+            <form:form class="col s12" action="/admin/menu/${menuRegistForm.menuId}"  method="post" enctype="multipart/form-data" modelAttribute="menuRegistForm">
                 <sec:csrfInput/>
                 <div class="card" style="width: 25%; min-width: 200px">
                     <div class="card-image">
                         <c:if test="${empty imageList}">
-                            <img src="/assets/img/sample.jpeg">
+                            <img id="preview-image" src="/assets/img/sample.jpeg">
                         </c:if>
                         <c:if test="${not empty imageList}">
-                            <img src="${imageList[0].url}" style="width: 100%">
+                            <img id="preview-image" src="${imageList[0].renamedUrl}" style="width: 100%">
                         </c:if>
                     </div>
                 </div>
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>File</span>
-                        <input type="file" name="thumbnail" multiple>
+                        <input type="file" name="thumbnail" id="thumbnail" multiple>
+                        <form:errors path="thumbnail" cssClass="red-text" />
                     </div>
                     <div class="file-path-wrapper">
                         <input class="file-path validate" type="text"
@@ -43,29 +43,29 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <form:textarea path="name" id="name" name="name" class="materialize-textarea"></form:textarea>
-                        <form:errors path="name"/>
                         <label for="name" class="active">상품명</label>
+                        <form:errors path="name" cssClass="red-text"/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <form:textarea path="info" id="info" name="info" class="materialize-textarea"></form:textarea>
-                        <form:errors path="info"/>
                         <label for="info" class="active">상품 정보</label>
+                        <form:errors path="info" cssClass="red-text"/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <form:input path="price" id="price" name="price" type="number" class="validate"></form:input>
-                        <form:errors path="price"/>
                         <label for="price" class="active">가격</label>
+                        <form:errors path="price" cssClass="red-text"/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <form:input path="amount" id="amount" name="amount" type="number" class="validate"></form:input>
-                        <form:errors path="amount"/>
                         <label for="amount" class="active">재고</label>
+                        <form:errors path="amount" cssClass="red-text"/>
                     </div>
                 </div>
                 <button type="submit" class="waves-effect waves-light btn col s2 green darken-4"><i
@@ -95,6 +95,7 @@
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          [csrfHeader]: csrfToken
         }
       })
       .then(response => {
@@ -107,6 +108,19 @@
       })
     }
   }
+
+  document.getElementById('thumbnail').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const previewImage = document.getElementById('preview-image');
+      previewImage.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 </script>
 
 </body>

@@ -19,6 +19,16 @@
     </collection>
   </resultMap>
 
+  <resultMap id="orderStatsMap" type="com.grepp.gridncircle.app.model.order.dto.OrderStatsDto">
+    <result property="name" column="name"/>
+    <result property="totalQuantity" column="total_quantity"/>
+  </resultMap>
+
+  <resultMap id="orderSalesMap" type="com.grepp.gridncircle.app.model.order.dto.OrderSalesDto">
+    <result property="orderDate" column="order_date"/>
+    <result property="totalAmount" column="total_amount"/>
+  </resultMap>
+
   <select id="selectGroupedOrders" resultMap="orderGroupMap">
     SELECT
     o.id AS orderId,
@@ -53,6 +63,28 @@
     LEFT JOIN menu m ON om.menu_id = m.id
     WHERE o.id = #{orderId} AND o.created_at BETWEEN #{startDateTime} AND #{endDateTime}
     ORDER BY o.user_email, o.created_at
+  </select>
+
+  <select id="getTop5Menu" resultMap="orderStatsMap">
+    SELECT m.name AS name, SUM(om.quantity) AS total_quantity
+    FROM ordered_menu om
+    JOIN menu m ON om.menu_id = m.id
+    JOIN orders o ON om.order_id = o.id
+    WHERE o.created_at BETWEEN #{startDateTime} AND #{endDateTime}
+    GROUP BY m.id, m.name
+    ORDER BY total_quantity DESC
+    LIMIT 5
+  </select>
+
+  <select id="getDailySales" resultType="orderSalesDto">
+    SELECT DATE(o.created_at) AS order_date,
+    SUM(om.quantity * m.price) AS total_amount
+    FROM ordered_menu om
+    JOIN menu m ON om.menu_id = m.id
+    JOIN orders o ON om.order_id = o.id
+    WHERE o.created_at BETWEEN #{startDateTime} AND #{endDateTime}
+    GROUP BY order_date
+    ORDER BY order_date ASC
   </select>
 
 

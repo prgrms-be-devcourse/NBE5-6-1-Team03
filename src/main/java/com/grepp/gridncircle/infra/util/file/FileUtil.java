@@ -22,6 +22,7 @@ public class FileUtil {
 
         for (MultipartFile file : files) {
             String originalName = file.getOriginalFilename();
+            System.out.println(originalName);
             String renameName = generateRenameFileName(originalName);
             FileDto fileDto = new FileDto(originalName, renameName, savePath);
             fileDtos.add(fileDto);
@@ -31,11 +32,11 @@ public class FileUtil {
     }
 
     private void uploadFile(MultipartFile file, FileDto fileDto) throws IOException {
-        File path = new File(filePath + "/" + fileDto.savePath());
+        File path = new File(filePath + fileDto.savePath());
         if (!path.exists()) {
             path.mkdirs();
         }
-        File target = new File(filePath + "/" + fileDto.savePath() + fileDto.renameName());
+        File target = new File(filePath + fileDto.savePath() + fileDto.renameName());
         file.transferTo(target);
     }
 
@@ -44,13 +45,17 @@ public class FileUtil {
         return UUID.randomUUID() + ext;
     }
 
+    // 특정 폴더에 저장
     private String createSavePath(String depth) {
+        return "/" + depth + "/beans/";
+    }
 
+    // 날짜를 기준으로 분류하여 저장
+    private String createDateSavePath(String depth) {
         LocalDate now = LocalDate.now();
-        return depth + "/"
+        return "/" +depth + "/"
             + now.getYear() + "/"
             + now.getMonth() + "/"
             + now.getDayOfMonth() + "/";
-
     }
 }

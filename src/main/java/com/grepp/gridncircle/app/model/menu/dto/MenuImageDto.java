@@ -35,4 +35,8 @@ public class MenuImageDto {
     public String getUrl() {
          return "/upload" + savePath + originalName; //return "/download/" + savePath + renameName; 에서 변경
     }
+
+    public String getRenamedUrl() {
+        return "/download" + savePath + renameName;
+    }
 }
