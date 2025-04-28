@@ -51,7 +51,7 @@
         </form>
 
         <!-- 주문 통계 카드 -->
-        <div style="display: flex; justify-content: space-around">
+        <div style="display: flex; justify-content: space-between">
             <div class="card" style="padding: 20px; margin: 10px; width: 95%; margin-top: 30px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.15);">
 
             <h5 class="brown-text text-darken-2" style="font-size: 2rem; font-weight: 600;">주문 통계</h5>
@@ -75,7 +75,7 @@
                     <tr>
                         <td>${status.count}</td>
                         <td>${orderStats.name}</td>
-                        <td>${orderStats.totalQuantity}</td>
+                        <td><fmt:formatNumber value="${orderStats.totalQuantity}" pattern="#,###" />개</td>
                     </tr>
                 </c:forEach>
                 <tr style="font-weight: bold;" class="grey lighten-5">
@@ -149,7 +149,7 @@
     statsSum += ${orderStats.totalQuantity};
     </c:forEach>
 
-    document.querySelector('#statsSum').innerText = statsSum + '개';
+    document.querySelector('#statsSum').innerText = statsSum.toLocaleString() +'개';
 
     new Chart(orderStatsChart, {
       type: 'doughnut',
