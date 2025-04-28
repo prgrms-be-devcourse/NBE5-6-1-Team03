@@ -3,7 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< Updated upstream
     <title>Cafe Grid & Circle</title>
+=======
+    <title>비회원 주문 확인</title>
+>>>>>>> Stashed changes
     <%@include file="/WEB-INF/view/include/static.jsp" %>
     <style>
         /* 헤더 스타일 */
@@ -45,24 +49,25 @@
     </style>
 </head>
 <body>
-<%@include file="/WEB-INF/view/include/header.jsp" %>
+<%@ include file="/WEB-INF/view/include/header.jsp" %>
 <main>
     <div class="section container" id="order-statistics">
         <div class="row">
             <h2 class="brown-text text-darken-2 col s10"
-                style="font-weight: 700; font-size: 28px; margin-top : 40px; margin-bottom: 40px;">
-                주문 상세 정보
+                style="font-weight: 700; font-size: 28px; margin-top: 40px; margin-bottom: 40px;">주문 상세 정보
             </h2>
         </div>
 
         <div class="order-summary">
+            <!-- 주문 ID 및 상세 정보 출력 -->
             <p><strong>주문번호: </strong>${orderId}</p>
             <c:if test="${not empty orderHeader}">
-                <p><strong>총 주문 금액: </strong>${orderHeader.totalPrice}원</p>
-                <p><strong>주문 상태:</strong> ${orderHeader.orderStatus}</p>
-                <p><strong>배송 주소: </strong>${orderHeader.userAddress}</p>
+                <p><strong>총 주문 금액: </strong>${orderHeader[0].totalPrice}원</p>
+                <p><strong>주문 상태: </strong>${orderHeader[0].orderStatus}</p>
+                <p><strong>배송 주소: </strong>${orderHeader[0].userAddress}</p>
             </c:if>
 
+            <!-- 주문 상세 내역 테이블 -->
             <table class="highlight centered responsive-table">
                 <thead>
                 <tr>
@@ -74,7 +79,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="detail" items="${orderDetails}" varStatus="status">
+                <c:forEach var="detail" items="${orderHeader}" varStatus="status">
                     <tr>
                         <td>${status.index + 1}</td>
                         <td>${detail.menuName}</td>
@@ -88,6 +93,6 @@
         </div>
     </div>
 </main>
-<%@include file="/WEB-INF/view/include/footer.jsp" %>
+<%@ include file="/WEB-INF/view/include/footer.jsp" %>
 </body>
 </html>

@@ -12,11 +12,10 @@
     <form:form modelAttribute="orderCheckForm" action="${context}/order-check/guest" method="post" class="col s12">
         <div class="container" style="max-width: 600px;">
             <h4 class="center-align brown-text text-darken-2"
-                style="margin-bottom: 60px; font-weight: 700; font-size: 32px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-                비회원 주문 확인
+                style="margin-bottom: 50px; font-weight: 700; font-size: 32px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">비회원 주문 확인
             </h4>
 
-            <div class="card z-depth-2" style="padding: 30px;">
+            <div class="card z-depth-2" style="padding: 30px;margin-bottom: 100px">
                 <div class="input-field">
                     <form:input path="email" type="email" id="email" name="email" class="validate"/>
                     <label for="email">이메일</label>

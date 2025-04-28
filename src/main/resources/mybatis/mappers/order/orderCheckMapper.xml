@@ -34,14 +34,37 @@
         o.id AS order_id,
         o.order_date,
         m.name AS menu_name,
+        o.user_email AS email,
         m.price AS menu_price,
         om.quantity
         FROM orders o
         JOIN ordered_menu om ON o.id = om.order_id
         JOIN menu m ON om.menu_id = m.id
-        WHERE o.email = #{email}
+        WHERE o.user_email = #{email}
         AND o.password = #{password}
         ORDER BY o.order_date DESC
+    </select>
+
+    <!--    (비)회원 주문 상세보기 -->
+    <select id="getOrderDetailsByEmailAndOrderId" resultType="com.grepp.gridncircle.app.model.order.dto.OrderDetailDto">
+        SELECT
+        o.id AS orderId,
+        o.status AS orderStatus,
+        o.user_address AS userAddress,
+        o.user_email AS email,
+        o.user_id AS userId,
+        (SELECT SUM(m.price * om.quantity)
+        FROM ordered_menu om
+        JOIN menu m ON om.menu_id = m.id
+        WHERE om.order_id = o.id) AS totalPrice,
+        m.name AS menuName,
+        m.price AS menuPrice,
+        om.quantity AS quantity,
+        (m.price * om.quantity) AS totalPricePerItem
+        FROM orders o
+        JOIN ordered_menu om ON o.id = om.order_id
+        JOIN menu m ON om.menu_id = m.id
+        WHERE o.id = #{orderId} AND o.user_email = #{email}
     </select>
 
 </mapper>

@@ -18,5 +18,9 @@ public class OrderDto {
     private OrderStatus status;
 
 
+    public int getTotalPrice () {
+        return 1000000000;
+    }
+
     private List<OrderedMenuDto> orderedMenus;
 }

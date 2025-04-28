@@ -12,7 +12,8 @@ public enum OrderStatus {
     DELIVERED("배송완료"),
     RETURN("반품"),
     EXCHANGE("교환처리"),
-    ERROR("확인필요");
+    ERROR("확인필요"),
+    ORDER_ACCEPT("주문접수");
 
     private final String desc;
     OrderStatus(String desc) {

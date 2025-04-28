@@ -1,18 +1,15 @@
 package com.grepp.gridncircle.app.model.order;
 
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
-import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderDetailDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderSalesDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderStatsDto;
+import com.grepp.gridncircle.app.model.order.dto.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import com.grepp.gridncircle.infra.error.exceptions.CommonException;
+import com.grepp.gridncircle.infra.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,9 +31,35 @@ public class OrderService {
         return orderRepository.selectByUserIdJoinMenu(userId);
     }
 
+
+    public List<OrderDetailDto> findById(int id, String email){
+
+        List<OrderDetailDto> order = orderRepository.getOrderDetailsByEmailAndOrderId(id, email);
+        if (order.isEmpty()) {
+            throw new CommonException(ResponseCode.BAD_REQUEST);
+        }
+
+        return order;
+    }
+
     // (비)회원 주문 1건 상세보기 조회
-    public List<OrderDetailDto> selectOrderDetailById(int orderId) {
-        return orderRepository.selectOrderDetailById(orderId);
+    public List<OrderDetailDto> getOrderDetailsByEmailAndOrderId(int orderId, String email) {
+        // 이메일과 주문 ID로 주문 내역 조회
+        List<OrderDetailDto> orderDetails = orderRepository.getOrderDetailsByEmailAndOrderId(orderId, email);
+
+        int sum = orderDetails.stream().mapToInt(OrderDetailDto::getTotalPricePerItem).sum();
+
+        orderDetails.forEach(e -> {
+            e.setTotalPrice(sum);
+        });
+
+        if (orderDetails.isEmpty()) {
+            throw new CommonException(ResponseCode.BAD_REQUEST);
+        }
+
+
+
+        return orderDetails;
     }
 
     // 오늘 주문내역 조회

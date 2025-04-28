@@ -9,11 +9,11 @@
 
 <body>
 <%@include file="/WEB-INF/view/include/header.jsp" %>
-<main style="margin-top: 100px;">
+<main style="margin-top: 100px; margin-bottom: 100px">
     <div class="row">
         <div class="col s12 m6 offset-m3">
             <div class="card brown lighten-5 z-depth-2">
-                <div class="card-content">
+                <div class="card-content" style="padding: 3rem;">
                     <span class="card-title center-align brown-text text-darken-3"
                           style="margin-top: 20px; margin-bottom: 40px; font-weight: 700; font-size: 30px; border-bottom: 1px;">로그인</span>
 
@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                        <div class="center-align">
+                        <div class="center-align" >
                             <button type="submit" class="btn brown darken-2 waves-effect waves-light">
                                 로그인
                             </button>

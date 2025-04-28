@@ -1,16 +1,13 @@
 package com.grepp.gridncircle.app.model.order;
 
 import com.grepp.gridncircle.app.model.order.code.OrderStatus;
-import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderDetailDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderGroupDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderSalesDto;
-import com.grepp.gridncircle.app.model.order.dto.OrderStatsDto;
+import com.grepp.gridncircle.app.model.order.dto.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -18,33 +15,39 @@ import org.apache.ibatis.annotations.Update;
 public interface OrderRepository {
 
     @Select("""
-        select o.id, sum(m.price * om.quantity) as total_price, sum(om.quantity) as total_quantity
-        from orders o
+        SELECT
+            o.id,
+            SUM(m.price * om.quantity) AS total_price,
+            SUM(om.quantity) AS total_quantity
+        FROM orders o
         JOIN ordered_menu om ON o.id = om.order_id
         JOIN menu m ON om.menu_id = m.id
         WHERE o.user_email = #{email}
         GROUP BY o.id
-        """)
+    """)
     List<OrderCheckDto> selectByEmailJoinMenu(String email);
 
 
     @Select("""
-            select o.id, sum(m.price * om.quantity) as total_price, sum(om.quantity) as total_quantity
-            from orders o
-            JOIN ordered_menu om ON o.id = om.order_id
-            JOIN menu m ON om.menu_id = m.id
-            WHERE o.user_id = #{userId}
-            GROUP BY o.id
-            """)
+        SELECT
+            o.id,
+            SUM(m.price * om.quantity) AS total_price,
+            SUM(om.quantity) AS total_quantity
+        FROM orders o
+        JOIN ordered_menu om ON o.id = om.order_id
+        JOIN menu m ON om.menu_id = m.id
+        WHERE o.user_id = #{userId}
+        GROUP BY o.id
+    """)
     List<OrderCheckDto> selectByUserIdJoinMenu(String userId);
 
 
     @Select("""
         SELECT
             o.id AS orderId,
-            sum(m.price * om.quantity) AS total_price,
             o.status AS orderStatus,
             o.user_address AS userAddress,
+            o.user_email AS email,
             m.name AS menuName,
             m.price AS menuPrice,
             om.quantity AS quantity,
@@ -56,7 +59,14 @@ public interface OrderRepository {
         GROUP BY
             o.id, o.status, o.user_address, m.name, m.price, om.quantity
     """)
-    List<OrderDetailDto> selectOrderDetailById(int orderId);
+    List<OrderDetailDto> getOrderDetailsByEmailAndOrderId(@Param("orderId") int orderId, @Param("email") String email);
+
+    @Select("""
+    SELECT *
+        FROM ordered_menu
+        WHERE order_id = #{orderId}
+""")
+    List<OrderedMenuDto> getValueByOrderId(int orderId);
 
     @Select("select * from orders where id = #{id}")
     Optional<OrderDto> findById(int id);

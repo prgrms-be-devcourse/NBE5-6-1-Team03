@@ -4,6 +4,8 @@ import com.grepp.gridncircle.app.controller.web.order.form.OrderCheckForm;
 import com.grepp.gridncircle.app.model.order.OrderService;
 import com.grepp.gridncircle.app.model.order.dto.OrderCheckDto;
 import com.grepp.gridncircle.app.model.order.dto.OrderDetailDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderDto;
+import com.grepp.gridncircle.app.model.order.dto.OrderedMenuDto;
 import com.grepp.gridncircle.infra.error.exceptions.CommonException;
 import com.grepp.gridncircle.infra.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +14,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/order-check")
@@ -45,7 +45,7 @@ public class OrderCheckController {
             throw new CommonException(ResponseCode.BAD_REQUEST);
         }
 
-
+        model.addAttribute("email", email);
         model.addAttribute("orders", dto);
         log.info(dto.toString());
 
@@ -53,21 +53,28 @@ public class OrderCheckController {
     }
 
     @GetMapping("/guest/{orderId}")
-    public String showGuestOrderDetail(@PathVariable int orderId, Model model) {
-        // 주문 ID로 비회원 주문 상세 정보 조회
-        List<OrderDetailDto> guestOrderDetails = orderService.selectOrderDetailById(orderId);
+    public String showGuestOrderDetail(@PathVariable("orderId") int orderId,@ModelAttribute OrderCheckForm orderCheckForm, Model model) {
+        // 입력된 이메일과 주문 ID 출력 (디버그용)
+        String email = orderCheckForm.getEmail();
+        log.info("Email from form: " + email + ", Order ID from path: " + orderId);
 
-        // 첫 번째 항목에서 주문 정보 추출 (주문 헤더 정보)
-        if (!guestOrderDetails.isEmpty()) {
-            OrderDetailDto firstItem = guestOrderDetails.get(0);
-            model.addAttribute("orderHeader", firstItem); // 주문 헤더 정보용
-        }
+        // 주문 상세 정보 조회
+        List<OrderDetailDto> orderDtos = orderService.getOrderDetailsByEmailAndOrderId(orderId, email);
 
-        model.addAttribute("orderDetails", guestOrderDetails); // 주문 상세 목록용
-        model.addAttribute("orderId", orderId); // orderId 직접 전달
 
-        return "order-check/guest-detail";
+
+        // 주문 정보가 없으면 Bad Request
+
+
+        // 모델에 데이터 추가
+        model.addAttribute("email", email);
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("orderHeader", orderDtos);
+
+
+        return "order-check/guest-detail"; // 주문 상세 페이지로 반환
     }
+
 
     @GetMapping("/member")
     public String showMemberOrders(Authentication auth, Model model) {
@@ -88,20 +95,26 @@ public class OrderCheckController {
     }
 
     @GetMapping("/member/{orderId}")
-    public String showMemberOrderDetail(@PathVariable int orderId, Model model) {
-        // 주문 ID로 회원 주문 상세 정보 조회
-        List<OrderDetailDto> memberOrderDetails = orderService.selectOrderDetailById(orderId);
+    public String showMemberOrderDetail(@PathVariable("orderId") int orderId,@ModelAttribute OrderCheckForm orderCheckForm, Model model) {
+        // 입력된 이메일과 주문 ID 출력 (디버그용)
+        String email = orderCheckForm.getEmail();
+        log.info("Email from form: " + email + ", Order ID from path: " + orderId);
+
+        // 주문 상세 정보 조회
+        List<OrderDetailDto> orderDtos = orderService.getOrderDetailsByEmailAndOrderId(orderId, email);
 
 
-        if (!memberOrderDetails.isEmpty()) {
-            OrderDetailDto firstItem = memberOrderDetails.get(0);
-            model.addAttribute("orderHeader", firstItem);
-        }
 
-        model.addAttribute("orderDetails", memberOrderDetails);
+        // 주문 정보가 없으면 Bad Request
+
+
+        // 모델에 데이터 추가
+        model.addAttribute("email", email);
         model.addAttribute("orderId", orderId);
+        model.addAttribute("orderHeader", orderDtos);
 
-        return "order-check/member-detail";
+
+        return "order-check/member-detail"; // 주문 상세 페이지로 반환
     }
 
 

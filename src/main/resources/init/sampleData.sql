@@ -25,7 +25,7 @@ VALUES ('이순신', '서울시 은평구', 'guest@example.com');
 
 -- 주문 - 회원
 INSERT INTO `orders` (`user_id`, `user_name`, `user_address`, `user_email`)
-VALUES ('user-001', '홍길동', '서울시 강남구', 'user1@example.com');
+VALUES ('tjdbs929', '정서윤', '서울시 강동구', 'tjdbs929@example.com');
 
 -- 주문 메뉴 연결
 -- 비회원 주문: 주문 id = 10000
@@ -37,5 +37,5 @@ VALUES
 -- 회원 주문: 주문 id = 10001
 INSERT INTO `ordered_menu` (`order_id`, `menu_id`, `quantity`)
 VALUES
-    (10001, 1001, 1),
-    (10001, 1002, 1);
+    (10012, 1001, 1),
+    (10012, 1002, 1);

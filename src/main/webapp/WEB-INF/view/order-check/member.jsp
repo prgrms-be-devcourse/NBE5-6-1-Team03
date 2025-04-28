@@ -11,8 +11,7 @@
 <main>
     <div class="container" style="max-width: 800px;">
         <h2 class="brown-text text-darken-2 col s10"
-            style="font-weight: 700; font-size: 28px; margin-top : 40px; margin-bottom: 40px;">
-            주문 목록
+            style="font-weight: 700; font-size: 28px; margin-top : 40px; margin-bottom: 40px;">주문 목록
         </h2>
 
         <div class="row">

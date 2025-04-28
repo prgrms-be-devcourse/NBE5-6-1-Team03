@@ -8,4 +8,5 @@ public class OrderCheckForm {
 
     @Email
     private String email;
+
 }

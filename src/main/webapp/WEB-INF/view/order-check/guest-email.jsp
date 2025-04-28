@@ -12,8 +12,7 @@
     <div class="section container" id="order-statistics">
         <div class="row">
             <h2 class="brown-text text-darken-2 col s10"
-                style="font-weight: 700; font-size: 28px; margin-top : 40px; margin-bottom: 40px;">
-                주문 목록
+                style="font-weight: 700; font-size: 28px; margin-top : 40px; margin-bottom: 40px;">주문 목록
             </h2>
         </div>
 
@@ -34,11 +33,10 @@
                         <td>${order.totalQuantity}개</td>
                         <td>${order.totalPrice}원</td>
                         <td>
-                            <a href="${context}/order-check?id=${order.id}">
-                                <a href="${context}/order-check/member/${order.id}">
-                                    <button type="button" class="btn small brown lighten-1">상세보기</button>
-                                </a>
-                            </a>
+                            <form:form modelAttribute="orderCheckForm" action="${context}/order-check/guest/${order.id}" method="get" class="col s12">
+                                <form:input type="hidden" path="email" value="${email}"/>
+                                <button type="submit" class="btn small brown lighten-1">상세보기</button>
+                            </form:form>
                         </td>
                     </tr>
                 </c:forEach>
