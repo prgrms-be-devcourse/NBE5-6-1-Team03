@@ -4,7 +4,7 @@
 <html>
 
 <head>
-    <title>메뉴 목록</title>
+    <title>Cafe Grid & Circle</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
 
 </head>

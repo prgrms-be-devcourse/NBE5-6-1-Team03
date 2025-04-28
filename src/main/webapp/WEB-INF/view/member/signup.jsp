@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>회원가입</title>
+  <title>Cafe Grid & Circle</title>
   <%@include file="/WEB-INF/view/include/static.jsp" %>
 </head>
 

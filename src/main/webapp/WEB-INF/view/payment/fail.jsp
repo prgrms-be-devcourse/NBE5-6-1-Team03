@@ -2,7 +2,7 @@
 <%@include file="/WEB-INF/view/include/page.jsp" %>
 <html>
 <head>
-    <title>결제 실패</title>
+    <title>Cafe Grid & Circle</title>
     <%@include file="/WEB-INF/view/include/static.jsp" %>
 </head>
 <link rel="stylesheet" href="../../../../assets/css/footer.css">

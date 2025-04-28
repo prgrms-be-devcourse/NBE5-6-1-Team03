@@ -18,7 +18,7 @@
     background-color: #4e342e;
   }
   .banner {
-    background-image: url('${context}/assets/banner.jpg');
+    background-image: url('${context}/assets/img/banner.jpg');
     background-size: cover;
     background-position: center;
     height: 400px;
@@ -46,4 +46,6 @@
 
 
 </style>
+<link rel="icon" href="<c:url value='/assets/img/favicon.ico'/>" type="image/x-icon">
+
 <sec:csrfMetaTags />

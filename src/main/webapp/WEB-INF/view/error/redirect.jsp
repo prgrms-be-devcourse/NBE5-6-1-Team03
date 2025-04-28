@@ -3,7 +3,7 @@
 
 <html lang='ko'>
 <head>
-    <title>Title</title>
+    <title>Cafe Grid & Circle</title>
 </head>
 <body>
 <script>

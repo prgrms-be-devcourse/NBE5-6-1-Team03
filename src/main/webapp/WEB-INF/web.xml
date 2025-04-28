@@ -4,6 +4,11 @@
   xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
   version="6.0">
 
+  <mime-mapping>
+    <extension>ico</extension>
+    <mime-type>image/x-icon</mime-type>
+  </mime-mapping>
+
   <error-page>
     <error-code>500</error-code>
     <location>/WEB-INF/view/error/500.jsp</location>
