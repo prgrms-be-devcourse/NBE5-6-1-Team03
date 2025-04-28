@@ -75,7 +75,7 @@
                         class="material-icons left" >delete</i>삭제
                 </button>
                 <button onclick="location.href='/admin/menu'" type="reset" class="waves-effect waves-light btn col s2 grey darken-2">
-                    <i class="material-icons left">cancel</i>취소
+                    <i class="material-icons left">cancel</i>뒤로가기
                 </button>
             </form:form>
         </div>
